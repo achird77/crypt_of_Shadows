@@ -1,0 +1,282 @@
+## 1. List of All Monsters in Aethelgard's Descent
+
+### Bosses (20 total)
+1. Grave-Warden Aegis *
+2. Pyrophage the Living Forge *
+3. Skitter-Queen Silk-Veil *
+4. The Alchemist's Failure *
+5. High Inquisitor Malphas
+6. The Clockwork Centurion
+7. Glaciara, the Frozen Heart
+8. General Drax the Conqueror
+9. The Mirage Weaver
+10. Gorgon-Queen Stheno
+11. The Abyssal Leviathan
+12. Lord Volos the Vampire King
+13. The Rust-Monster Alpha
+14. The Necromancer's Amalgam
+15. Ra-Hotep the Blighted Mummy
+16. The Storm-Herald Avian
+17. The Emerald Hydra
+18. Xar-Thul the Void Horror
+19. The Iron-Bound Behemoth
+20. The Lich King Aethelgard
+
+### Regular Monsters (10)
+21. Goblin
+22. Orc
+23. Skeleton
+24. Dark Cultist
+25. Giant Rat
+26. Troll
+27. Ghoul
+28. Harpy
+29. Minotaur
+30. Wraith
+
+### Special / Spawnable Monsters (7)
+31. Mimic (trapped chest)
+32. Plague Rat (bursts from barrel)
+33. Skeletal Hoplite (summoned by General Drax)
+34. Mirage Clone (summoned by The Mirage Weaver)
+35. Venomous Grub (spawned by Carapace of the Hive Mother armor)
+36. Shadow of the Lich (appears when Dread reaches 10)
+37. Fallen Hero (zombified version of a previous player character)
+
+> **Total unique monster concepts:** 37.  
+> *Note: Fallen Hero’s appearance varies by the hero class that died, but you can create a generic “Zombified Adventurer” design.*
+
+---
+
+## 2. General Image Generation Prompt
+
+Use a **square aspect ratio** (1:1) – suitable for game icons, tokens, or bestiary entries.  
+**Recommended resolution:** `1024×1024` pixels (high detail) or `512×512` for faster generation.
+
+### Prompt template (fill in `[MONSTER NAME]` and `[DESCRIPTION]`):
+
+```
+Generate a picture.
+A dark fantasy illustration of a [MONSTER NAME] from a cursed dungeon crawler game.  
+Be creative.  
+Style: gritty, painterly, low-angle dramatic lighting, deep shadows, muted earth tones with accent colors (red for blood, green for poison, blue for magic).  
+Background: ancient stone walls, faint glowing runes, or darkness.  
+The monster should look menacing and ready to fight. No UI, no text, no frame.  
+Aspect ratio: 1:1. Resolution: 512x512.
+```
+
+### Example for **Goblin**:
+> *A dark fantasy illustration of a **Goblin** from a cursed dungeon crawler game. Lean, green-skinned, sharp teeth, ragged leather armor, clutching a rusted shortsword. Sneering and cunning. Style: gritty, painterly, low-angle dramatic lighting, deep shadows, muted earth tones with red accents. Background: ancient stone walls. No UI, no text, no frame. Aspect ratio: 1:1. Resolution: 1024x1024.*
+
+### Example for **The Lich King Aethelgard**:
+> *A dark fantasy illustration of **The Lich King Aethelgard** from a cursed dungeon crawler game. Skeletal undead king in tarnished crown and black plate armor, glowing blue eyes, holding a jagged rune blade. Surrounded by swirling shadows. Style: epic, painterly, dramatic lighting. Background: throne room with broken pillars. No UI, no text. 1:1, 1024x1024.*
+
+> **Pro tip:** For bosses, add “epic, towering, imposing” – for regular monsters, add “feral, bestial, agile”. Use consistent style keywords to keep a unified art direction.
+
+---
+
+## 3. Filename Protocol
+
+Use **lowercase snake_case** with prefixes to separate bosses, regular monsters, and specials. This makes sorting and scripting easy.
+
+### Naming convention:
+- **Bosses:** `boss_[short_name].png`  
+  *Example:* `boss_grave_warden_aegis.png`, `boss_lich_king.png`
+- **Regular monsters:** `monster_[name].png`  
+  *Example:* `monster_goblin.png`, `monster_wraith.png`
+- **Special monsters:** `special_[name].png`  
+  *Example:* `special_mimic.png`, `special_shadow_of_the_lich.png`
+
+### Full suggested filename list (abbreviated where helpful):
+
+#### Bosses
+- `boss_grave_warden.png` *
+- `boss_pyrophage.png` *
+- `boss_skitter_queen.png` *
+- `boss_alchemists_failure.png` *
+- `boss_inquisitor_malphas.png` *
+- `boss_clockwork_centurion.png` *
+- `boss_glaciara.png` *
+- `boss_general_drax.png` *
+- `boss_mirage_weaver.png` *
+- `boss_gorgon_queen.png` *
+- `boss_abyssal_leviathan.png` *
+- `boss_vampire_king.png` *
+- `boss_rust_monster_alpha.png` *
+- `boss_necromancers_amalgam.png` *
+- `boss_ra_hotep.png` *
+- `boss_storm_herald.png` *
+- `boss_emerald_hydra.png` *
+- `boss_xar_thul.png` *
+- `boss_iron_behemoth.png` *
+- `boss_lich_king.png` *
+
+#### Regular Monsters
+- `monster_goblin.png` *
+- `monster_orc.png` *
+- `monster_skeleton.png` *
+- `monster_dark_cultist.png` *
+- `monster_giant_rat.png` *
+- `monster_troll.png` *
+- `monster_ghoul.png` *
+- `monster_harpy.png` *
+- `monster_minotaur.png` *
+- `monster_wraith.png` *
+
+#### Special Monsters
+- `special_mimic.png` *
+- `special_plague_rat.png` *
+- `special_skeletal_hoplite.png` *
+- `special_mirage_clone.png` *
+- `special_venomous_grub.png` *
+- `special_shadow_of_the_lich.png` *
+- `special_fallen_hero.png` *
+
+`bestiary/` subfolder to keep images organised.  
+
+
+
+> Example folder structure: `assets/bestiary/bosses/`, `assets/bestiary/monsters/`, `assets/bestiary/special/`.
+
+Now you can generate each monster by customising the prompt with its unique visual traits (colour, weapon, stance, magical effects). Happy generating!
+
+
+
+Below are **37 custom prompts** – one for every monster in *Aethelgard's Descent* – following your required structure.  
+Each prompt includes a **vivid visual description** tailored to the monster, the **art style**, **background**, and the mandatory **1:1 aspect ratio / 1024×1024 resolution**.  
+Use the **filename protocol** from the previous answer when saving the generated images.
+
+---
+
+## Bosses (20)
+
+### 1. Grave-Warden Aegis *
+> A dark fantasy illustration of **Grave-Warden Aegis** from a cursed dungeon crawler game. A massive, silent knight in rusted black iron armour, holding a tower shield inscribed with skulls. One red eye glows through the visor. Style: gritty, painterly, low-angle dramatic lighting, deep shadows, muted earth tones with crimson accents. Background: ancient crypt with broken gravestones. No UI, no text, no frame. Aspect ratio: 1:1. Resolution: 1024×1024.
+
+### 2. Pyrophage, the Living Forge *
+> A dark fantasy illustration of **Pyrophage, the Living Forge** from a cursed dungeon crawler game. Hulking humanoid made of molten rock and scrap metal, with a furnace chest that glows orange. Chains dangle from its arms. Style: gritty, painterly, dramatic lighting, deep shadows, hot orange and ash grey. Background: subterranean forge with hanging tools. No UI, no text. 1:1, 1024×1024.
+
+### 3. Skitter-Queen Silk-Veil *
+> A dark fantasy illustration of **Skitter-Queen Silk-Veil** from a cursed dungeon crawler game. Giant spider–centaur hybrid with a pale, veiled humanoid torso and eight spidery legs dripping silk. Multiple eyes, venomous fangs. Style: gritty, painterly, low-angle lighting, deep shadows, muted purples and sickly white. Background: webbed corridor. No UI, no text. 1:1, 1024×1024.
+
+### 4. The Alchemist's Failure *
+> A dark fantasy illustration of **The Alchemist’s Failure** from a cursed dungeon crawler game. Bloated, stitched abomination with three mismatched arms and a cracked glass dome for a head, bubbling green liquid inside. Style: gritty, painterly, dramatic lighting, deep shadows, sickly green and rusty brown. Background: laboratory with shattered flasks. No UI, no text. 1:1, 1024×1024.
+
+### 5. High Inquisitor Malphas *
+> A dark fantasy illustration of **High Inquisitor Malphas** from a cursed dungeon crawler game. Zealous priest in tattered red robes, wielding a spiked chain and a brazen mask with empty eyeholes. Radiates faint unholy light. Style: gritty, painterly, low-angle dramatic lighting, deep shadows, crimson and charcoal. Background: desecrated chapel. No UI, no text. 1:1, 1024×1024.
+
+### 6. The Clockwork Centurion *
+> A dark fantasy illustration of **The Clockwork Centurion** from a cursed dungeon crawler game. Ancient brass automaton with a ticking gear heart, one arm replaced by a steam cannon, rusted but moving. Glowing blue gauges. Style: gritty, painterly, dramatic lighting, deep shadows, bronze and teal. Background: abandoned machine hall. No UI, no text. 1:1, 1024×1024.
+
+### 7. Glaciara, the Frozen Heart *
+> A dark fantasy illustration of **Glaciara, the Frozen Heart** from a cursed dungeon crawler game. Ice wraith queen with crystalline skin, jagged ice crown, and a heart of pure frost visible through her ribcage. Floating, trailing frost. Style: gritty, painterly, cold dramatic lighting, deep shadows, pale blue and white. Background: frozen cavern. No UI, no text. 1:1, 1024×1024.
+
+### 8. General Drax the Conqueror *
+> A dark fantasy illustration of **General Drax the Conqueror** from a cursed dungeon crawler game. Armoured warlord with a lion’s mane helmet, wielding a massive two-handed axe. Battle‑scarred plate, red cape torn. Style: gritty, painterly, low-angle dramatic lighting, deep shadows, iron and blood red. Background: war camp ruins. No UI, no text. 1:1, 1024×1024.
+
+### 9. The Mirage Weaver *
+> A dark fantasy illustration of **The Mirage Weaver** from a cursed dungeon crawler game. Ethereal, faceless humanoid dressed in shifting, iridescent silk. Long fingers ending in needles. Surrounded by mirror fragments. Style: gritty, painterly, dramatic lighting, deep shadows, opalescent and grey. Background: hall of mirrors. No UI, no text. 1:1, 1024×1024.
+
+### 10. Gorgon-Queen Stheno *
+> A dark fantasy illustration of **Gorgon-Queen Stheno** from a cursed dungeon crawler game. Serpentine upper body of a warrior woman, lower body of a giant snake. Snakes for hair, bronze scales, stone‑grey skin. Style: gritty, painterly, low-angle dramatic lighting, deep shadows, bronze and ashen green. Background: temple of petrified victims. No UI, no text. 1:1, 1024×1024.
+
+### 11. The Abyssal Leviathan *
+> A dark fantasy illustration of **The Abyssal Leviathan** from a cursed dungeon crawler game. Colossal deep‑sea serpent with bioluminescent spines, jagged teeth, and barnacle‑encrusted hide. Emerging from darkness. Style: gritty, painterly, dramatic lighting, deep shadows, deep blue and black. Background: submerged dungeon. No UI, no text. 1:1, 1024×1024.
+
+### 12. Lord Volos the Vampire King *
+> A dark fantasy illustration of **Lord Volos the Vampire King** from a cursed dungeon crawler game. Pale, gaunt noble in black velvet and crimson lining, with long claws and bloodshot eyes. Floating above the ground. Style: gritty, painterly, low-angle dramatic lighting, deep shadows, dark red and midnight blue. Background: throne room with empty coffins. No UI, no text. 1:1, 1024×1024.
+
+### 13. The Rust-Monster Alpha *
+> A dark fantasy illustration of **The Rust-Monster Alpha** from a cursed dungeon crawler game. Insectoid horror with long, corroded antennae, six legs, and a shell made of oxidized metal. Saliva drips acid. Style: gritty, painterly, dramatic lighting, deep shadows, orange‑brown rust and sickly yellow. Background: scrap heap. No UI, no text. 1:1, 1024×1024.
+
+### 14. The Necromancer's Amalgam *
+> A dark fantasy illustration of **The Necromancer’s Amalgam** from a cursed dungeon crawler game. Stitched giant composed of dozens of corpses, with multiple arms and a screaming face on its chest. Held together by black thread. Style: gritty, painterly, low-angle dramatic lighting, deep shadows, rotting flesh tones and purple magic. Background: graveyard. No UI, no text. 1:1, 1024×1024.
+
+### 15. Ra-Hotep the Blighted Mummy *
+> A dark fantasy illustration of **Ra‑Hotep the Blighted Mummy** from a cursed dungeon crawler game. Ancient Egyptian‑themed undead priest with desiccated skin, gold funeral mask cracked, bandages trailing curses. Staff topped with a scarab. Style: gritty, painterly, dramatic lighting, deep shadows, sand‑brown and tarnished gold. Background: pyramid tomb. No UI, no text. 1:1, 1024×1024.
+
+### 16. The Storm-Herald Avian *
+> A dark fantasy illustration of **The Storm‑Herald Avian** from a cursed dungeon crawler game. Giant thunderbird with lightning‑etched feathers, a sharp beak, and eyes like storm clouds. Crackling electricity around its talons. Style: gritty, painterly, low-angle dramatic lighting, deep shadows, dark grey and electric blue. Background: ruined tower top. No UI, no text. 1:1, 1024×1024.
+
+### 17. The Emerald Hydra *
+> A dark fantasy illustration of **The Emerald Hydra** from a cursed dungeon crawler game. Multi‑headed serpent with emerald‑green scales, each head showing a different expression of rage. Regrowing neck stumps. Style: gritty, painterly, dramatic lighting, deep shadows, vibrant green and swamp brown. Background: poisoned marsh. No UI, no text. 1:1, 1024×1024.
+
+### 18. Xar-Thul the Void Horror *
+> A dark fantasy illustration of **Xar‑Thul the Void Horror** from a cursed dungeon crawler game. Amorphous mass of darkness with dozens of writhing tentacles and a single, maddening eye. Stars swirl inside its body. Style: gritty, painterly, low-angle dramatic lighting, deep shadows, black with purple void accents. Background: reality‑warped chamber. No UI, no text. 1:1, 1024×1024.
+
+### 19. The Iron-Bound Behemoth *
+> A dark fantasy illustration of **The Iron‑Bound Behemoth** from a cursed dungeon crawler game. Mountainous brute with iron plates bolted directly into its flesh, dragging a colossal wrecking ball. Face hidden behind a spiked helm. Style: gritty, painterly, dramatic lighting, deep shadows, rusted iron and mud. Background: collapsed mine. No UI, no text. 1:1, 1024×1024.
+
+### 20. The Lich King Aethelgard *
+> A dark fantasy illustration of **The Lich King Aethelgard** from a cursed dungeon crawler game. Skeletal undead king in a tarnished crown and black plate armour, glowing blue eyes, wielding a jagged rune blade. Surrounded by swirling shadows. Style: epic, painterly, dramatic lighting, deep shadows, icy blue and black. Background: throne room with broken pillars. No UI, no text. 1:1, 1024×1024.
+
+---
+
+## Regular Monsters (10)
+
+### 21. Goblin *
+> A dark fantasy illustration of a **Goblin** from a cursed dungeon crawler game. Lean, green‑skinned, sharp teeth, ragged leather armour, clutching a rusted shortsword. Sneering and cunning. Style: gritty, painterly, low‑angle dramatic lighting, deep shadows, muted earth tones with red accents. Background: ancient stone walls. No UI, no text. 1:1, 1024×1024.
+
+### 22. Orc *
+> A dark fantasy illustration of an **Orc** from a cursed dungeon crawler game. Muscular, grey‑skinned, with a flattened face and tusks. Wearing mismatched heavy armour and wielding a notched greatclub. Bloodshot eyes. Style: gritty, painterly, dramatic lighting, deep shadows, grey and rust red. Background: dungeon corridor. No UI, no text. 1:1, 1024×1024.
+
+### 23. Skeleton *
+> A dark fantasy illustration of a **Skeleton** from a cursed dungeon crawler game. Reanimated human skeleton in tattered chainmail, holding a rusted sword and cracked shield. Glowing red pinpricks in empty eye sockets. Style: gritty, painterly, low‑angle dramatic lighting, deep shadows, bone‑white and black. Background: crypt. No UI, no text. 1:1, 1024×1024.
+
+### 24. Dark Cultist *
+> A dark fantasy illustration of a **Dark Cultist** from a cursed dungeon crawler game. Hooded figure in ragged black robes, face hidden, holding a sacrificial dagger that drips with black ichor. Tattooed hands. Style: gritty, painterly, dramatic lighting, deep shadows, charcoal and blood red. Background: altar room with candles. No UI, no text. 1:1, 1024×1024.
+
+### 25. Giant Rat *
+> A dark fantasy illustration of a **Giant Rat** from a cursed dungeon crawler game. Vicious, mange‑covered rodent the size of a dog, with yellow teeth and red eyes. Filthy fur and a long, naked tail. Style: gritty, painterly, low‑angle dramatic lighting, deep shadows, brown and sickly pink. Background: sewer pipe. No UI, no text. 1:1, 1024×1024.
+
+### 26. Troll *
+> A dark fantasy illustration of a **Troll** from a cursed dungeon crawler game. Lumbering, moss‑covered giant with a stooped posture, long arms, and a thick hide of warty skin. Snout-like nose, small eyes. Style: gritty, painterly, dramatic lighting, deep shadows, swamp green and dark brown. Background: bridge ruins. No UI, no text. 1:1, 1024×1024.
+
+### 27. Ghoul *
+> A dark fantasy illustration of a **Ghoul** from a cursed dungeon crawler game. Emaciated, rotting humanoid with elongated claws and a distended jaw. Hunched, moving on all fours. Pale, veined skin. Style: gritty, painterly, low‑angle dramatic lighting, deep shadows, corpse‑grey and black. Background: graveyard. No UI, no text. 1:1, 1024×1024.
+
+### 28. Harpy *
+> A dark fantasy illustration of a **Harpy** from a cursed dungeon crawler game. Half‑woman, half‑vulture with dirty feathers, taloned feet, and a screeching open beak. Matted hair, piercing yellow eyes. Style: gritty, painterly, dramatic lighting, deep shadows, dusty brown and grey. Background: cliffside dungeon. No UI, no text. 1:1, 1024×1024.
+
+### 29. Minotaur *
+> A dark fantasy illustration of a **Minotaur** from a cursed dungeon crawler game. Massive bull‑headed humanoid with a brass nose ring, wielding a huge double‑headed axe. Furry chest, snorting steam. Style: gritty, painterly, low‑angle dramatic lighting, deep shadows, bronze and dark fur. Background: labyrinth wall. No UI, no text. 1:1, 1024×1024.
+
+### 30. Wraith *
+> A dark fantasy illustration of a **Wraith** from a cursed dungeon crawler game. Ghostly, hooded figure floating above ground, trailing tattered shadows. Glowing white eyes, icy breath, no legs. Style: gritty, painterly, dramatic lighting, deep shadows, translucent grey and pale blue. Background: foggy hall. No UI, no text. 1:1, 1024×1024.
+
+---
+
+## Special Monsters (7)
+
+### 31. Mimic *
+> A dark fantasy illustration of a **Mimic** from a cursed dungeon crawler game. A wooden treasure chest with a huge toothy maw inside, a long tongue, and gooey saliva. The lid is thrown open, revealing rows of sharp teeth. Style: gritty, painterly, low‑angle dramatic lighting, deep shadows, wood‑brown and bloody red. Background: treasure room. No UI, no text. 1:1, 1024×1024.
+
+### 32. Plague Rat *
+> A dark fantasy illustration of a **Plague Rat** from a cursed dungeon crawler game. A grotesque, swollen rat with weeping sores, matted fur, and red eyes. Foaming at the mouth, ready to bite. Style: gritty, painterly, dramatic lighting, deep shadows, sickly yellow‑brown and pus green. Background: broken barrel. No UI, no text. 1:1, 1024×1024.
+
+### 33. Skeletal Hoplite *
+> A dark fantasy illustration of a **Skeletal Hoplite** from a cursed dungeon crawler game. Undead Greek‑style warrior with a bronze helmet, long spear, and round shield. Ribcage visible through rusted cuirass. Style: gritty, painterly, low‑angle dramatic lighting, deep shadows, bronze and bone‑white. Background: phalanx formation in ruined arena. No UI, no text. 1:1, 1024×1024.
+
+### 34. Mirage Clone *
+> A dark fantasy illustration of a **Mirage Clone** from a cursed dungeon crawler game. A shimmering, translucent duplicate of a hero, made of fractured light and illusion. Semi‑solid, with distorted features and no face. Style: gritty, painterly, dramatic lighting, deep shadows, iridescent and ghostly white. Background: mirror shards. No UI, no text. 1:1, 1024×1024.
+
+### 35. Venomous Grub *
+> A dark fantasy illustration of a **Venomous Grub** from a cursed dungeon crawler game. A fat, pale maggot with a venomous stinger on its tail and a circular, lamprey‑like mouth. Dripping green poison. Style: gritty, painterly, low‑angle dramatic lighting, deep shadows, sickly white and neon green. Background: hive floor. No UI, no text. 1:1, 1024×1024.
+
+### 36. Shadow of the Lich *
+> A dark fantasy illustration of the **Shadow of the Lich** from a cursed dungeon crawler game. A living silhouette shaped like a skeletal king, with pure darkness for a body and two burning blue stars for eyes. Completely black, except for the eyes. Style: gritty, painterly, dramatic lighting, deep shadows, absolute black and eerie blue. Background: pitch‑dark corridor. No UI, no text. 1:1, 1024×1024.
+
+### 37. Fallen Hero (Zombified Adventurer) *
+> A dark fantasy illustration of a **Fallen Hero** from a cursed dungeon crawler game. A zombified adventurer – rotting flesh, torn cloak, broken sword still in hand. One eye glows with undead will. Mixed armour pieces from different classes. Style: gritty, painterly, low‑angle dramatic lighting, deep shadows, corpse‑grey and tarnished metal. Background: bloodstained floor. No UI, no text. 1:1, 1024×1024.
+
+---
+
+## Quick Reference: Filename Protocol (reminder)
+
+- **Bosses:** `boss_grave_warden.png`, `boss_pyrophage.png`, … `boss_lich_king.png`
+- **Regular monsters:** `monster_goblin.png`, `monster_orc.png`, … `monster_wraith.png`
+- **Special monsters:** `special_mimic.png`, `special_plague_rat.png`, … `special_fallen_hero.png`
+
+All images: **1024×1024 pixels, PNG format**.
+
+You can now copy‑paste each prompt into your image generator (Midjourney, DALL‑E, Stable Diffusion, etc.) and save the results using the suggested filenames. Good luck with your bestiary art!

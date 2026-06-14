@@ -1,0 +1,171 @@
+{
+  "total_shards": 0,
+  "unlocked_upgrades": {
+    "Vitality of the Ancients": 0,
+    "Well of Souls": 0,
+    "Blacksmith's Blessing": 0,
+    "Merchant's Favor": 0,
+    "The Forbidden Arts": 0
+  },
+  "bloodstains": [],
+  "last_death": {
+    "name": "Adventurer",
+    "hero_type": "Dwarf Runesmith",
+    "level": 7,
+    "xp": 232,
+    "xp_to_next": 296,
+    "gold": 929,
+    "scrap_metal": 20,
+    "base_hp": 125,
+    "base_mp": 20,
+    "base_attack": 8,
+    "base_defense": 36,
+    "base_magic": 5,
+    "hp": 0,
+    "mp": 7,
+    "heat": 0,
+    "inventory": [
+      {
+        "id": "Minor Mana Elixir",
+        "name": "Minor Mana Elixir",
+        "type": "consumable",
+        "value": 25,
+        "stat_bonus": {
+          "mp": 15
+        },
+        "description": "Restores 15 MP (or 15 HP if no mana). A blue-tinged liquid that tingles on the tongue.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Healing Salve",
+        "name": "Healing Salve",
+        "type": "consumable",
+        "value": 20,
+        "stat_bonus": {
+          "hp": 15
+        },
+        "description": "Restores 15 HP gradually. A thick green paste that numbs pain and closes wounds.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Flask of the Basilisk",
+        "name": "Flask of the Basilisk",
+        "type": "consumable",
+        "value": 200,
+        "stat_bonus": {},
+        "description": "Roots enemies in a 3x3 area for 3 turns. A petrifying gaze captured in a bottle.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Gold",
+        "name": "Liquid Gold",
+        "type": "consumable",
+        "value": 600,
+        "stat_bonus": {},
+        "description": "+50 Defense, immobile for 10 turns, then gain 100 gold. Drinking molten gold seems foolish, but the reward is worth the risk.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Berserker Brew",
+        "name": "Berserker Brew",
+        "type": "consumable",
+        "value": 100,
+        "stat_bonus": {},
+        "description": "+50% damage, -50% defense for 5 turns. A frothing drink that brings out your inner rage.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Scholar's Monocle",
+        "name": "Scholar's Monocle",
+        "type": "consumable",
+        "value": 200,
+        "stat_bonus": {},
+        "description": "Identifies all unidentified items in inventory. A single lens that reveals hidden properties of magical items.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Panacea Ointment",
+        "name": "Panacea Ointment",
+        "type": "consumable",
+        "value": 180,
+        "stat_bonus": {},
+        "description": "Cures all physical status effects. A waxy salve that smells of healing herbs and soothes all wounds.",
+        "equipped": false,
+        "identified": true
+      }
+    ],
+    "weapon": {
+      "weapon_type": "Phase Dagger",
+      "upgrade_level": 0,
+      "magic_abilities": [],
+      "current_durability": 0,
+      "max_durability": 60,
+      "damage": 8
+    },
+    "armor": null,
+    "accessory": null,
+    "head_armor": {
+      "name": "Leather Cap",
+      "slot": "head",
+      "phys_def": 3,
+      "mag_res": 1,
+      "movement_mod": 0,
+      "description": "A simple leather cap for basic protection. +3 defense.",
+      "tier": "Basic"
+    },
+    "chest_armor": {
+      "name": "Boiled Leather Tunic",
+      "slot": "chest",
+      "phys_def": 5,
+      "mag_res": 2,
+      "movement_mod": 0,
+      "description": "Standard leather armor. +5 defense, +2 magic resist.",
+      "tier": "Basic"
+    },
+    "legs_armor": {
+      "name": "Leather Leggings",
+      "slot": "legs",
+      "phys_def": 4,
+      "mag_res": 1,
+      "movement_mod": 0,
+      "description": "Simple leather leggings. +4 defense, +1 magic resist.",
+      "tier": "Basic"
+    },
+    "boss_cores": [],
+    "locker": [],
+    "weapons_inventory": [],
+    "spellbook": [
+      {
+        "name": "Fireball",
+        "level": 1,
+        "current_cooldown": 1
+      },
+      {
+        "name": "Lesser Heal",
+        "level": 1,
+        "current_cooldown": 0
+      }
+    ],
+    "active_spells": [
+      {
+        "name": "Fireball",
+        "level": 1,
+        "current_cooldown": 1
+      },
+      {
+        "name": "Lesser Heal",
+        "level": 1,
+        "current_cooldown": 0
+      }
+    ],
+    "active_passive": null,
+    "runes": [],
+    "heart_used": false
+  }
+}

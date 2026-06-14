@@ -1,0 +1,7473 @@
+{
+  "hero": {
+    "name": "Adventurer",
+    "hero_type": "Dwarf Runesmith",
+    "level": 23,
+    "xp": 3524,
+    "xp_to_next": 5448,
+    "gold": 12232,
+    "scrap_metal": 35,
+    "base_hp": 285,
+    "base_mp": 20,
+    "base_attack": 8,
+    "base_defense": 100,
+    "base_magic": 5,
+    "hp": 285,
+    "mp": 20,
+    "heat": 0,
+    "inventory": [
+      {
+        "id": "Minor Health Potion",
+        "name": "Minor Health Potion",
+        "type": "consumable",
+        "value": 30,
+        "stat_bonus": {
+          "hp": 20
+        },
+        "description": "Restores 20 HP.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Minor Mana Elixir",
+        "name": "Minor Mana Elixir",
+        "type": "consumable",
+        "value": 25,
+        "stat_bonus": {
+          "mp": 15
+        },
+        "description": "Restores 15 MP.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Healing Salve",
+        "name": "Healing Salve",
+        "type": "consumable",
+        "value": 20,
+        "stat_bonus": {
+          "hp": 15
+        },
+        "description": "Restores 15 HP gradually.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Miner's Dynamite",
+        "name": "Miner's Dynamite",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Destroys cracked walls or deals 30 AoE damage.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Void",
+        "name": "Liquid Void",
+        "type": "consumable",
+        "value": 450,
+        "stat_bonus": {},
+        "description": "Spells cost 0 MP for 3 turns, then mana drained to 0.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Minor Mana Elixir",
+        "name": "Minor Mana Elixir",
+        "type": "consumable",
+        "value": 25,
+        "stat_bonus": {
+          "mp": 15
+        },
+        "description": "Restores 15 MP (or 15 HP if no mana).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Minor Mana Elixir",
+        "name": "Minor Mana Elixir",
+        "type": "consumable",
+        "value": 25,
+        "stat_bonus": {
+          "mp": 15
+        },
+        "description": "Restores 15 MP (or 15 HP if no mana).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Elixir of the Phoenix",
+        "name": "Elixir of the Phoenix",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Revive with 50% HP and damage enemies if you die within 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Berserker Brew",
+        "name": "Berserker Brew",
+        "type": "consumable",
+        "value": 100,
+        "stat_bonus": {},
+        "description": "+50% damage, -50% defense for 5 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Repair Kit",
+        "name": "Repair Kit",
+        "type": "consumable",
+        "value": 80,
+        "stat_bonus": {},
+        "description": "Restores 25 durability to equipped weapon.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Repair Kit",
+        "name": "Repair Kit",
+        "type": "consumable",
+        "value": 80,
+        "stat_bonus": {},
+        "description": "Restores 25 durability to equipped weapon.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Charcoal Antidote",
+        "name": "Charcoal Antidote",
+        "type": "consumable",
+        "value": 40,
+        "stat_bonus": {},
+        "description": "Cures Poison and Bleed.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Potion of Displacement",
+        "name": "Potion of Displacement",
+        "type": "consumable",
+        "value": 180,
+        "stat_bonus": {},
+        "description": "+50% dodge for 5 turns, random teleport each turn.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Panacea Ointment",
+        "name": "Panacea Ointment",
+        "type": "consumable",
+        "value": 180,
+        "stat_bonus": {},
+        "description": "Cures all physical status effects.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Minor Mana Elixir",
+        "name": "Minor Mana Elixir",
+        "type": "consumable",
+        "value": 25,
+        "stat_bonus": {
+          "mp": 15
+        },
+        "description": "Restores 15 MP (or 15 HP if no mana).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Recall Scroll",
+        "name": "Recall Scroll",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Returns to Safe Zone after 2 turns (interruptible).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Poison Gland",
+        "name": "Poison Gland",
+        "type": "material",
+        "value": 20,
+        "stat_bonus": {},
+        "description": "A venomous gland.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Healing Salve",
+        "name": "Healing Salve",
+        "type": "consumable",
+        "value": 20,
+        "stat_bonus": {
+          "hp": 15
+        },
+        "description": "Restores 15 HP gradually.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Poison Gland",
+        "name": "Poison Gland",
+        "type": "material",
+        "value": 20,
+        "stat_bonus": {},
+        "description": "A venomous gland.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Berserker Brew",
+        "name": "Berserker Brew",
+        "type": "consumable",
+        "value": 100,
+        "stat_bonus": {},
+        "description": "+50% damage, -50% defense for 5 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Blank Rune Slab",
+        "name": "Blank Rune Slab",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Used at blacksmith to transfer enchantments.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Invisibility Potion",
+        "name": "Invisibility Potion",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Invisible for 3 turns (attacks break invisibility).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Invisibility Potion",
+        "name": "Invisibility Potion",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Invisible for 3 turns (attacks break invisibility).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Minor Health Potion",
+        "name": "Minor Health Potion",
+        "type": "consumable",
+        "value": 30,
+        "stat_bonus": {
+          "hp": 20
+        },
+        "description": "Restores 20 HP.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Void Chalk",
+        "name": "Void Chalk",
+        "type": "consumable",
+        "value": 250,
+        "stat_bonus": {},
+        "description": "Draws glyphs (3 charges).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Charcoal Antidote",
+        "name": "Charcoal Antidote",
+        "type": "consumable",
+        "value": 40,
+        "stat_bonus": {},
+        "description": "Cures Poison and Bleed.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Poison Gland",
+        "name": "Poison Gland",
+        "type": "material",
+        "value": 20,
+        "stat_bonus": {},
+        "description": "A venomous gland.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Minor Mana Elixir",
+        "name": "Minor Mana Elixir",
+        "type": "consumable",
+        "value": 25,
+        "stat_bonus": {
+          "mp": 15
+        },
+        "description": "Restores 15 MP (or 15 HP if no mana).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Void Chalk",
+        "name": "Void Chalk",
+        "type": "consumable",
+        "value": 250,
+        "stat_bonus": {},
+        "description": "Draws glyphs (3 charges).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Miner's Dynamite",
+        "name": "Miner's Dynamite",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Destroys cracked walls or deals 30 AoE damage.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Repair Kit",
+        "name": "Repair Kit",
+        "type": "consumable",
+        "value": 80,
+        "stat_bonus": {},
+        "description": "Restores 25 durability to equipped weapon.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Blank Rune Slab",
+        "name": "Blank Rune Slab",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Used at blacksmith to transfer enchantments.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Potion of Displacement",
+        "name": "Potion of Displacement",
+        "type": "consumable",
+        "value": 180,
+        "stat_bonus": {},
+        "description": "+50% dodge for 5 turns, random teleport each turn.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Potion of Displacement",
+        "name": "Potion of Displacement",
+        "type": "consumable",
+        "value": 180,
+        "stat_bonus": {},
+        "description": "+50% dodge for 5 turns, random teleport each turn.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Gold",
+        "name": "Liquid Gold",
+        "type": "consumable",
+        "value": 600,
+        "stat_bonus": {},
+        "description": "+50 Defense, immobile for 10 turns, then gain 100 gold.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Panacea Ointment",
+        "name": "Panacea Ointment",
+        "type": "consumable",
+        "value": 180,
+        "stat_bonus": {},
+        "description": "Cures all physical status effects.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Repair Kit",
+        "name": "Repair Kit",
+        "type": "consumable",
+        "value": 80,
+        "stat_bonus": {},
+        "description": "Restores 25 durability to equipped weapon.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Skeleton Key",
+        "name": "Skeleton Key",
+        "type": "consumable",
+        "value": 100,
+        "stat_bonus": {},
+        "description": "Opens any locked door or treasure chest.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Skeleton Key",
+        "name": "Skeleton Key",
+        "type": "consumable",
+        "value": 100,
+        "stat_bonus": {},
+        "description": "Opens any locked door or treasure chest.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Healing Salve",
+        "name": "Healing Salve",
+        "type": "consumable",
+        "value": 20,
+        "stat_bonus": {
+          "hp": 15
+        },
+        "description": "Restores 15 HP gradually.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Leather Leggings",
+        "name": "Leather Leggings",
+        "type": "armor",
+        "value": 0,
+        "stat_bonus": {},
+        "description": "Simple leather leggings",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Leather Cap",
+        "name": "Leather Cap",
+        "type": "armor",
+        "value": 0,
+        "stat_bonus": {},
+        "description": "Simple leather cap",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Vial of Giant's Blood",
+        "name": "Vial of Giant's Blood",
+        "type": "consumable",
+        "value": 50,
+        "stat_bonus": {},
+        "description": "+5 Physical Damage for 10 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Elixir of the Phoenix",
+        "name": "Elixir of the Phoenix",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Revive with 50% HP and damage enemies if you die within 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Miner's Dynamite",
+        "name": "Miner's Dynamite",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Destroys cracked walls or deals 30 AoE damage.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Charcoal Antidote",
+        "name": "Charcoal Antidote",
+        "type": "consumable",
+        "value": 40,
+        "stat_bonus": {},
+        "description": "Cures Poison and Bleed.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Void",
+        "name": "Liquid Void",
+        "type": "consumable",
+        "value": 450,
+        "stat_bonus": {},
+        "description": "Spells cost 0 MP for 3 turns, then mana drained to 0.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Gold",
+        "name": "Liquid Gold",
+        "type": "consumable",
+        "value": 600,
+        "stat_bonus": {},
+        "description": "+50 Defense, immobile for 10 turns, then gain 100 gold.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Miner's Dynamite",
+        "name": "Miner's Dynamite",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Destroys cracked walls or deals 30 AoE damage.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Charcoal Antidote",
+        "name": "Charcoal Antidote",
+        "type": "consumable",
+        "value": 40,
+        "stat_bonus": {},
+        "description": "Cures Poison and Bleed.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Skeleton Key",
+        "name": "Skeleton Key",
+        "type": "consumable",
+        "value": 100,
+        "stat_bonus": {},
+        "description": "Opens any locked door or treasure chest.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Gold",
+        "name": "Liquid Gold",
+        "type": "consumable",
+        "value": 600,
+        "stat_bonus": {},
+        "description": "+50 Defense, immobile for 10 turns, then gain 100 gold.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Miner's Dynamite",
+        "name": "Miner's Dynamite",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Destroys cracked walls or deals 30 AoE damage.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Gold",
+        "name": "Liquid Gold",
+        "type": "consumable",
+        "value": 600,
+        "stat_bonus": {},
+        "description": "+50 Defense, immobile for 10 turns, then gain 100 gold.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Stamina Draft",
+        "name": "Stamina Draft",
+        "type": "consumable",
+        "value": 35,
+        "stat_bonus": {},
+        "description": "Reduces movement penalty from armor for 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Miner's Dynamite",
+        "name": "Miner's Dynamite",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Destroys cracked walls or deals 30 AoE damage.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Stamina Draft",
+        "name": "Stamina Draft",
+        "type": "consumable",
+        "value": 35,
+        "stat_bonus": {},
+        "description": "Reduces movement penalty from armor for 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Blank Rune Slab",
+        "name": "Blank Rune Slab",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Used at blacksmith to transfer enchantments.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Troll-Blood Flask",
+        "name": "Troll-Blood Flask",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Heals 5 HP per turn for 10 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Poison Gland",
+        "name": "Poison Gland",
+        "type": "material",
+        "value": 20,
+        "stat_bonus": {},
+        "description": "A venomous gland.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Gold",
+        "name": "Liquid Gold",
+        "type": "consumable",
+        "value": 600,
+        "stat_bonus": {},
+        "description": "+50 Defense, immobile for 10 turns, then gain 100 gold.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Panacea Ointment",
+        "name": "Panacea Ointment",
+        "type": "consumable",
+        "value": 180,
+        "stat_bonus": {},
+        "description": "Cures all physical status effects.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Berserker Brew",
+        "name": "Berserker Brew",
+        "type": "consumable",
+        "value": 100,
+        "stat_bonus": {},
+        "description": "+50% damage, -50% defense for 5 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Recall Scroll",
+        "name": "Recall Scroll",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Returns to Safe Zone after 2 turns (interruptible).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Void",
+        "name": "Liquid Void",
+        "type": "consumable",
+        "value": 450,
+        "stat_bonus": {},
+        "description": "Spells cost 0 MP for 3 turns, then mana drained to 0.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Healing Salve",
+        "name": "Healing Salve",
+        "type": "consumable",
+        "value": 20,
+        "stat_bonus": {
+          "hp": 15
+        },
+        "description": "Restores 15 HP gradually.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Minor Mana Elixir",
+        "name": "Minor Mana Elixir",
+        "type": "consumable",
+        "value": 25,
+        "stat_bonus": {
+          "mp": 15
+        },
+        "description": "Restores 15 MP (or 15 HP if no mana).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Healing Salve",
+        "name": "Healing Salve",
+        "type": "consumable",
+        "value": 20,
+        "stat_bonus": {
+          "hp": 15
+        },
+        "description": "Restores 15 HP gradually.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Bottled Miasma",
+        "name": "Bottled Miasma",
+        "type": "consumable",
+        "value": 400,
+        "stat_bonus": {},
+        "description": "Cures all debuffs and applies them to next enemy hit.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Bottled Miasma",
+        "name": "Bottled Miasma",
+        "type": "consumable",
+        "value": 400,
+        "stat_bonus": {},
+        "description": "Cures all debuffs and applies them to next enemy hit.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Flask of the Basilisk",
+        "name": "Flask of the Basilisk",
+        "type": "consumable",
+        "value": 200,
+        "stat_bonus": {},
+        "description": "Roots enemies in a 3x3 area for 3 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Elixir of the Phoenix",
+        "name": "Elixir of the Phoenix",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Revive with 50% HP and damage enemies if you die within 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "spectral_essence",
+        "name": "Spectral essence",
+        "type": "material",
+        "value": 25,
+        "stat_bonus": {},
+        "description": "A valuable crafting material used in upgrades and repairs.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "The Beating Heart Amulet",
+        "name": "The Beating Heart Amulet",
+        "type": "accessory",
+        "value": 800,
+        "stat_bonus": {},
+        "description": "Revive once but lose 10 max HP",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Flask of the Basilisk",
+        "name": "Flask of the Basilisk",
+        "type": "consumable",
+        "value": 200,
+        "stat_bonus": {},
+        "description": "Roots enemies in a 3x3 area for 3 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Skeleton Key",
+        "name": "Skeleton Key",
+        "type": "consumable",
+        "value": 100,
+        "stat_bonus": {},
+        "description": "Opens any locked door or treasure chest.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Repair Kit",
+        "name": "Repair Kit",
+        "type": "consumable",
+        "value": 80,
+        "stat_bonus": {},
+        "description": "Restores 25 durability to equipped weapon.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Gold",
+        "name": "Liquid Gold",
+        "type": "consumable",
+        "value": 600,
+        "stat_bonus": {},
+        "description": "+50 Defense, immobile for 10 turns, then gain 100 gold.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Healing Salve",
+        "name": "Healing Salve",
+        "type": "consumable",
+        "value": 20,
+        "stat_bonus": {
+          "hp": 15
+        },
+        "description": "Restores 15 HP gradually.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Elixir of the Phoenix",
+        "name": "Elixir of the Phoenix",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Revive with 50% HP and damage enemies if you die within 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Poison Gland",
+        "name": "Poison Gland",
+        "type": "material",
+        "value": 20,
+        "stat_bonus": {},
+        "description": "A venomous gland.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Healing Salve",
+        "name": "Healing Salve",
+        "type": "consumable",
+        "value": 20,
+        "stat_bonus": {
+          "hp": 15
+        },
+        "description": "Restores 15 HP gradually.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Skeleton Key",
+        "name": "Skeleton Key",
+        "type": "consumable",
+        "value": 100,
+        "stat_bonus": {},
+        "description": "Opens any locked door or treasure chest.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Minor Mana Elixir",
+        "name": "Minor Mana Elixir",
+        "type": "consumable",
+        "value": 25,
+        "stat_bonus": {
+          "mp": 15
+        },
+        "description": "Restores 15 MP (or 15 HP if no mana).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Repair Kit",
+        "name": "Repair Kit",
+        "type": "consumable",
+        "value": 80,
+        "stat_bonus": {},
+        "description": "Restores 25 durability to equipped weapon.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Aetherial Draught",
+        "name": "Aetherial Draught",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Restores 50% MP, reduces physical damage by 50% for 3 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Healing Salve",
+        "name": "Healing Salve",
+        "type": "consumable",
+        "value": 20,
+        "stat_bonus": {
+          "hp": 15
+        },
+        "description": "Restores 15 HP gradually.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Minor Health Potion",
+        "name": "Minor Health Potion",
+        "type": "consumable",
+        "value": 30,
+        "stat_bonus": {
+          "hp": 20
+        },
+        "description": "Restores 20 HP.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Minor Mana Elixir",
+        "name": "Minor Mana Elixir",
+        "type": "consumable",
+        "value": 25,
+        "stat_bonus": {
+          "mp": 15
+        },
+        "description": "Restores 15 MP (or 15 HP if no mana).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Gold",
+        "name": "Liquid Gold",
+        "type": "consumable",
+        "value": 600,
+        "stat_bonus": {},
+        "description": "+50 Defense, immobile for 10 turns, then gain 100 gold.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Bottled Miasma",
+        "name": "Bottled Miasma",
+        "type": "consumable",
+        "value": 400,
+        "stat_bonus": {},
+        "description": "Cures all debuffs and applies them to next enemy hit.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Stamina Draft",
+        "name": "Stamina Draft",
+        "type": "consumable",
+        "value": 35,
+        "stat_bonus": {},
+        "description": "Reduces movement penalty from armor for 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Minor Mana Elixir",
+        "name": "Minor Mana Elixir",
+        "type": "consumable",
+        "value": 25,
+        "stat_bonus": {
+          "mp": 15
+        },
+        "description": "Restores 15 MP (or 15 HP if no mana).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Elixir of the Phoenix",
+        "name": "Elixir of the Phoenix",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Revive with 50% HP and damage enemies if you die within 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Miner's Dynamite",
+        "name": "Miner's Dynamite",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Destroys cracked walls or deals 30 AoE damage.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Mana Crystal",
+        "name": "Mana Crystal",
+        "type": "consumable",
+        "value": 40,
+        "stat_bonus": {
+          "mp": 10
+        },
+        "description": "Restores 10 MP.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Minor Health Potion",
+        "name": "Minor Health Potion",
+        "type": "consumable",
+        "value": 30,
+        "stat_bonus": {
+          "hp": 20
+        },
+        "description": "Restores 20 HP.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Charcoal Antidote",
+        "name": "Charcoal Antidote",
+        "type": "consumable",
+        "value": 40,
+        "stat_bonus": {},
+        "description": "Cures Poison and Bleed.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Void",
+        "name": "Liquid Void",
+        "type": "consumable",
+        "value": 450,
+        "stat_bonus": {},
+        "description": "Spells cost 0 MP for 3 turns, then mana drained to 0.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Minor Mana Elixir",
+        "name": "Minor Mana Elixir",
+        "type": "consumable",
+        "value": 25,
+        "stat_bonus": {
+          "mp": 15
+        },
+        "description": "Restores 15 MP (or 15 HP if no mana).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Healing Salve",
+        "name": "Healing Salve",
+        "type": "consumable",
+        "value": 20,
+        "stat_bonus": {
+          "hp": 15
+        },
+        "description": "Restores 15 HP gradually.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Minor Health Potion",
+        "name": "Minor Health Potion",
+        "type": "consumable",
+        "value": 30,
+        "stat_bonus": {
+          "hp": 20
+        },
+        "description": "Restores 20 HP.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Potion of Displacement",
+        "name": "Potion of Displacement",
+        "type": "consumable",
+        "value": 180,
+        "stat_bonus": {},
+        "description": "+50% dodge for 5 turns, random teleport each turn.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Gold",
+        "name": "Liquid Gold",
+        "type": "consumable",
+        "value": 600,
+        "stat_bonus": {},
+        "description": "+50 Defense, immobile for 10 turns, then gain 100 gold.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Troll-Blood Flask",
+        "name": "Troll-Blood Flask",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Heals 5 HP per turn for 10 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Scholar's Monocle",
+        "name": "Scholar's Monocle",
+        "type": "consumable",
+        "value": 200,
+        "stat_bonus": {},
+        "description": "Identifies all unidentified items in inventory.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Stamina Draft",
+        "name": "Stamina Draft",
+        "type": "consumable",
+        "value": 35,
+        "stat_bonus": {},
+        "description": "Reduces movement penalty from armor for 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Boiled Leather Tunic",
+        "name": "Boiled Leather Tunic",
+        "type": "armor",
+        "value": 0,
+        "stat_bonus": {},
+        "description": "Standard leather armor",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Spiked Spaulders",
+        "name": "Spiked Spaulders",
+        "type": "armor",
+        "value": 0,
+        "stat_bonus": {},
+        "description": "Returns 10% melee damage",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Blank Rune Slab",
+        "name": "Blank Rune Slab",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Used at blacksmith to transfer enchantments.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Troll-Blood Flask",
+        "name": "Troll-Blood Flask",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Heals 5 HP per turn for 10 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Elixir of the Phoenix",
+        "name": "Elixir of the Phoenix",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Revive with 50% HP and damage enemies if you die within 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Aetherial Draught",
+        "name": "Aetherial Draught",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Restores 50% MP, reduces physical damage by 50% for 3 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Void Chalk",
+        "name": "Void Chalk",
+        "type": "consumable",
+        "value": 250,
+        "stat_bonus": {},
+        "description": "Draws glyphs (3 charges).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Poison Gland",
+        "name": "Poison Gland",
+        "type": "material",
+        "value": 20,
+        "stat_bonus": {},
+        "description": "A venomous gland.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Blank Rune Slab",
+        "name": "Blank Rune Slab",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Used at blacksmith to transfer enchantments.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Vial of Giant's Blood",
+        "name": "Vial of Giant's Blood",
+        "type": "consumable",
+        "value": 50,
+        "stat_bonus": {},
+        "description": "+5 Physical Damage for 10 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Gold",
+        "name": "Liquid Gold",
+        "type": "consumable",
+        "value": 600,
+        "stat_bonus": {},
+        "description": "+50 Defense, immobile for 10 turns, then gain 100 gold.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Recall Scroll",
+        "name": "Recall Scroll",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Returns to Safe Zone after 2 turns (interruptible).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Aetherial Draught",
+        "name": "Aetherial Draught",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Restores 50% MP, reduces physical damage by 50% for 3 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Minor Health Potion",
+        "name": "Minor Health Potion",
+        "type": "consumable",
+        "value": 30,
+        "stat_bonus": {
+          "hp": 20
+        },
+        "description": "Restores 20 HP.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Miner's Dynamite",
+        "name": "Miner's Dynamite",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Destroys cracked walls or deals 30 AoE damage.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Potion of Displacement",
+        "name": "Potion of Displacement",
+        "type": "consumable",
+        "value": 180,
+        "stat_bonus": {},
+        "description": "+50% dodge for 5 turns, random teleport each turn.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Flask of the Basilisk",
+        "name": "Flask of the Basilisk",
+        "type": "consumable",
+        "value": 200,
+        "stat_bonus": {},
+        "description": "Roots enemies in a 3x3 area for 3 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Healing Salve",
+        "name": "Healing Salve",
+        "type": "consumable",
+        "value": 20,
+        "stat_bonus": {
+          "hp": 15
+        },
+        "description": "Restores 15 HP gradually.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Repair Kit",
+        "name": "Repair Kit",
+        "type": "consumable",
+        "value": 80,
+        "stat_bonus": {},
+        "description": "Restores 25 durability to equipped weapon.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Miner's Dynamite",
+        "name": "Miner's Dynamite",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Destroys cracked walls or deals 30 AoE damage.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Repair Kit",
+        "name": "Repair Kit",
+        "type": "consumable",
+        "value": 80,
+        "stat_bonus": {},
+        "description": "Restores 25 durability to equipped weapon.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Skeleton Key",
+        "name": "Skeleton Key",
+        "type": "consumable",
+        "value": 100,
+        "stat_bonus": {},
+        "description": "Opens any locked door or treasure chest.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Recall Scroll",
+        "name": "Recall Scroll",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Returns to Safe Zone after 2 turns (interruptible).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Mana Crystal",
+        "name": "Mana Crystal",
+        "type": "consumable",
+        "value": 40,
+        "stat_bonus": {
+          "mp": 10
+        },
+        "description": "Restores 10 MP.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Blank Rune Slab",
+        "name": "Blank Rune Slab",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Used at blacksmith to transfer enchantments.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Vial of Giant's Blood",
+        "name": "Vial of Giant's Blood",
+        "type": "consumable",
+        "value": 50,
+        "stat_bonus": {},
+        "description": "+5 Physical Damage for 10 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Bottled Miasma",
+        "name": "Bottled Miasma",
+        "type": "consumable",
+        "value": 400,
+        "stat_bonus": {},
+        "description": "Cures all debuffs and applies them to next enemy hit.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Blank Rune Slab",
+        "name": "Blank Rune Slab",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Used at blacksmith to transfer enchantments.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Aetherial Draught",
+        "name": "Aetherial Draught",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Restores 50% MP, reduces physical damage by 50% for 3 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Elixir of the Phoenix",
+        "name": "Elixir of the Phoenix",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Revive with 50% HP and damage enemies if you die within 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Gold",
+        "name": "Liquid Gold",
+        "type": "consumable",
+        "value": 600,
+        "stat_bonus": {},
+        "description": "+50 Defense, immobile for 10 turns, then gain 100 gold.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Void Chalk",
+        "name": "Void Chalk",
+        "type": "consumable",
+        "value": 250,
+        "stat_bonus": {},
+        "description": "Draws glyphs (3 charges).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Flask of the Basilisk",
+        "name": "Flask of the Basilisk",
+        "type": "consumable",
+        "value": 200,
+        "stat_bonus": {},
+        "description": "Roots enemies in a 3x3 area for 3 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Repair Kit",
+        "name": "Repair Kit",
+        "type": "consumable",
+        "value": 80,
+        "stat_bonus": {},
+        "description": "Restores 25 durability to equipped weapon.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Miner's Dynamite",
+        "name": "Miner's Dynamite",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Destroys cracked walls or deals 30 AoE damage.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Void",
+        "name": "Liquid Void",
+        "type": "consumable",
+        "value": 450,
+        "stat_bonus": {},
+        "description": "Spells cost 0 MP for 3 turns, then mana drained to 0.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Elixir of the Phoenix",
+        "name": "Elixir of the Phoenix",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Revive with 50% HP and damage enemies if you die within 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Void Chalk",
+        "name": "Void Chalk",
+        "type": "consumable",
+        "value": 250,
+        "stat_bonus": {},
+        "description": "Draws glyphs (3 charges).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Minor Health Potion",
+        "name": "Minor Health Potion",
+        "type": "consumable",
+        "value": 30,
+        "stat_bonus": {
+          "hp": 20
+        },
+        "description": "Restores 20 HP.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Stamina Draft",
+        "name": "Stamina Draft",
+        "type": "consumable",
+        "value": 35,
+        "stat_bonus": {},
+        "description": "Reduces movement penalty from armor for 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Vial of Giant's Blood",
+        "name": "Vial of Giant's Blood",
+        "type": "consumable",
+        "value": 50,
+        "stat_bonus": {},
+        "description": "+5 Physical Damage for 10 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Panacea Ointment",
+        "name": "Panacea Ointment",
+        "type": "consumable",
+        "value": 180,
+        "stat_bonus": {},
+        "description": "Cures all physical status effects.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Berserker Brew",
+        "name": "Berserker Brew",
+        "type": "consumable",
+        "value": 100,
+        "stat_bonus": {},
+        "description": "+50% damage, -50% defense for 5 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Stamina Draft",
+        "name": "Stamina Draft",
+        "type": "consumable",
+        "value": 35,
+        "stat_bonus": {},
+        "description": "Reduces movement penalty from armor for 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Invisibility Potion",
+        "name": "Invisibility Potion",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Invisible for 3 turns (attacks break invisibility).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Blank Rune Slab",
+        "name": "Blank Rune Slab",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Used at blacksmith to transfer enchantments.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "spectral_essence",
+        "name": "Spectral essence",
+        "type": "material",
+        "value": 25,
+        "stat_bonus": {},
+        "description": "A valuable crafting material used in upgrades and repairs.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Cowl of the Necromancer",
+        "name": "Cowl of the Necromancer",
+        "type": "armor",
+        "value": 19,
+        "stat_bonus": {},
+        "description": "+8 magic resist",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Recall Scroll",
+        "name": "Recall Scroll",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Returns to Safe Zone after 2 turns (interruptible).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Bottled Miasma",
+        "name": "Bottled Miasma",
+        "type": "consumable",
+        "value": 400,
+        "stat_bonus": {},
+        "description": "Cures all debuffs and applies them to next enemy hit.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Skeleton Key",
+        "name": "Skeleton Key",
+        "type": "consumable",
+        "value": 100,
+        "stat_bonus": {},
+        "description": "Opens any locked door or treasure chest.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Gold",
+        "name": "Liquid Gold",
+        "type": "consumable",
+        "value": 600,
+        "stat_bonus": {},
+        "description": "+50 Defense, immobile for 10 turns, then gain 100 gold.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Gold",
+        "name": "Liquid Gold",
+        "type": "consumable",
+        "value": 600,
+        "stat_bonus": {},
+        "description": "+50 Defense, immobile for 10 turns, then gain 100 gold.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Aetherial Draught",
+        "name": "Aetherial Draught",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Restores 50% MP, reduces physical damage by 50% for 3 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Aetherial Draught",
+        "name": "Aetherial Draught",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Restores 50% MP, reduces physical damage by 50% for 3 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Miner's Dynamite",
+        "name": "Miner's Dynamite",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Destroys cracked walls or deals 30 AoE damage.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Charcoal Antidote",
+        "name": "Charcoal Antidote",
+        "type": "consumable",
+        "value": 40,
+        "stat_bonus": {},
+        "description": "Cures Poison and Bleed.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Miner's Dynamite",
+        "name": "Miner's Dynamite",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Destroys cracked walls or deals 30 AoE damage.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Mana Crystal",
+        "name": "Mana Crystal",
+        "type": "consumable",
+        "value": 40,
+        "stat_bonus": {
+          "mp": 10
+        },
+        "description": "Restores 10 MP.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Vial of Giant's Blood",
+        "name": "Vial of Giant's Blood",
+        "type": "consumable",
+        "value": 50,
+        "stat_bonus": {},
+        "description": "+5 Physical Damage for 10 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Potion of Displacement",
+        "name": "Potion of Displacement",
+        "type": "consumable",
+        "value": 180,
+        "stat_bonus": {},
+        "description": "+50% dodge for 5 turns, random teleport each turn.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Potion of Displacement",
+        "name": "Potion of Displacement",
+        "type": "consumable",
+        "value": 180,
+        "stat_bonus": {},
+        "description": "+50% dodge for 5 turns, random teleport each turn.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Troll-Blood Flask",
+        "name": "Troll-Blood Flask",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Heals 5 HP per turn for 10 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Stamina Draft",
+        "name": "Stamina Draft",
+        "type": "consumable",
+        "value": 35,
+        "stat_bonus": {},
+        "description": "Reduces movement penalty from armor for 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Aetherial Draught",
+        "name": "Aetherial Draught",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Restores 50% MP, reduces physical damage by 50% for 3 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Poison Gland",
+        "name": "Poison Gland",
+        "type": "material",
+        "value": 20,
+        "stat_bonus": {},
+        "description": "A venomous gland.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Stamina Draft",
+        "name": "Stamina Draft",
+        "type": "consumable",
+        "value": 35,
+        "stat_bonus": {},
+        "description": "Reduces movement penalty from armor for 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Void Chalk",
+        "name": "Void Chalk",
+        "type": "consumable",
+        "value": 250,
+        "stat_bonus": {},
+        "description": "Draws glyphs (3 charges).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Scholar's Monocle",
+        "name": "Scholar's Monocle",
+        "type": "consumable",
+        "value": 200,
+        "stat_bonus": {},
+        "description": "Identifies all unidentified items in inventory.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Repair Kit",
+        "name": "Repair Kit",
+        "type": "consumable",
+        "value": 80,
+        "stat_bonus": {},
+        "description": "Restores 25 durability to equipped weapon.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Charcoal Antidote",
+        "name": "Charcoal Antidote",
+        "type": "consumable",
+        "value": 40,
+        "stat_bonus": {},
+        "description": "Cures Poison and Bleed.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Potion of Displacement",
+        "name": "Potion of Displacement",
+        "type": "consumable",
+        "value": 180,
+        "stat_bonus": {},
+        "description": "+50% dodge for 5 turns, random teleport each turn.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Blank Rune Slab",
+        "name": "Blank Rune Slab",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Used at blacksmith to transfer enchantments.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Repair Kit",
+        "name": "Repair Kit",
+        "type": "consumable",
+        "value": 80,
+        "stat_bonus": {},
+        "description": "Restores 25 durability to equipped weapon.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Miner's Dynamite",
+        "name": "Miner's Dynamite",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Destroys cracked walls or deals 30 AoE damage.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Charcoal Antidote",
+        "name": "Charcoal Antidote",
+        "type": "consumable",
+        "value": 40,
+        "stat_bonus": {},
+        "description": "Cures Poison and Bleed.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Skeleton Key",
+        "name": "Skeleton Key",
+        "type": "consumable",
+        "value": 100,
+        "stat_bonus": {},
+        "description": "Opens any locked door or treasure chest.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Potion of Displacement",
+        "name": "Potion of Displacement",
+        "type": "consumable",
+        "value": 180,
+        "stat_bonus": {},
+        "description": "+50% dodge for 5 turns, random teleport each turn.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Mana Crystal",
+        "name": "Mana Crystal",
+        "type": "consumable",
+        "value": 40,
+        "stat_bonus": {
+          "mp": 10
+        },
+        "description": "Restores 10 MP.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Scholar's Monocle",
+        "name": "Scholar's Monocle",
+        "type": "consumable",
+        "value": 200,
+        "stat_bonus": {},
+        "description": "Identifies all unidentified items in inventory.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Elixir of the Phoenix",
+        "name": "Elixir of the Phoenix",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Revive with 50% HP and damage enemies if you die within 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Charcoal Antidote",
+        "name": "Charcoal Antidote",
+        "type": "consumable",
+        "value": 40,
+        "stat_bonus": {},
+        "description": "Cures Poison and Bleed.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Charcoal Antidote",
+        "name": "Charcoal Antidote",
+        "type": "consumable",
+        "value": 40,
+        "stat_bonus": {},
+        "description": "Cures Poison and Bleed.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Skeleton Key",
+        "name": "Skeleton Key",
+        "type": "consumable",
+        "value": 100,
+        "stat_bonus": {},
+        "description": "Opens any locked door or treasure chest.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Potion of Displacement",
+        "name": "Potion of Displacement",
+        "type": "consumable",
+        "value": 180,
+        "stat_bonus": {},
+        "description": "+50% dodge for 5 turns, random teleport each turn.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Miner's Dynamite",
+        "name": "Miner's Dynamite",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Destroys cracked walls or deals 30 AoE damage.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Liquid Void",
+        "name": "Liquid Void",
+        "type": "consumable",
+        "value": 450,
+        "stat_bonus": {},
+        "description": "Spells cost 0 MP for 3 turns, then mana drained to 0.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Troll-Blood Flask",
+        "name": "Troll-Blood Flask",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Heals 5 HP per turn for 10 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Void Chalk",
+        "name": "Void Chalk",
+        "type": "consumable",
+        "value": 250,
+        "stat_bonus": {},
+        "description": "Draws glyphs (3 charges).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Minor Mana Elixir",
+        "name": "Minor Mana Elixir",
+        "type": "consumable",
+        "value": 25,
+        "stat_bonus": {
+          "mp": 15
+        },
+        "description": "Restores 15 MP (or 15 HP if no mana).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Recall Scroll",
+        "name": "Recall Scroll",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Returns to Safe Zone after 2 turns (interruptible).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "iron_tip",
+        "name": "Iron tip",
+        "type": "material",
+        "value": 25,
+        "stat_bonus": {},
+        "description": "A valuable crafting material used in upgrades and repairs.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Miner's Hardhat",
+        "name": "Miner's Hardhat",
+        "type": "armor",
+        "value": 4,
+        "stat_bonus": {},
+        "description": "Increases map vision radius",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Recall Scroll",
+        "name": "Recall Scroll",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Returns to Safe Zone after 2 turns (interruptible).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Aetherial Draught",
+        "name": "Aetherial Draught",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Restores 50% MP, reduces physical damage by 50% for 3 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Repair Kit",
+        "name": "Repair Kit",
+        "type": "consumable",
+        "value": 80,
+        "stat_bonus": {},
+        "description": "Restores 25 durability to equipped weapon.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Charcoal Antidote",
+        "name": "Charcoal Antidote",
+        "type": "consumable",
+        "value": 40,
+        "stat_bonus": {},
+        "description": "Cures Poison and Bleed.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Poison Gland",
+        "name": "Poison Gland",
+        "type": "material",
+        "value": 20,
+        "stat_bonus": {},
+        "description": "A venomous gland.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Charcoal Antidote",
+        "name": "Charcoal Antidote",
+        "type": "consumable",
+        "value": 40,
+        "stat_bonus": {},
+        "description": "Cures Poison and Bleed.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Skeleton Key",
+        "name": "Skeleton Key",
+        "type": "consumable",
+        "value": 100,
+        "stat_bonus": {},
+        "description": "Opens any locked door or treasure chest.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Repair Kit",
+        "name": "Repair Kit",
+        "type": "consumable",
+        "value": 80,
+        "stat_bonus": {},
+        "description": "Restores 25 durability to equipped weapon.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Troll-Blood Flask",
+        "name": "Troll-Blood Flask",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Heals 5 HP per turn for 10 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Skeleton Key",
+        "name": "Skeleton Key",
+        "type": "consumable",
+        "value": 100,
+        "stat_bonus": {},
+        "description": "Opens any locked door or treasure chest.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Invisibility Potion",
+        "name": "Invisibility Potion",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Invisible for 3 turns (attacks break invisibility).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Mana Crystal",
+        "name": "Mana Crystal",
+        "type": "consumable",
+        "value": 40,
+        "stat_bonus": {
+          "mp": 10
+        },
+        "description": "Restores 10 MP.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Bottled Miasma",
+        "name": "Bottled Miasma",
+        "type": "consumable",
+        "value": 400,
+        "stat_bonus": {},
+        "description": "Cures all debuffs and applies them to next enemy hit.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Repair Kit",
+        "name": "Repair Kit",
+        "type": "consumable",
+        "value": 80,
+        "stat_bonus": {},
+        "description": "Restores 25 durability to equipped weapon.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Bottled Miasma",
+        "name": "Bottled Miasma",
+        "type": "consumable",
+        "value": 400,
+        "stat_bonus": {},
+        "description": "Cures all debuffs and applies them to next enemy hit.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Recall Scroll",
+        "name": "Recall Scroll",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Returns to Safe Zone after 2 turns (interruptible).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Poison Gland",
+        "name": "Poison Gland",
+        "type": "material",
+        "value": 20,
+        "stat_bonus": {},
+        "description": "A venomous gland.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Miner's Dynamite",
+        "name": "Miner's Dynamite",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Destroys cracked walls or deals 30 AoE damage.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Troll-Blood Flask",
+        "name": "Troll-Blood Flask",
+        "type": "consumable",
+        "value": 120,
+        "stat_bonus": {},
+        "description": "Heals 5 HP per turn for 10 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Invisibility Potion",
+        "name": "Invisibility Potion",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Invisible for 3 turns (attacks break invisibility).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Void Chalk",
+        "name": "Void Chalk",
+        "type": "consumable",
+        "value": 250,
+        "stat_bonus": {},
+        "description": "Draws glyphs (3 charges).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Panacea Ointment",
+        "name": "Panacea Ointment",
+        "type": "consumable",
+        "value": 180,
+        "stat_bonus": {},
+        "description": "Cures all physical status effects.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Elixir of the Phoenix",
+        "name": "Elixir of the Phoenix",
+        "type": "consumable",
+        "value": 500,
+        "stat_bonus": {},
+        "description": "Revive with 50% HP and damage enemies if you die within 20 turns.",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Invisibility Potion",
+        "name": "Invisibility Potion",
+        "type": "consumable",
+        "value": 150,
+        "stat_bonus": {},
+        "description": "Invisible for 3 turns (attacks break invisibility).",
+        "equipped": false,
+        "identified": true
+      },
+      {
+        "id": "Potion of Displacement",
+        "name": "Potion of Displacement",
+        "type": "consumable",
+        "value": 180,
+        "stat_bonus": {},
+        "description": "+50% dodge for 5 turns, random teleport each turn.",
+        "equipped": false,
+        "identified": true
+      }
+    ],
+    "weapon": {
+      "weapon_type": "Living Vine-Whip",
+      "upgrade_level": 7,
+      "magic_abilities": [
+        "Life-Drain"
+      ],
+      "current_durability": 80,
+      "max_durability": 105,
+      "damage": 23
+    },
+    "armor": null,
+    "accessory": null,
+    "head_armor": {
+      "name": "Miner's Hardhat",
+      "slot": "head",
+      "phys_def": 2,
+      "mag_res": 1,
+      "movement_mod": 0,
+      "description": "Increases map vision radius",
+      "tier": "Basic"
+    },
+    "chest_armor": {
+      "name": "Chainmail Shirt",
+      "slot": "chest",
+      "phys_def": 8,
+      "mag_res": 3,
+      "movement_mod": -1,
+      "description": "Standard chainmail",
+      "tier": "Basic"
+    },
+    "legs_armor": {
+      "name": "Boots of Levitation",
+      "slot": "legs",
+      "phys_def": 2,
+      "mag_res": 4,
+      "movement_mod": 0,
+      "description": "Allows hovering over traps",
+      "tier": "Rare"
+    },
+    "boss_cores": [],
+    "locker": [],
+    "weapons_inventory": [
+      {
+        "weapon_type": "Steam-Powered Saw",
+        "upgrade_level": 7,
+        "magic_abilities": [
+          "Overheat"
+        ],
+        "current_durability": 90,
+        "max_durability": 90,
+        "damage": 27
+      }
+    ],
+    "spellbook": [
+      {
+        "name": "Fireball",
+        "level": 1,
+        "current_cooldown": 1
+      },
+      {
+        "name": "Lesser Heal",
+        "level": 1,
+        "current_cooldown": 0
+      }
+    ],
+    "active_spells": [
+      {
+        "name": "Fireball",
+        "level": 1,
+        "current_cooldown": 1
+      },
+      {
+        "name": "Lesser Heal",
+        "level": 1,
+        "current_cooldown": 0
+      }
+    ],
+    "active_passive": null,
+    "runes": [],
+    "heart_used": false
+  },
+  "dungeon_seed": 405480,
+  "current_level": 1,
+  "player_x": 31,
+  "player_y": 15,
+  "journal": {
+    "entries": [
+      {
+        "title": "The Descent Begins",
+        "content": "You have entered the cursed halls of Aethelgard...",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Harpy",
+        "content": "You have slain a Harpy. Its HP is 22.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Wraith",
+        "content": "You have slain a Wraith. Its HP is 22.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Skeleton",
+        "content": "You have slain a Skeleton. Its HP is 22.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Troll",
+        "content": "You have slain a Troll. Its HP is 22.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Putrid Shambler",
+        "content": "You have slain a Putrid Shambler. Its HP is 32.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Ghoul",
+        "content": "You have slain a Ghoul. Its HP is 22.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Minotaur",
+        "content": "You have slain a Minotaur. Its HP is 22.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Giant Rat",
+        "content": "You have slain a Giant Rat. Its HP is 22.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Goblin",
+        "content": "You have slain a Goblin. Its HP is 22.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Orc",
+        "content": "You have slain a Orc. Its HP is 22.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Dark Cultist",
+        "content": "You have slain a Dark Cultist. Its HP is 22.",
+        "category": "lore"
+      },
+      {
+        "title": "Quest Accepted: The Truffle Smuggler",
+        "content": "Gather 3 Cave-Truffles from smashed barrels on floors 1-5.",
+        "category": "quest"
+      },
+      {
+        "title": "Quest Accepted: Reclaiming the Ledger",
+        "content": "Kill the Goblin Footpad (elite goblin) on the next floor.",
+        "category": "quest"
+      },
+      {
+        "title": "Quest Accepted: A Taste for Venom",
+        "content": "Bring 5 Poison Glands from Putrid Shamblers.",
+        "category": "quest"
+      },
+      {
+        "title": "Bestiary: Goblin Footpad",
+        "content": "You have slain a Goblin Footpad. Its HP is 33.0.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Harpy (Mastery)",
+        "content": "You now understand Harpy's abilities. +1 damage against this type.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Troll (Mastery)",
+        "content": "You now understand Troll's abilities. +1 damage against this type.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Giant Rat (Mastery)",
+        "content": "You now understand Giant Rat's abilities. +1 damage against this type.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Orc (Mastery)",
+        "content": "You now understand Orc's abilities. +1 damage against this type.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Goblin (Mastery)",
+        "content": "You now understand Goblin's abilities. +1 damage against this type.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Wraith (Mastery)",
+        "content": "You now understand Wraith's abilities. +1 damage against this type.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Ghoul (Mastery)",
+        "content": "You now understand Ghoul's abilities. +1 damage against this type.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Minotaur (Mastery)",
+        "content": "You now understand Minotaur's abilities. +1 damage against this type.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Skeleton (Mastery)",
+        "content": "You now understand Skeleton's abilities. +1 damage against this type.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Dark Cultist (Mastery)",
+        "content": "You now understand Dark Cultist's abilities. +1 damage against this type.",
+        "category": "lore"
+      },
+      {
+        "title": "The Alchemist's Last Brew",
+        "content": "I drank the golden liquid...\n\nLiquid Gold makes you immobile but nearly invincible.",
+        "category": "lore"
+      },
+      {
+        "title": "Bestiary: Putrid Shambler (Mastery)",
+        "content": "You now understand Putrid Shambler's abilities. +1 damage against this type.",
+        "category": "lore"
+      },
+      {
+        "title": "The Grinning Chest",
+        "content": "It looked like treasure...\n\nOrnate chests have a 5% chance to be a Mimic.",
+        "category": "lore"
+      }
+    ],
+    "lore_unlocked": []
+  },
+  "room_states": {
+    "0,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "1,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "2,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "3,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "4,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "5,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "6,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "7,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "8,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "9,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "10,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "11,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "12,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "13,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "14,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "15,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "16,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "17,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "18,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "19,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "20,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "21,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "22,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "23,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "24,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "25,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "26,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "27,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "28,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "29,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "30,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "31,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "32,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "33,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "34,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "35,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "36,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "37,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "38,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "39,0": {
+      "visited": true,
+      "cleared": true
+    },
+    "0,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "1,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "2,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "3,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "4,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "5,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "6,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "7,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "8,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "9,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "10,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "11,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "12,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "13,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "14,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "15,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "16,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "17,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "18,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "19,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "20,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "21,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "22,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "23,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "24,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "25,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "26,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "27,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "28,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "29,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "30,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "31,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "32,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "33,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "34,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "35,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "36,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "37,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "38,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "39,1": {
+      "visited": true,
+      "cleared": true
+    },
+    "0,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "1,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "2,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "3,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "4,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "5,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "6,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "7,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "8,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "9,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "10,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "11,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "12,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "13,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "14,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "15,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "16,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "17,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "18,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "19,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "20,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "21,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "22,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "23,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "24,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "25,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "26,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "27,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "28,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "29,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "30,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "31,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "32,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "33,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "34,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "35,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "36,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "37,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "38,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "39,2": {
+      "visited": true,
+      "cleared": true
+    },
+    "0,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "1,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "2,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "3,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "4,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "5,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "6,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "7,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "8,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "9,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "10,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "11,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "12,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "13,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "14,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "15,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "16,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "17,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "18,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "19,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "20,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "21,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "22,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "23,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "24,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "25,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "26,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "27,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "28,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "29,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "30,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "31,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "32,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "33,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "34,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "35,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "36,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "37,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "38,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "39,3": {
+      "visited": true,
+      "cleared": true
+    },
+    "0,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "1,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "2,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "3,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "4,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "5,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "6,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "7,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "8,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "9,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "10,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "11,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "12,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "13,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "14,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "15,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "16,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "17,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "18,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "19,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "20,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "21,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "22,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "23,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "24,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "25,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "26,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "27,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "28,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "29,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "30,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "31,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "32,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "33,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "34,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "35,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "36,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "37,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "38,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "39,4": {
+      "visited": true,
+      "cleared": true
+    },
+    "0,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "1,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "2,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "3,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "4,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "5,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "6,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "7,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "8,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "9,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "10,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "11,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "12,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "13,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "14,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "15,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "16,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "17,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "18,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "19,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "20,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "21,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "22,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "23,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "24,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "25,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "26,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "27,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "28,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "29,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "30,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "31,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "32,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "33,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "34,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "35,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "36,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "37,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "38,5": {
+      "visited": true,
+      "cleared": true
+    },
+    "39,5": {
+      "visited": true,
+      "cleared": true,
+      "looted": true
+    },
+    "0,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "1,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "2,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "3,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "4,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "5,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "6,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "7,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "8,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "9,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "10,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "11,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "12,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "13,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "14,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "15,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "16,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "17,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "18,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "19,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "20,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "21,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "22,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "23,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "24,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "25,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "26,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "27,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "28,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "29,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "30,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "31,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "32,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "33,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "34,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "35,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "36,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "37,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "38,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "39,6": {
+      "visited": true,
+      "cleared": true
+    },
+    "0,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "1,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "2,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "3,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "4,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "5,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "6,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "7,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "8,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "9,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "10,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "11,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "12,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "13,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "14,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "15,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "16,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "17,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "18,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "19,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "20,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "21,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "22,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "23,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "24,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "25,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "26,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "27,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "28,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "29,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "30,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "31,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "32,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "33,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "34,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "35,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "36,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "37,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "38,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "39,7": {
+      "visited": true,
+      "cleared": true
+    },
+    "0,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "1,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "2,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "3,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "4,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "5,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "6,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "7,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "8,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "9,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "10,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "11,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "12,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "13,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "14,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "15,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "16,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "17,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "18,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "19,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "20,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "21,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "22,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "23,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "24,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "25,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "26,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "27,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "28,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "29,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "30,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "31,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "32,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "33,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "34,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "35,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "36,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "37,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "38,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "39,8": {
+      "visited": true,
+      "cleared": true
+    },
+    "0,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "1,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "2,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "3,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "4,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "5,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "6,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "7,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "8,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "9,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "10,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "11,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "12,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "13,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "14,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "15,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "16,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "17,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "18,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "19,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "20,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "21,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "22,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "23,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "24,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "25,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "26,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "27,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "28,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "29,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "30,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "31,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "32,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "33,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "34,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "35,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "36,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "37,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "38,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "39,9": {
+      "visited": true,
+      "cleared": true
+    },
+    "0,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "1,10": {
+      "visited": true,
+      "cleared": true,
+      "looted": true
+    },
+    "2,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "3,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "4,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "5,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "6,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "7,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "8,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "9,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "10,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "11,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "12,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "13,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "14,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "15,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "16,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "17,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "18,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "19,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "20,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "21,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "22,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "23,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "24,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "25,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "26,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "27,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "28,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "29,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "30,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "31,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "32,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "33,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "34,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "35,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "36,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "37,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "38,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "39,10": {
+      "visited": true,
+      "cleared": true
+    },
+    "0,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "1,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "2,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "3,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "4,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "5,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "6,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "7,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "8,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "9,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "10,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "11,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "12,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "13,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "14,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "15,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "16,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "17,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "18,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "19,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "20,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "21,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "22,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "23,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "24,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "25,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "26,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "27,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "28,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "29,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "30,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "31,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "32,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "33,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "34,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "35,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "36,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "37,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "38,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "39,11": {
+      "visited": true,
+      "cleared": true
+    },
+    "0,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "1,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "2,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "3,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "4,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "5,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "6,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "7,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "8,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "9,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "10,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "11,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "12,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "13,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "14,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "15,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "16,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "17,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "18,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "19,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "20,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "21,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "22,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "23,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "24,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "25,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "26,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "27,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "28,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "29,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "30,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "31,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "32,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "33,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "34,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "35,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "36,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "37,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "38,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "39,12": {
+      "visited": true,
+      "cleared": true
+    },
+    "0,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "1,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "2,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "3,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "4,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "5,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "6,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "7,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "8,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "9,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "10,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "11,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "12,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "13,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "14,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "15,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "16,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "17,13": {
+      "visited": true,
+      "cleared": true,
+      "looted": true
+    },
+    "18,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "19,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "20,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "21,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "22,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "23,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "24,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "25,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "26,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "27,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "28,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "29,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "30,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "31,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "32,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "33,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "34,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "35,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "36,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "37,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "38,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "39,13": {
+      "visited": true,
+      "cleared": true
+    },
+    "0,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "1,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "2,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "3,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "4,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "5,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "6,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "7,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "8,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "9,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "10,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "11,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "12,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "13,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "14,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "15,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "16,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "17,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "18,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "19,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "20,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "21,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "22,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "23,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "24,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "25,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "26,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "27,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "28,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "29,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "30,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "31,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "32,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "33,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "34,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "35,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "36,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "37,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "38,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "39,14": {
+      "visited": true,
+      "cleared": true
+    },
+    "0,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "1,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "2,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "3,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "4,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "5,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "6,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "7,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "8,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "9,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "10,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "11,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "12,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "13,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "14,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "15,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "16,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "17,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "18,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "19,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "20,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "21,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "22,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "23,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "24,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "25,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "26,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "27,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "28,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "29,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "30,15": {
+      "visited": false,
+      "cleared": false
+    },
+    "31,15": {
+      "visited": true,
+      "cleared": false
+    },
+    "32,15": {
+      "visited": true,
+      "cleared": true
+    },
+    "33,15": {
+      "visited": true,
+      "cleared": true
+    },
+    "34,15": {
+      "visited": true,
+      "cleared": true
+    },
+    "35,15": {
+      "visited": true,
+      "cleared": true
+    },
+    "36,15": {
+      "visited": true,
+      "cleared": true
+    },
+    "37,15": {
+      "visited": true,
+      "cleared": true
+    },
+    "38,15": {
+      "visited": true,
+      "cleared": true
+    },
+    "39,15": {
+      "visited": true,
+      "cleared": true
+    },
+    "0,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "1,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "2,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "3,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "4,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "5,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "6,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "7,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "8,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "9,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "10,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "11,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "12,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "13,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "14,16": {
+      "visited": false,
+      "cleared": true,
+      "looted": false
+    },
+    "15,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "16,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "17,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "18,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "19,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "20,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "21,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "22,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "23,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "24,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "25,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "26,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "27,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "28,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "29,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "30,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "31,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "32,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "33,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "34,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "35,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "36,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "37,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "38,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "39,16": {
+      "visited": false,
+      "cleared": false
+    },
+    "0,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "1,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "2,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "3,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "4,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "5,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "6,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "7,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "8,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "9,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "10,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "11,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "12,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "13,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "14,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "15,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "16,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "17,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "18,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "19,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "20,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "21,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "22,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "23,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "24,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "25,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "26,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "27,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "28,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "29,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "30,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "31,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "32,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "33,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "34,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "35,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "36,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "37,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "38,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "39,17": {
+      "visited": false,
+      "cleared": false
+    },
+    "0,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "1,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "2,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "3,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "4,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "5,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "6,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "7,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "8,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "9,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "10,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "11,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "12,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "13,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "14,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "15,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "16,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "17,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "18,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "19,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "20,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "21,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "22,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "23,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "24,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "25,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "26,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "27,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "28,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "29,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "30,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "31,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "32,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "33,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "34,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "35,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "36,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "37,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "38,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "39,18": {
+      "visited": false,
+      "cleared": false
+    },
+    "0,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "1,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "2,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "3,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "4,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "5,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "6,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "7,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "8,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "9,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "10,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "11,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "12,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "13,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "14,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "15,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "16,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "17,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "18,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "19,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "20,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "21,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "22,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "23,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "24,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "25,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "26,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "27,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "28,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "29,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "30,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "31,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "32,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "33,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "34,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "35,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "36,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "37,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "38,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "39,19": {
+      "visited": false,
+      "cleared": false
+    },
+    "0,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "1,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "2,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "3,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "4,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "5,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "6,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "7,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "8,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "9,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "10,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "11,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "12,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "13,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "14,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "15,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "16,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "17,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "18,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "19,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "20,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "21,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "22,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "23,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "24,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "25,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "26,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "27,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "28,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "29,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "30,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "31,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "32,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "33,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "34,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "35,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "36,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "37,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "38,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "39,20": {
+      "visited": false,
+      "cleared": false
+    },
+    "0,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "1,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "2,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "3,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "4,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "5,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "6,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "7,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "8,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "9,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "10,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "11,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "12,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "13,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "14,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "15,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "16,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "17,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "18,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "19,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "20,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "21,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "22,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "23,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "24,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "25,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "26,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "27,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "28,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "29,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "30,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "31,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "32,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "33,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "34,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "35,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "36,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "37,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "38,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "39,21": {
+      "visited": false,
+      "cleared": false
+    },
+    "0,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "1,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "2,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "3,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "4,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "5,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "6,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "7,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "8,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "9,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "10,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "11,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "12,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "13,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "14,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "15,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "16,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "17,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "18,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "19,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "20,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "21,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "22,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "23,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "24,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "25,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "26,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "27,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "28,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "29,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "30,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "31,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "32,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "33,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "34,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "35,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "36,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "37,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "38,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "39,22": {
+      "visited": false,
+      "cleared": false
+    },
+    "0,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "1,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "2,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "3,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "4,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "5,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "6,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "7,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "8,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "9,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "10,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "11,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "12,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "13,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "14,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "15,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "16,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "17,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "18,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "19,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "20,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "21,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "22,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "23,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "24,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "25,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "26,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "27,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "28,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "29,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "30,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "31,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "32,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "33,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "34,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "35,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "36,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "37,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "38,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "39,23": {
+      "visited": false,
+      "cleared": false
+    },
+    "0,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "1,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "2,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "3,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "4,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "5,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "6,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "7,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "8,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "9,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "10,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "11,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "12,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "13,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "14,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "15,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "16,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "17,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "18,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "19,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "20,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "21,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "22,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "23,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "24,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "25,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "26,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "27,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "28,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "29,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "30,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "31,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "32,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "33,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "34,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "35,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "36,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "37,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "38,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "39,24": {
+      "visited": false,
+      "cleared": false
+    },
+    "0,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "1,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "2,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "3,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "4,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "5,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "6,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "7,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "8,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "9,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "10,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "11,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "12,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "13,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "14,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "15,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "16,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "17,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "18,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "19,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "20,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "21,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "22,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "23,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "24,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "25,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "26,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "27,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "28,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "29,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "30,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "31,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "32,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "33,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "34,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "35,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "36,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "37,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "38,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "39,25": {
+      "visited": false,
+      "cleared": false
+    },
+    "0,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "1,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "2,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "3,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "4,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "5,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "6,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "7,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "8,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "9,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "10,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "11,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "12,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "13,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "14,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "15,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "16,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "17,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "18,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "19,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "20,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "21,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "22,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "23,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "24,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "25,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "26,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "27,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "28,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "29,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "30,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "31,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "32,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "33,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "34,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "35,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "36,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "37,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "38,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "39,26": {
+      "visited": false,
+      "cleared": false
+    },
+    "0,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "1,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "2,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "3,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "4,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "5,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "6,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "7,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "8,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "9,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "10,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "11,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "12,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "13,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "14,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "15,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "16,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "17,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "18,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "19,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "20,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "21,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "22,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "23,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "24,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "25,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "26,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "27,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "28,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "29,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "30,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "31,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "32,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "33,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "34,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "35,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "36,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "37,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "38,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "39,27": {
+      "visited": false,
+      "cleared": false
+    },
+    "0,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "1,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "2,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "3,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "4,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "5,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "6,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "7,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "8,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "9,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "10,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "11,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "12,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "13,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "14,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "15,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "16,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "17,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "18,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "19,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "20,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "21,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "22,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "23,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "24,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "25,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "26,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "27,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "28,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "29,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "30,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "31,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "32,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "33,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "34,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "35,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "36,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "37,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "38,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "39,28": {
+      "visited": false,
+      "cleared": false
+    },
+    "0,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "1,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "2,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "3,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "4,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "5,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "6,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "7,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "8,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "9,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "10,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "11,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "12,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "13,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "14,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "15,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "16,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "17,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "18,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "19,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "20,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "21,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "22,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "23,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "24,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "25,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "26,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "27,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "28,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "29,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "30,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "31,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "32,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "33,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "34,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "35,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "36,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "37,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "38,29": {
+      "visited": false,
+      "cleared": false
+    },
+    "39,29": {
+      "visited": false,
+      "cleared": false
+    }
+  },
+  "bestiary": {
+    "Harpy": {
+      "kills": 88,
+      "lore_unlocked": true,
+      "ability_unlocked": true
+    },
+    "Wraith": {
+      "kills": 91,
+      "lore_unlocked": true,
+      "ability_unlocked": true
+    },
+    "Skeleton": {
+      "kills": 89,
+      "lore_unlocked": true,
+      "ability_unlocked": true
+    },
+    "Troll": {
+      "kills": 103,
+      "lore_unlocked": true,
+      "ability_unlocked": true
+    },
+    "Putrid Shambler": {
+      "kills": 17,
+      "lore_unlocked": true,
+      "ability_unlocked": true
+    },
+    "Ghoul": {
+      "kills": 72,
+      "lore_unlocked": true,
+      "ability_unlocked": true
+    },
+    "Minotaur": {
+      "kills": 71,
+      "lore_unlocked": true,
+      "ability_unlocked": true
+    },
+    "Giant Rat": {
+      "kills": 114,
+      "lore_unlocked": true,
+      "ability_unlocked": true
+    },
+    "Goblin": {
+      "kills": 88,
+      "lore_unlocked": true,
+      "ability_unlocked": true
+    },
+    "Orc": {
+      "kills": 90,
+      "lore_unlocked": true,
+      "ability_unlocked": true
+    },
+    "Dark Cultist": {
+      "kills": 83,
+      "lore_unlocked": true,
+      "ability_unlocked": true
+    },
+    "Goblin Footpad": {
+      "kills": 1,
+      "lore_unlocked": true,
+      "ability_unlocked": false
+    }
+  },
+  "quest_manager": {
+    "active": [
+      {
+        "id": "truffle_smuggler",
+        "name": "The Truffle Smuggler",
+        "description": "Gather 3 Cave-Truffles from smashed barrels on floors 1-5.",
+        "objectives": [
+          {
+            "type": "gather",
+            "target": "Cave-Truffle",
+            "amount": 3,
+            "current": 0
+          }
+        ],
+        "rewards": [
+          {
+            "type": "discount",
+            "value": 20
+          },
+          {
+            "type": "item",
+            "item": "Truffle Brew"
+          }
+        ],
+        "npc": "shopkeeper",
+        "prerequisite": null,
+        "completed": false
+      }
+    ],
+    "completed": [
+      "reclaim_ledger",
+      "taste_for_venom"
+    ]
+  }
+}
