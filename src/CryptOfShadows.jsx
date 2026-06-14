@@ -813,12 +813,12 @@ function strengthBits(it) {
 const CSS = `
 .cos-root{--accent:#e8a13a;position:fixed;inset:0;overflow:hidden;background:
   radial-gradient(120% 90% at 50% -10%, #1a1422 0%, #0e0c12 45%, #08070b 100%);
-  color:#b6ab98;font-family:'Spectral','Iowan Old Style',Georgia,serif;}
+  color:#b6ab98;font-family:'Spectral','Iowan Old Style',Georgia,serif;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;}
 .cos-root *{box-sizing:border-box;}
-.cos-scroll{position:absolute;inset:0;overflow-y:auto;display:flex;flex-direction:column;align-items:center;}
+.cos-scroll{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;align-items:center;}
 .cos-shake{animation:cosShake .28s;}
 @keyframes cosShake{0%,100%{transform:translate(0,0)}20%{transform:translate(-6px,3px)}40%{transform:translate(5px,-4px)}60%{transform:translate(-4px,-2px)}80%{transform:translate(4px,3px)}}
-.cos-btn{font-family:'Cinzel','Trajan Pro',Georgia,serif;font-weight:600;letter-spacing:.04em;color:#e9dcc0;cursor:pointer;
+.cos-btn{font-family:'Cinzel','Trajan Pro',Georgia,serif;font-weight:600;letter-spacing:.04em;color:#e9dcc0;cursor:pointer;-webkit-user-select:none;user-select:none;touch-action:manipulation;
   background:linear-gradient(#221c18,#15110e);border:1px solid #5d4a2c;border-radius:4px;padding:.6rem 1.1rem;transition:.15s;}
 .cos-btn:hover{border-color:#c9a567;color:#fff;box-shadow:0 0 16px -3px var(--accent);transform:translateY(-1px);}
 .cos-btn:active{transform:translateY(1px);}
@@ -847,6 +847,9 @@ const CSS = `
 .cos-card{background:linear-gradient(150deg,rgba(36,31,45,.92),rgba(14,12,18,.95));border:1px solid #5d4a2c;border-radius:5px;}
 .cos-row{display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.22);border-left:3px solid var(--rc,#888);border-radius:3px;padding:.28rem .55rem;color:#33260f;}
 .cos-tt{position:fixed;z-index:50;max-width:300px;pointer-events:none;background:linear-gradient(#14101c,#0b0810);border:1px solid #9c7b46;border-radius:6px;padding:.55rem .7rem;box-shadow:0 14px 40px rgba(0,0,0,.8);color:#b6ab98;line-height:1.4;}
+.cos-tt.pinned{position:fixed;left:50%!important;top:auto!important;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(94vw,420px);max-width:94vw;pointer-events:auto;z-index:60;}
+.cos-tt.pinned .ttclose{display:block;text-align:center;margin-top:.5rem;font-family:'Cinzel',serif;font-size:.78rem;color:#c9a567;border-top:1px solid rgba(156,123,70,.3);padding-top:.4rem;}
+@media (hover:none){.cos-btn:hover{border-color:#5d4a2c;color:#e9dcc0;box-shadow:none;transform:none;}.cos-btn.pri:hover{border-color:#c9a567;color:#fff;}}
 .cos-tt .nm{font-family:'Cinzel',serif;font-weight:600;font-size:1rem;}
 .cos-tt .sub{font-family:ui-monospace,monospace;font-size:.7rem;color:#6f6657;margin:.05rem 0 .3rem;}
 .cos-tt .st{font-family:ui-monospace,monospace;font-size:.78rem;color:#e9dcc0;}
@@ -918,22 +921,42 @@ export default function App() {
   const [tipItem, setTipItem] = useState(null);
   const tipRef = useRef(null);
   const posRef = useRef({ x: 0, y: 0 });
+  const pinnedRef = useRef(false);
+  const swipeRef = useRef(null);
+  const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || (navigator.maxTouchPoints || 0) > 0);
+  const [narrow, setNarrow] = useState(typeof window !== 'undefined' ? window.innerWidth < 760 : false);
 
-  // tooltip hover handlers — show on enter, clear on leave; position is driven
-  // imperatively (below) so hovering never forces a re-render of the screen.
+  // tooltip handlers. Desktop: hover to show, leave to hide. Touch/click: tap to
+  // pin an item's details as a bottom sheet, tap again or elsewhere to dismiss.
+  const showTip = (it, e) => { posRef.current = { x: e.clientX || 0, y: e.clientY || 0 }; pinnedRef.current = false; setTipItem(it); };
+  const pinTip = (it, e) => { e.stopPropagation(); if (pinnedRef.current && tipItem && tipItem.id === it.id) { pinnedRef.current = false; setTipItem(null); } else { pinnedRef.current = true; setTipItem(it); } };
+  const clearTip = () => { if (!pinnedRef.current) setTipItem(null); };
   const tipH = (it) => ({
     'data-tipowner': '1',
-    onMouseEnter: (e) => { posRef.current = { x: e.clientX, y: e.clientY }; setTipItem(it); },
-    onMouseLeave: () => setTipItem(null),
+    onMouseEnter: (e) => { if (!pinnedRef.current) showTip(it, e); },
+    onMouseLeave: clearTip,
+    onClick: (e) => pinTip(it, e),
   });
 
-  // keep the browser tab named correctly + reposition / safety-clear the tooltip
   useEffect(() => { document.title = 'Crypt of Shadows'; }, []);
+  // ensure a sensible mobile viewport even when embedded
+  useEffect(() => {
+    let m = document.querySelector('meta[name="viewport"]');
+    if (!m) { m = document.createElement('meta'); m.setAttribute('name', 'viewport'); document.head.appendChild(m); }
+    m.setAttribute('content', 'width=device-width, initial-scale=1, viewport-fit=cover');
+  }, []);
+  useEffect(() => { const f = () => setNarrow(window.innerWidth < 760); window.addEventListener('resize', f); window.addEventListener('orientationchange', f); return () => { window.removeEventListener('resize', f); window.removeEventListener('orientationchange', f); }; }, []);
+  // dismiss a pinned tooltip when tapping/clicking outside any item
+  useEffect(() => {
+    const onDown = (e) => { if (pinnedRef.current && !(e.target && e.target.closest && (e.target.closest('[data-tipowner]') || e.target.closest('.cos-tt')))) { pinnedRef.current = false; setTipItem(null); } };
+    document.addEventListener('pointerdown', onDown, true);
+    return () => document.removeEventListener('pointerdown', onDown, true);
+  }, []);
   useEffect(() => {
     const onMove = (e) => {
       posRef.current = { x: e.clientX, y: e.clientY };
       const t = tipRef.current;
-      if (!t) return;
+      if (!t || pinnedRef.current) return;
       if (!(e.target && e.target.closest && e.target.closest('[data-tipowner]'))) { setTipItem(null); return; }
       const r = t.getBoundingClientRect(), W = window.innerWidth, H = window.innerHeight;
       let left = e.clientX + 16, top = e.clientY + 14;
@@ -1178,7 +1201,7 @@ export default function App() {
           <div style={{ fontFamily: "'Cinzel',serif", color: '#e9dcc0' }}><span style={{ fontSize: '1.3rem' }}>🏚️</span> <b>Gallows Rest</b> <span style={{ color: '#6f6657', fontStyle: 'italic', fontFamily: "'Spectral',serif", fontSize: '.82rem' }}>— the last town above the dark</span></div>
           <div style={{ display: 'flex', gap: '.5rem', alignItems: 'center' }}><HeroStrip /><button className="cos-btn sm" onClick={openChar}>🎒 Character</button></div>
         </header>
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(240px,300px)', gap: '1.2rem', width: '100%', maxWidth: 1100, margin: '0 auto', padding: '1.4rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : 'minmax(0,1fr) minmax(240px,300px)', gap: '1.2rem', width: '100%', maxWidth: 1100, margin: '0 auto', padding: narrow ? '.9rem' : '1.4rem' }}>
           <div>
             {g.world && g.floors[g.floorNum] && (
               <div className="cos-card" onClick={resumeRun} style={{ '--accent': g.world.accent, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '.7rem', padding: '.8rem .9rem', marginBottom: '.9rem', borderLeft: '3px solid ' + g.world.accent, boxShadow: `0 0 18px -6px ${g.world.accent}` }}>
@@ -1203,7 +1226,7 @@ export default function App() {
                 </div>); })}
             </div>
           </div>
-          <aside>
+          <aside style={{ order: narrow ? -1 : 0 }}>
             <div className="cos-card" style={{ padding: '1rem' }}>
               <h3 style={{ fontFamily: "'Cinzel',serif", color: '#e9dcc0', fontSize: '1.1rem' }}>{CLASSES[h.heroClass].emoji} {h.name}</h3>
               <div style={{ color: '#6f6657', fontSize: '.8rem', fontStyle: 'italic', margin: '.2rem 0 .6rem' }}>{CLASSES[h.heroClass].name} · Level {h.level}</div>
@@ -1247,6 +1270,16 @@ export default function App() {
       cells.push(<div key={x + '_' + y} className="cos-cell" style={{ opacity: light, background: bg, fontSize: 'clamp(.7rem,1.7vw,1.1rem)', textShadow, boxShadow: t === 'wall' ? 'inset 0 0 0 1px rgba(0,0,0,.45)' : 'none' }}>{glyph}</div>);
     }
     const quick = h.inventory.filter((i) => i.consumable && (i.heal || i.mp)).slice(0, 5);
+    const sz = narrow ? 68 : 56, midH = narrow ? 58 : 46;
+    const dpad = () => (
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(3,${sz}px)`, gridTemplateRows: `${sz}px ${midH}px ${sz}px`, gap: '.4rem', justifyContent: 'center', margin: narrow ? '.2rem auto .6rem' : '.4rem auto 1.2rem' }}>
+        <button className="cos-btn" style={{ gridColumn: 2, fontSize: '1.2rem' }} onClick={() => move(0, -1)}>▲</button>
+        <button className="cos-btn" style={{ gridColumn: 1, gridRow: 2, fontSize: '1.2rem' }} onClick={() => move(-1, 0)}>◀</button>
+        <button className="cos-btn" style={{ gridColumn: 2, gridRow: 2, fontSize: '.8rem' }} onClick={restCamp}>Rest</button>
+        <button className="cos-btn" style={{ gridColumn: 3, gridRow: 2, fontSize: '1.2rem' }} onClick={() => move(1, 0)}>▶</button>
+        <button className="cos-btn" style={{ gridColumn: 2, gridRow: 3, fontSize: '1.2rem' }} onClick={() => move(0, 1)}>▼</button>
+      </div>
+    );
     return (
       <div className="cos-scroll" style={{ alignItems: 'stretch' }}>
         <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', padding: '.55rem 1rem', background: 'linear-gradient(#140f1a,#0b0810)', borderBottom: '1px solid #5d4a2c', flexWrap: 'wrap' }}>
@@ -1257,12 +1290,16 @@ export default function App() {
             <button className="cos-btn sm dng" onClick={() => returnTown(true)}>⏏ Town</button>
           </div>
         </header>
-        <div style={{ display: 'flex', gap: '1rem', width: '100%', maxWidth: 1100, margin: '0 auto', padding: '1rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-          <div style={{ position: 'relative', flex: 1, minWidth: 280, aspectRatio: '21 / 15', maxHeight: '70vh', border: '2px solid #5d4a2c', borderRadius: 5, overflow: 'hidden', background: '#000' }}>
+        <div style={{ display: 'flex', flexDirection: narrow ? 'column' : 'row', gap: '1rem', width: '100%', maxWidth: 1100, margin: '0 auto', padding: narrow ? '.6rem' : '1rem', alignItems: narrow ? 'stretch' : 'flex-start', flexWrap: narrow ? 'nowrap' : 'wrap' }}>
+          <div
+            onTouchStart={(e) => { const t = e.touches[0]; swipeRef.current = { x: t.clientX, y: t.clientY }; }}
+            onTouchEnd={(e) => { const s = swipeRef.current; if (!s) return; const t = e.changedTouches[0]; const dx = t.clientX - s.x, dy = t.clientY - s.y, ax = Math.abs(dx), ay = Math.abs(dy); swipeRef.current = null; if (Math.max(ax, ay) < 24) return; if (ax > ay) move(dx > 0 ? 1 : -1, 0); else move(0, dy > 0 ? 1 : -1); }}
+            style={{ position: 'relative', flex: narrow ? 'none' : 1, width: narrow ? '100%' : 'auto', minWidth: narrow ? 0 : 280, aspectRatio: '21 / 15', maxHeight: narrow ? '48vh' : '70vh', border: '2px solid #5d4a2c', borderRadius: 5, overflow: 'hidden', background: '#000', touchAction: 'none', margin: narrow ? '0 auto' : 0 }}>
             <div className="cos-grid" style={{ gridTemplateColumns: `repeat(${VW},1fr)`, gridTemplateRows: `repeat(${VH},1fr)` }}>{cells}</div>
             <div className="cos-vig" />
           </div>
-          <aside style={{ width: 'clamp(220px,28vw,300px)', display: 'flex', flexDirection: 'column', gap: '.6rem' }}>
+          {narrow && dpad()}
+          <aside style={{ width: narrow ? '100%' : 'clamp(220px,28vw,300px)', display: 'flex', flexDirection: 'column', gap: '.6rem' }}>
             <div className="cos-card" style={{ padding: '.7rem .8rem' }}>
               <div style={{ fontFamily: "'Cinzel',serif", color: '#e9dcc0', marginBottom: '.3rem' }}>{CLASSES[h.heroClass].emoji} <b>{h.name}</b> <span style={{ fontFamily: 'ui-monospace,monospace', fontSize: '.74rem', color: g.world.accent }}>Lv.{h.level}</span></div>
               <Bar cur={h.hp} max={h.maxHp} kind="hp" /><Bar cur={h.mp} max={h.maxMp} kind="mp" /><Bar cur={h.xp} max={h.xpToNext} kind="xp" />
@@ -1272,21 +1309,15 @@ export default function App() {
             <div className="cos-card" style={{ padding: '.55rem .65rem' }}>
               <div style={{ fontFamily: "'Cinzel',serif", fontSize: '.72rem', color: '#6f6657', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: '.3rem' }}>Potions</div>
               <div style={{ display: 'flex', gap: '.4rem', flexWrap: 'wrap' }}>
-                {quick.length ? quick.map((i) => <button key={i.id} className="cos-btn xs" {...tipH(i)} onClick={() => useInv(i.id)} style={{ fontSize: '1.1rem', padding: '.2rem .4rem' }}>{i.emoji}</button>) : <span style={{ fontStyle: 'italic', color: '#6f6657', fontSize: '.78rem' }}>none</span>}
+                {quick.length ? quick.map((i) => <button key={i.id} className="cos-btn xs" {...tipH(i)} onClick={() => useInv(i.id)} style={{ fontSize: '1.3rem', padding: '.3rem .5rem' }}>{i.emoji}</button>) : <span style={{ fontStyle: 'italic', color: '#6f6657', fontSize: '.78rem' }}>none</span>}
               </div>
             </div>
-            <div className="cos-card" style={{ padding: '.55rem .7rem', maxHeight: 180, overflowY: 'auto', fontSize: '.82rem', lineHeight: 1.5 }}>
+            <div className="cos-card" style={{ padding: '.55rem .7rem', maxHeight: narrow ? 110 : 180, overflowY: 'auto', fontSize: '.82rem', lineHeight: 1.5 }}>
               {g.log.slice(-9).map((l, i) => <div key={i} style={{ color: i === Math.min(8, g.log.length - 1) ? '#e9dcc0' : '#b6ab98', padding: '.05rem 0' }}>{l}</div>)}
             </div>
           </aside>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,56px)', gridTemplateRows: 'repeat(3,46px)', gap: '.4rem', justifyContent: 'center', margin: '.4rem auto 1.2rem' }}>
-          <button className="cos-btn" style={{ gridColumn: 2 }} onClick={() => move(0, -1)}>▲</button>
-          <button className="cos-btn" style={{ gridColumn: 1, gridRow: 2 }} onClick={() => move(-1, 0)}>◀</button>
-          <button className="cos-btn" style={{ gridColumn: 2, gridRow: 2, fontSize: '.8rem' }} onClick={restCamp}>Rest</button>
-          <button className="cos-btn" style={{ gridColumn: 3, gridRow: 2 }} onClick={() => move(1, 0)}>▶</button>
-          <button className="cos-btn" style={{ gridColumn: 2, gridRow: 3 }} onClick={() => move(0, 1)}>▼</button>
-        </div>
+        {!narrow && dpad()}
       </div>
     );
   }
@@ -1355,13 +1386,13 @@ export default function App() {
     const b = equipBonus(h);
     return (
       <div className="cos-scroll" style={{ paddingTop: '3vh' }}>
-        <div className="cos-parch" style={{ width: 'min(96vw,940px)', padding: '1.4rem', maxHeight: '92vh', overflowY: 'auto' }}>
+        <div className="cos-parch" style={{ width: 'min(96vw,940px)', padding: narrow ? '1rem' : '1.4rem', maxHeight: '92vh', overflowY: 'auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem' }}><span style={{ fontSize: '2.4rem' }}>{CLASSES[h.heroClass].emoji}</span><div><h2 style={{ fontFamily: "'Cinzel Decorative',serif", color: '#33260f', fontSize: '1.4rem' }}>{h.name}</h2><div style={{ fontStyle: 'italic', color: '#6a5b41', fontSize: '.86rem' }}>{CLASSES[h.heroClass].name} · Level {h.level} · 🪙 {h.gold}</div></div></div>
             <button className="cos-btn" onClick={closeChar}>Close ✕</button>
           </div>
           <div style={{ margin: '.6rem 0' }}><Bar cur={h.hp} max={h.maxHp} kind="hp" /><Bar cur={h.mp} max={h.maxMp} kind="mp" /><Bar cur={h.xp} max={h.xpToNext} kind="xp" /></div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.2rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : '1fr 1fr', gap: narrow ? '.4rem' : '1.2rem' }}>
             <div>
               <ColH>Equipped</ColH>
               {slots.map((s) => { const it = h.equipment[s]; return (
@@ -1379,7 +1410,7 @@ export default function App() {
             </div>
             <div>
               <ColH>Pack ({h.inventory.length})</ColH>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '.35rem', maxHeight: 320, overflowY: 'auto' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '.35rem', maxHeight: narrow ? 'none' : 320, overflowY: narrow ? 'visible' : 'auto' }}>
                 {h.inventory.length ? h.inventory.map((it) => { const canEquip = it.slot && it.lvl <= h.level; const canUse = it.consumable && !(it.damage && !it.heal && !it.mp); return (
                   <div key={it.id} className="cos-row" style={{ '--rc': rarityColor(it) }}>
                     <span {...tipH(it)} style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{it.emoji} {it.name} {it.slot ? <em style={{ fontStyle: 'normal', color: RC[rarityName(it)] }}>· {rarityName(it)} Lv.{it.lvl || 1}</em> : ''}</span>
@@ -1407,12 +1438,12 @@ export default function App() {
     const h = g.hero;
     return (
       <div className="cos-scroll" style={{ paddingTop: '3vh' }}>
-        <div className="cos-parch" style={{ width: 'min(96vw,940px)', padding: '1.4rem', maxHeight: '92vh', overflowY: 'auto' }}>
+        <div className="cos-parch" style={{ width: 'min(96vw,940px)', padding: narrow ? '1rem' : '1.4rem', maxHeight: '92vh', overflowY: 'auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem' }}><span style={{ fontSize: '2.4rem' }}>🛒</span><div><h2 style={{ fontFamily: "'Cinzel Decorative',serif", color: '#33260f', fontSize: '1.4rem' }}>The Hollow Merchant</h2><div style={{ fontStyle: 'italic', color: '#6a5b41', fontSize: '.86rem' }}>"Coin for steel, steel for survival." · 🪙 {h.gold}</div></div></div>
             <button className="cos-btn" onClick={() => { g.screen = 'exploring'; rr(); }}>Leave ✕</button>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.2rem', marginTop: '.6rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : '1fr 1fr', gap: narrow ? '.6rem' : '1.2rem', marginTop: '.6rem' }}>
             <div><ColH>For sale</ColH><div style={{ display: 'flex', flexDirection: 'column', gap: '.35rem' }}>
               {g.shop.length ? g.shop.map((it) => { const afford = h.gold >= it.value; return (
                 <div key={it.id} className="cos-row" style={{ '--rc': rarityColor(it) }}>
@@ -1485,8 +1516,9 @@ export default function App() {
       <style>{CSS}</style>
       {body}
       {tipItem && (
-        <div ref={tipRef} className="cos-tt" style={{ left: posRef.current.x + 16, top: posRef.current.y + 14 }}>
+        <div ref={tipRef} className={'cos-tt' + (pinnedRef.current ? ' pinned' : '')} style={pinnedRef.current ? {} : { left: posRef.current.x + 16, top: posRef.current.y + 14 }}>
           {itemTipNode(tipItem)}
+          {pinnedRef.current && <div className="ttclose" onClick={() => { pinnedRef.current = false; setTipItem(null); }}>tap to close ✕</div>}
         </div>
       )}
     </div>
