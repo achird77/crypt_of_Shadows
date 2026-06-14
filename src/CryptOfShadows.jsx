@@ -915,14 +915,35 @@ export default function App() {
   const g = G.current;
   const [, setTick] = useState(0);
   const rr = useCallback(() => setTick((t) => t + 1), []);
-  const [tip, setTip] = useState(null);
+  const [tipItem, setTipItem] = useState(null);
+  const tipRef = useRef(null);
+  const posRef = useRef({ x: 0, y: 0 });
 
-  // tooltip hover handlers
+  // tooltip hover handlers — show on enter, clear on leave; position is driven
+  // imperatively (below) so hovering never forces a re-render of the screen.
   const tipH = (it) => ({
-    onMouseEnter: (e) => setTip({ it, x: e.clientX, y: e.clientY }),
-    onMouseMove: (e) => setTip((p) => (p ? { it, x: e.clientX, y: e.clientY } : p)),
-    onMouseLeave: () => setTip(null),
+    'data-tipowner': '1',
+    onMouseEnter: (e) => { posRef.current = { x: e.clientX, y: e.clientY }; setTipItem(it); },
+    onMouseLeave: () => setTipItem(null),
   });
+
+  // keep the browser tab named correctly + reposition / safety-clear the tooltip
+  useEffect(() => { document.title = 'Crypt of Shadows'; }, []);
+  useEffect(() => {
+    const onMove = (e) => {
+      posRef.current = { x: e.clientX, y: e.clientY };
+      const t = tipRef.current;
+      if (!t) return;
+      if (!(e.target && e.target.closest && e.target.closest('[data-tipowner]'))) { setTipItem(null); return; }
+      const r = t.getBoundingClientRect(), W = window.innerWidth, H = window.innerHeight;
+      let left = e.clientX + 16, top = e.clientY + 14;
+      if (left + r.width > W - 8) left = e.clientX - r.width - 16;
+      if (top + r.height > H - 8) top = H - r.height - 8;
+      t.style.left = Math.max(6, left) + 'px'; t.style.top = Math.max(6, top) + 'px';
+    };
+    window.addEventListener('mousemove', onMove);
+    return () => window.removeEventListener('mousemove', onMove);
+  }, []);
 
   const log = (...lines) => { for (const l of lines) g.log.push(l); if (g.log.length > 60) g.log = g.log.slice(-60); };
   const autosave = () => { if (g.hero && !g.dead) SAVE.auto = makePayload(); };
@@ -953,7 +974,8 @@ export default function App() {
     g.log = [`═══ ${w.name} ═══`, w.desc, 'WASD / arrows to move. R to rest.'];
     g.screen = 'exploring'; autosave(); rr();
   };
-  const returnTown = () => { Object.assign(g, { world: null, floorNum: 0, floors: {}, combat: null, screen: 'town' }); autosave(); rr(); };
+  const returnTown = (keep) => { if (keep) { g.combat = null; g.screen = 'town'; } else { Object.assign(g, { world: null, floorNum: 0, floors: {}, combat: null, screen: 'town' }); } autosave(); rr(); };
+  const resumeRun = () => { if (g.world && g.floors[g.floorNum]) { g.screen = 'exploring'; rr(); } };
 
   // ---- movement ----
   const descend = () => {
@@ -1015,7 +1037,7 @@ export default function App() {
     const e = g.combat.enemy;
     if (r.log._float) { addFloat(r.log._float.side, r.log._float.text, r.log._float.crit); doShake(); }
     g.combat.log.push(...r.log); trimLog();
-    if (r.town) { g.combat = null; log('📜 A town portal whisks you to safety.'); return returnTown(); }
+    if (r.town) { g.combat = null; log('📜 A town portal whisks you to safety.'); return returnTown(true); }
     if (r.fled) { g.combat.fled = true; rr(); return; }
     if (e.hp <= 0) return enemyDefeated();
     if (!r.spent) { rr(); return; }
@@ -1158,7 +1180,17 @@ export default function App() {
         </header>
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(240px,300px)', gap: '1.2rem', width: '100%', maxWidth: 1100, margin: '0 auto', padding: '1.4rem' }}>
           <div>
-            <h3 style={{ fontFamily: "'Cinzel',serif", color: '#e9dcc0', fontSize: '1.2rem', marginBottom: '.8rem' }}>Choose your descent</h3>
+            {g.world && g.floors[g.floorNum] && (
+              <div className="cos-card" onClick={resumeRun} style={{ '--accent': g.world.accent, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '.7rem', padding: '.8rem .9rem', marginBottom: '.9rem', borderLeft: '3px solid ' + g.world.accent, boxShadow: `0 0 18px -6px ${g.world.accent}` }}>
+                <span style={{ fontSize: '1.8rem' }}>↩</span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontFamily: "'Cinzel',serif", fontWeight: 600, color: '#fff' }}>Return to {g.world.name}</div>
+                  <div style={{ fontFamily: 'ui-monospace,monospace', fontSize: '.74rem', color: '#b6ab98' }}>Resume your descent — Depth {roman(g.floorNum)} / {roman(g.world.floors)}</div>
+                </div>
+                <span className="cos-btn sm pri">Continue →</span>
+              </div>
+            )}
+            <h3 style={{ fontFamily: "'Cinzel',serif", color: '#e9dcc0', fontSize: '1.2rem', marginBottom: '.8rem' }}>{g.world ? 'Or begin a new descent' : 'Choose your descent'}</h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(250px,1fr))', gap: '.7rem' }}>
               {WORLDS.map((w) => { const locked = h.level < w.minLevel; const done = g.completed.includes(w.id); return (
                 <div key={w.id} className="cos-card" onClick={() => { if (!locked) enterWorld(w); }} style={{ '--accent': w.accent, cursor: locked ? 'not-allowed' : 'pointer', opacity: locked ? 0.5 : 1, display: 'flex', gap: '.7rem', padding: '.8rem .9rem', borderLeft: '3px solid ' + (done ? '#5a9e54' : w.accent) }}>
@@ -1222,7 +1254,7 @@ export default function App() {
           <div style={{ display: 'flex', gap: '.4rem', alignItems: 'center' }}><HeroStrip />
             <button className="cos-btn sm" onClick={restCamp}>🏕️ Rest</button>
             <button className="cos-btn sm" onClick={openChar}>🎒</button>
-            <button className="cos-btn sm dng" onClick={returnTown}>⏏ Town</button>
+            <button className="cos-btn sm dng" onClick={() => returnTown(true)}>⏏ Town</button>
           </div>
         </header>
         <div style={{ display: 'flex', gap: '1rem', width: '100%', maxWidth: 1100, margin: '0 auto', padding: '1rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
@@ -1431,7 +1463,7 @@ export default function App() {
           <span className="cos-card" style={{ padding: '.35rem .7rem' }}>Level {h.level}</span><span className="cos-card" style={{ padding: '.35rem .7rem' }}>Kills {g.kills}</span><span className="cos-card" style={{ padding: '.35rem .7rem' }}>Bosses {g.bosses}</span>
         </div>
         <div style={{ display: 'flex', gap: '.7rem' }}>
-          {win ? <button className="cos-btn pri" onClick={returnTown}>Return to Gallows Rest</button> : <>
+          {win ? <button className="cos-btn pri" onClick={() => returnTown(false)}>Return to Gallows Rest</button> : <>
             <button className="cos-btn pri" onClick={() => { if (SAVE.auto && !diffObj().perma) { loadPayload(SAVE.auto); g.screen = g.world ? 'exploring' : 'town'; } else { g.creation = { name: '', cls: 'warrior', diff: 'normal' }; resetRun(); g.screen = 'creation'; } rr(); }}>{SAVE.auto && !diffObj().perma ? 'Reload last camp' : 'New hero'}</button>
             <button className="cos-btn" onClick={() => { g.screen = 'menu'; rr(); }}>Main menu</button></>}
         </div>
@@ -1439,16 +1471,22 @@ export default function App() {
     );
   }
 
-  const SCREENS = { menu: ScreenMenu, creation: ScreenCreation, town: ScreenTown, exploring: ScreenExploring, combat: ScreenCombat, character: ScreenCharacter, shop: ScreenShop, levelup: ScreenLevelUp, victory: () => <ScreenEnd win />, gameover: () => <ScreenEnd win={false} /> };
-  const Active = SCREENS[g.screen] || ScreenMenu;
+  // Render the active screen by CALLING it (not as <Active/>), so it stays part
+  // of App's tree and is reconciled in place — preserving scroll position and
+  // hover state across re-renders instead of remounting every time.
+  const screenFns = { menu: ScreenMenu, creation: ScreenCreation, town: ScreenTown, exploring: ScreenExploring, combat: ScreenCombat, character: ScreenCharacter, shop: ScreenShop, levelup: ScreenLevelUp };
+  let body;
+  if (g.screen === 'victory') body = ScreenEnd({ win: true });
+  else if (g.screen === 'gameover') body = ScreenEnd({ win: false });
+  else body = (screenFns[g.screen] || ScreenMenu)();
 
   return (
     <div className={'cos-root' + (g.shake ? ' cos-shake' : '')} style={{ '--accent': g.world ? g.world.accent : '#e8a13a' }}>
       <style>{CSS}</style>
-      <Active />
-      {tip && (
-        <div className="cos-tt" style={{ left: Math.min(tip.x + 16, (typeof window !== 'undefined' ? window.innerWidth : 1200) - 312), top: tip.y + 14 }}>
-          {itemTipNode(tip.it)}
+      {body}
+      {tipItem && (
+        <div ref={tipRef} className="cos-tt" style={{ left: posRef.current.x + 16, top: posRef.current.y + 14 }}>
+          {itemTipNode(tipItem)}
         </div>
       )}
     </div>
