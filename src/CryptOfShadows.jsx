@@ -871,19 +871,19 @@ const RC = { Normal: '#cbd5e1', Rare: '#6f9dff', Epic: '#c061ff' };
    Tries the artifact persistent-storage API, then localStorage, then an
    in-memory object — so "Continue" survives reloads wherever possible. */
 const store = {
-  async get(k) {
-    try { if (typeof window !== 'undefined' && window.storage) { const r = await window.storage.get(k); return r && r.value ? JSON.parse(r.value) : null; } } catch (e) {}
+  async get(k, shared) {
+    try { if (typeof window !== 'undefined' && window.storage) { const r = await window.storage.get(k, shared); return r && r.value ? JSON.parse(r.value) : null; } } catch (e) {}
     try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) {}
     return SAVE[k] || null;
   },
-  async set(k, v) {
+  async set(k, v, shared) {
     const s = JSON.stringify(v); SAVE[k] = v;
-    try { if (typeof window !== 'undefined' && window.storage) { await window.storage.set(k, s); return; } } catch (e) {}
+    try { if (typeof window !== 'undefined' && window.storage) { await window.storage.set(k, s, shared); return; } } catch (e) {}
     try { localStorage.setItem(k, s); } catch (e) {}
   },
-  async del(k) {
+  async del(k, shared) {
     delete SAVE[k];
-    try { if (typeof window !== 'undefined' && window.storage) { await window.storage.delete(k); return; } } catch (e) {}
+    try { if (typeof window !== 'undefined' && window.storage) { await window.storage.delete(k, shared); return; } } catch (e) {}
     try { localStorage.removeItem(k); } catch (e) {}
   },
 };
@@ -893,7 +893,7 @@ const SAVE_AUTO = 'cos:auto', SAVE_SLOT = 'cos:slot1', SAVE_META = 'cos:meta';
    Echoes are soul-residue you carry out of the crypt even when your hero
    doesn't. They are spent at the Altar on account-wide perks and to rebuild
    Gallows Rest. Stored separately from the run save so they persist forever. */
-const defaultMeta = () => ({ echoes: 0, lifetime: 0, perks: { affluence: 0, insight: 0, hardy: 0, affinity: 0, stash: 0 }, ossuary: false, sanctuary: false, stash: [], deepestEver: 0, bossesEver: 0, runs: 0 });
+const defaultMeta = () => ({ echoes: 0, lifetime: 0, perks: { affluence: 0, insight: 0, hardy: 0, affinity: 0, stash: 0 }, ossuary: false, sanctuary: false, stash: [], deepestEver: 0, bossesEver: 0, deepestAbyss: 0, runs: 0 });
 const mergeMeta = (m) => { const d = defaultMeta(); if (!m) return d; d.perks = Object.assign(d.perks, m.perks || {}); return Object.assign(d, m, { perks: d.perks }); };
 const PERKS = [
   { id: 'affluence', name: 'Affluence', emoji: '🪙', max: 5, desc: '+25 starting gold per rank.' },
@@ -906,6 +906,20 @@ const perkCost = (rank) => Math.floor(15 * Math.pow(1.85, rank));
 const OSSUARY_COST = 90, SANCTUARY_COST = 160, STASH_BASE = 8;
 const stashSlots = (meta) => STASH_BASE + 3 * (meta.perks.stash || 0);
 const salvageValue = (it) => Math.max(1, Math.ceil((it.value || 10) / 38)) + (rarityName(it) === 'Epic' ? 6 : rarityName(it) === 'Rare' ? 2 : 0) + (it.upgrade || 0);
+
+/* ───────────────────────────── THE ABYSS ─────────────────────────
+   An endless descent. No bottom, no boss — only how deep you dare before
+   the dark takes you. Enemies rotate flavor and grow crueler each floor.
+   Scores post to a shared, persistent leaderboard. */
+const ABYSS_THEMES = ['undead', 'goblin', 'aquatic', 'frost', 'beast', 'construct', 'demon', 'celestial', 'dragon'];
+const abyssWorld = (depth) => ({ id: 'theabyss', name: 'The Abyss', emoji: '🕳️', accent: '#8a5cf0', floors: 1e9, minLevel: 1, theme: ABYSS_THEMES[Math.floor((depth - 1) / 3) % ABYSS_THEMES.length], desc: 'A bottomless descent into the dark beneath the dark.' });
+const scaleAbyssFloor = (floor, depth) => {
+  const hpF = 1 + 0.05 * (depth - 1), atkF = 1 + 0.035 * (depth - 1), rewF = 1 + 0.08 * (depth - 1);
+  for (const k in floor.enemies) { const e = floor.enemies[k]; e.maxHp = Math.max(1, Math.round(e.maxHp * hpF)); e.hp = e.maxHp; e.attack = Math.round(e.attack * atkF); e.xpReward = Math.round(e.xpReward * rewF); e.goldReward = Math.round(e.goldReward * (1 + 0.06 * (depth - 1))); }
+  return floor;
+};
+const ABYSS_SCORES = 'cos:abyss';
+
 
 
 /* ───────────────────────────── QUESTS ───────────────────────────── */
@@ -1081,6 +1095,7 @@ export default function App() {
   const [hasSave, setHasSave] = useState(false);
   const savedRef = useRef(null);
   const metaRef = useRef(defaultMeta());
+  const abyssScoresRef = useRef([]);
   const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || (navigator.maxTouchPoints || 0) > 0);
   const [narrow, setNarrow] = useState(typeof window !== 'undefined' ? window.innerWidth < 760 : false);
 
@@ -1134,8 +1149,8 @@ export default function App() {
   const saveMeta = () => { store.set(SAVE_META, metaRef.current); };
   const ensureHeroFields = (h) => { if (!h) return; h.statuses = h.statuses || []; h.quests = h.quests || []; h.questsDone = h.questsDone || []; h.tree = h.tree || {}; if (h.skillPoints == null) h.skillPoints = 0; };
   const autosave = () => { if (g.hero && !g.dead) { const p = makePayload(); savedRef.current = p; setHasSave(true); store.set(SAVE_AUTO, p); } };
-  const makePayload = () => ({ v: 2, ts: Date.now(), hero: clone(g.hero), difficulty: g.difficulty, world: g.world, floorNum: g.floorNum, floors: clone(g.floors), playerPos: { ...g.playerPos }, completed: [...g.completed], kills: g.kills, deepest: g.deepest, bosses: g.bosses, goldEarned: g.goldEarned, banked: g._bankedSoFar || 0, revived: !!g._revived });
-  const loadPayload = (p) => { Object.assign(g, { hero: clone(p.hero), difficulty: p.difficulty || 'normal', world: p.world, floorNum: p.floorNum || 0, floors: clone(p.floors || {}), playerPos: p.playerPos || { x: 0, y: 0 }, completed: p.completed || [], kills: p.kills || 0, deepest: p.deepest || 0, bosses: p.bosses || 0, goldEarned: p.goldEarned || 0, dead: false, combat: null, _bankedSoFar: p.banked || 0, _revived: !!p.revived }); ensureHeroFields(g.hero); if (g.hero) recalc(g.hero); };
+  const makePayload = () => ({ v: 2, ts: Date.now(), hero: clone(g.hero), difficulty: g.difficulty, world: g.world, floorNum: g.floorNum, floors: clone(g.floors), playerPos: { ...g.playerPos }, completed: [...g.completed], kills: g.kills, deepest: g.deepest, bosses: g.bosses, goldEarned: g.goldEarned, banked: g._bankedSoFar || 0, revived: !!g._revived, abyss: !!g.abyss, abyssDepth: g.abyssDepth || 0 });
+  const loadPayload = (p) => { Object.assign(g, { hero: clone(p.hero), difficulty: p.difficulty || 'normal', world: p.world, floorNum: p.floorNum || 0, floors: clone(p.floors || {}), playerPos: p.playerPos || { x: 0, y: 0 }, completed: p.completed || [], kills: p.kills || 0, deepest: p.deepest || 0, bosses: p.bosses || 0, goldEarned: p.goldEarned || 0, dead: false, combat: null, _bankedSoFar: p.banked || 0, _revived: !!p.revived, abyss: !!p.abyss, abyssDepth: p.abyssDepth || 0 }); ensureHeroFields(g.hero); if (g.hero) recalc(g.hero); };
 
   // ---- Echoes: marginal banking so deeper progress on one run pays once ----
   const computeRunEchoes = () => Math.floor((g.deepest || 0) * 3 + (g.bosses || 0) * 12 + (g.kills || 0) * 0.5 + (g.goldEarned || 0) / 120);
@@ -1199,7 +1214,7 @@ export default function App() {
   const diffObj = () => DIFFICULTIES[g.difficulty];
 
   // ---- run lifecycle ----
-  const resetRun = () => Object.assign(g, { world: null, floorNum: 0, floors: {}, combat: null, completed: [], kills: 0, deepest: 0, bosses: 0, goldEarned: 0, log: [], dead: false, shop: [], fx: [], _bankedSoFar: 0, _revived: false });
+  const resetRun = () => Object.assign(g, { world: null, floorNum: 0, floors: {}, combat: null, completed: [], kills: 0, deepest: 0, bosses: 0, goldEarned: 0, log: [], dead: false, shop: [], fx: [], _bankedSoFar: 0, _revived: false, abyss: false, abyssDepth: 0 });
   const create = () => {
     if (g.hero && !g.dead) bankEchoes(); // bank any progress from an abandoned run
     const name = (g.creation.name || '').trim() || 'Nameless one';
@@ -1230,13 +1245,45 @@ export default function App() {
   // ---- movement ----
   const descend = () => {
     const next = g.floorNum + 1;
-    if (!g.floors[next]) g.floors[next] = generateFloor(next, g.world, diffObj());
+    if (!g.floors[next]) {
+      const w = g.abyss ? abyssWorld(next) : g.world;
+      let f = generateFloor(next, w, diffObj());
+      if (g.abyss) f = scaleAbyssFloor(f, next);
+      g.floors[next] = f;
+    }
     const nf = g.floors[next]; g.floorNum = next; g.playerPos = { ...nf.start };
-    g.deepest = Math.max(g.deepest, next); reveal(nf, nf.start.x, nf.start.y);
-    log(`🔻 You descend to depth ${roman(next)}.`);
+    g.deepest = Math.max(g.deepest, next); if (g.abyss) g.abyssDepth = Math.max(g.abyssDepth, next);
+    reveal(nf, nf.start.x, nf.start.y);
+    log(g.abyss ? `🕳️ You sink to Abyss depth ${roman(next)}. The dark thickens.` : `🔻 You descend to depth ${roman(next)}.`);
     questEvent('depth', next);
     if (checkLevelUp(g.hero)) return grantLevelPoints('exploring');
     autosave(); rr();
+  };
+  // ---- The Abyss ----
+  const refreshAbyssScores = () => { store.get(ABYSS_SCORES, true).then((s) => { if (Array.isArray(s)) { abyssScoresRef.current = s; rr(); } }); };
+  const submitAbyssScore = () => {
+    const score = g.abyssDepth || 0; if (score <= 0 || !g.hero) return;
+    store.get(ABYSS_SCORES, true).then((s) => {
+      let list = Array.isArray(s) ? s : [];
+      list.push({ name: g.hero.name, cls: g.hero.heroClass, score, lvl: g.hero.level, ts: Date.now() });
+      list.sort((a, b) => b.score - a.score); list = list.slice(0, 10);
+      abyssScoresRef.current = list; store.set(ABYSS_SCORES, list, true); rr();
+    });
+    const m = metaRef.current; if (score > (m.deepestAbyss || 0)) { m.deepestAbyss = score; saveMeta(); }
+  };
+  const openAbyssPortal = () => { refreshAbyssScores(); g.screen = 'abyssportal'; rr(); };
+  const enterAbyss = () => {
+    g.world = abyssWorld(1); g.abyss = true; g.abyssDepth = 1; g.floorNum = 1; g.floors = {}; g._revived = false;
+    const f = scaleAbyssFloor(generateFloor(1, g.world, diffObj()), 1);
+    g.floors[1] = f; g.playerPos = { ...f.start }; reveal(f, f.start.x, f.start.y); g.deepest = Math.max(g.deepest, 1);
+    g.log = ['═══ THE ABYSS ═══', 'There is no bottom. Find the stairs down to go deeper.', 'Flee at any time to bank your depth on the leaderboard.'];
+    g.screen = 'exploring'; autosave(); rr();
+  };
+  const fleeAbyss = () => {
+    const d = g.abyssDepth || 0; submitAbyssScore(); bankEchoes();
+    g.abyss = false; g.abyssDepth = 0;
+    Object.assign(g, { world: null, floorNum: 0, floors: {}, combat: null, screen: 'town' });
+    log(`🕳️ You claw back to the surface from Abyss depth ${roman(d) || 'I'}.`); autosave(); rr();
   };
   const ascend = () => {
     const prev = g.floorNum - 1;
@@ -1249,7 +1296,7 @@ export default function App() {
       log('✨ The Sanctuary\'s grace wrenches you back from death — but it will not save you twice this delve.');
       g.screen = g.world ? 'exploring' : 'town'; autosave(); rr(); return;
     }
-    g.dead = true; const gain = bankEchoes();
+    g.dead = true; if (g.abyss) submitAbyssScore(); const gain = bankEchoes();
     if (diffObj().perma) { savedRef.current = null; setHasSave(false); store.del(SAVE_AUTO); }
     g.screen = 'gameover'; rr();
   };
@@ -1481,9 +1528,10 @@ export default function App() {
                 <button className="cos-btn pri" onClick={restTown}>🏕️ Rest (full heal)</button>
                 <button className="cos-btn" onClick={() => { g.screen = 'quests'; rr(); }}>📜 Quest Board{h.quests.length ? ` (${h.quests.length})` : ''}</button>
                 <button className="cos-btn" onClick={() => { g.screen = 'forge'; rr(); }}>🔨 Blacksmith</button>
-                <button className="cos-btn" onClick={() => { g._return = 'town'; g.screen = 'tree'; rr(); }}>✦ Sanctum of Paths{h.skillPoints ? ` (${h.skillPoints})` : ''}</button>
+                <button className="cos-btn" onClick={() => { g._treeReturn = 'town'; g.screen = 'tree'; rr(); }}>✦ Sanctum of Paths{h.skillPoints ? ` (${h.skillPoints})` : ''}</button>
                 <button className="cos-btn" onClick={() => { g._return = 'town'; g.screen = 'altar'; rr(); }}>💠 Altar of Echoes{metaRef.current.echoes ? ` (${metaRef.current.echoes})` : ''}</button>
                 {metaRef.current.ossuary && <button className="cos-btn" onClick={() => { g.screen = 'ossuary'; rr(); }}>🦴 Ossuary ({metaRef.current.stash.length}/{stashSlots(metaRef.current)})</button>}
+                <button className="cos-btn" onClick={openAbyssPortal}>🕳️ The Abyss{metaRef.current.deepestAbyss ? ` (best ${metaRef.current.deepestAbyss})` : ''}</button>
                 <button className="cos-btn" onClick={openChar}>🎒 Character & Inventory</button>
                 <button className="cos-btn" onClick={() => { autosave(); store.set(SAVE_SLOT, makePayload()); log('💾 Game saved.'); rr(); }}>💾 Save game</button>
                 <button className="cos-btn dng" onClick={() => { autosave(); g.screen = 'menu'; rr(); }}>↩ Main menu</button>
@@ -1544,11 +1592,13 @@ export default function App() {
     return (
       <div className="cos-scroll" style={{ alignItems: 'stretch' }}>
         <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', padding: '.55rem 1rem', background: 'linear-gradient(#140f1a,#0b0810)', borderBottom: '1px solid #5d4a2c', flexWrap: 'wrap' }}>
-          <div style={{ fontFamily: "'Cinzel',serif", color: '#e9dcc0' }}><span style={{ fontSize: '1.3rem' }}>{g.world.emoji}</span> <b>{g.world.name}</b> <span style={{ color: '#6f6657', fontFamily: 'ui-monospace,monospace', fontSize: '.78rem' }}>Depth {roman(g.floorNum)} / {roman(g.world.floors)}</span></div>
+          <div style={{ fontFamily: "'Cinzel',serif", color: '#e9dcc0' }}><span style={{ fontSize: '1.3rem' }}>{g.world.emoji}</span> <b>{g.world.name}</b> <span style={{ color: '#6f6657', fontFamily: 'ui-monospace,monospace', fontSize: '.78rem' }}>{g.abyss ? `Depth ${roman(g.floorNum)} · best ${metaRef.current.deepestAbyss || 0}` : `Depth ${roman(g.floorNum)} / ${roman(g.world.floors)}`}</span></div>
           <div style={{ display: 'flex', gap: '.4rem', alignItems: 'center' }}><HeroStrip />
             <button className="cos-btn sm" onClick={restCamp}>🏕️ Rest</button>
             <button className="cos-btn sm" onClick={openChar}>🎒</button>
-            <button className="cos-btn sm dng" onClick={() => returnTown(true)}>⏏ Town</button>
+            {g.abyss
+              ? <button className="cos-btn sm dng" onClick={fleeAbyss}>🕳️ Flee</button>
+              : <button className="cos-btn sm dng" onClick={() => returnTown(true)}>⏏ Town</button>}
           </div>
         </header>
         <div style={{ display: 'flex', flexDirection: narrow ? 'column' : 'row', gap: '1rem', width: '100%', maxWidth: 1100, margin: '0 auto', padding: narrow ? '.6rem' : '1rem', alignItems: narrow ? 'stretch' : 'flex-start', flexWrap: narrow ? 'nowrap' : 'wrap' }}>
@@ -1651,7 +1701,7 @@ export default function App() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem' }}><span style={{ fontSize: '2.4rem' }}>{CLASSES[h.heroClass].emoji}</span><div><h2 style={{ fontFamily: "'Cinzel Decorative',serif", color: '#33260f', fontSize: '1.4rem' }}>{h.name}</h2><div style={{ fontStyle: 'italic', color: '#6a5b41', fontSize: '.86rem' }}>{CLASSES[h.heroClass].name} · Level {h.level} · 🪙 {h.gold}</div></div></div>
             <div style={{ display: 'flex', gap: '.4rem' }}>
-              <button className="cos-btn sm" onClick={() => { g._return = 'character'; g.screen = 'tree'; rr(); }}>✦ Sanctum{h.skillPoints ? ` (${h.skillPoints})` : ''}</button>
+              <button className="cos-btn sm" onClick={() => { g._treeReturn = 'character'; g.screen = 'tree'; rr(); }}>✦ Sanctum{h.skillPoints ? ` (${h.skillPoints})` : ''}</button>
               <button className="cos-btn" onClick={closeChar}>Close ✕</button>
             </div>
           </div>
@@ -1743,7 +1793,7 @@ export default function App() {
           </div>
           {h.skillPoints > 0 && <div style={{ fontFamily: "'Cinzel',serif", color: '#7d5fb2', margin: '.2rem 0 .4rem' }}>✦ <b>{h.skillPoints}</b> skill point{h.skillPoints > 1 ? 's' : ''} await in the Sanctum of Paths.</div>}
           <div style={{ display: 'flex', gap: '.6rem', justifyContent: 'center', marginTop: '1rem' }}>
-            {h.skillPoints > 0 && <button className="cos-btn" onClick={() => { g._afterLevelReturn = g._afterLevel; g._return = 'levelup'; g.screen = 'tree'; rr(); }}>✦ Open Sanctum</button>}
+            {h.skillPoints > 0 && <button className="cos-btn" onClick={() => { g._afterLevelReturn = g._afterLevel; g._treeReturn = 'levelup'; g.screen = 'tree'; rr(); }}>✦ Open Sanctum</button>}
             <button className="cos-btn pri" onClick={() => { g.screen = g._afterLevel === 'victory' ? 'victory' : 'exploring'; rr(); }}>Continue</button>
           </div>
         </div>
@@ -1831,7 +1881,7 @@ export default function App() {
         <div className="cos-parch" style={{ width: 'min(96vw,900px)', padding: narrow ? '1rem' : '1.4rem', maxHeight: '92vh', overflowY: 'auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem' }}><span style={{ fontSize: '2.4rem' }}>✦</span><div><h2 style={{ fontFamily: "'Cinzel Decorative',serif", color: '#33260f', fontSize: '1.4rem' }}>Sanctum of Paths</h2><div style={{ fontStyle: 'italic', color: '#6a5b41', fontSize: '.86rem' }}>Skill points: <b style={{ color: '#a3322b' }}>{h.skillPoints || 0}</b> · {CLASSES[h.heroClass].name} paths</div></div></div>
-            <button className="cos-btn" onClick={() => { g.screen = g._return || 'town'; rr(); }}>Close ✕</button>
+            <button className="cos-btn" onClick={() => { g.screen = g._treeReturn || 'town'; rr(); }}>Close ✕</button>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : '1fr 1fr', gap: narrow ? '.6rem' : '1.2rem', marginTop: '.4rem' }}>
             {tree.map((br) => (
@@ -1937,10 +1987,36 @@ export default function App() {
     );
   }
 
+  function ScreenAbyssPortal() {
+    const scores = abyssScoresRef.current || []; const best = metaRef.current.deepestAbyss || 0;
+    return (
+      <div className="cos-scroll" style={{ paddingTop: '3vh' }}>
+        <div className="cos-parch" style={{ width: 'min(96vw,760px)', padding: narrow ? '1rem' : '1.4rem', maxHeight: '92vh', overflowY: 'auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem' }}><span style={{ fontSize: '2.4rem' }}>🕳️</span><div><h2 style={{ fontFamily: "'Cinzel Decorative',serif", color: '#33260f', fontSize: '1.4rem' }}>The Abyss</h2><div style={{ fontStyle: 'italic', color: '#6a5b41', fontSize: '.86rem' }}>An endless descent. No bottom, no boss — only how deep you dare. Your best: <b style={{ color: '#6f4bb0' }}>depth {best || '—'}</b>.</div></div></div>
+            <button className="cos-btn" onClick={() => { g.screen = 'town'; rr(); }}>Close ✕</button>
+          </div>
+          <p style={{ color: '#5a4a2c', fontStyle: 'italic', margin: '.6rem 0' }}>Enemies rotate in flavor and grow crueler each floor. Flee whenever you like to bank your depth — but die, and the run ends. Echoes are paid for how far you reach either way.</p>
+          <button className="cos-btn pri" style={{ width: '100%', padding: '.8rem' }} onClick={enterAbyss}>🕳️ Descend into the Abyss</button>
+          <ColH>Leaderboard</ColH>
+          {scores.length ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '.25rem' }}>
+              {scores.map((s, i) => (
+                <div key={i} className="cos-row" style={{ '--rc': i === 0 ? '#e3b85c' : '#7a5e2c', justifyContent: 'space-between' }}>
+                  <span style={{ flex: 1 }}><b style={{ color: i === 0 ? '#a3322b' : '#33260f' }}>#{i + 1}</b> {CLASSES[s.cls] ? CLASSES[s.cls].emoji : '⚔️'} {s.name} <em style={{ fontStyle: 'normal', color: '#6a5b41', fontSize: '.74rem' }}>Lv.{s.lvl}</em></span>
+                  <span style={{ fontFamily: 'ui-monospace,monospace', color: '#6f4bb0' }}>depth {s.score}</span>
+                </div>))}
+            </div>
+          ) : <div style={{ fontStyle: 'italic', color: '#6a5b41' }}>No souls have returned from the Abyss yet. Be the first.</div>}
+        </div>
+      </div>
+    );
+  }
+
   // Render the active screen by CALLING it (not as <Active/>), so it stays part
   // of App's tree and is reconciled in place — preserving scroll position and
   // hover state across re-renders instead of remounting every time.
-  const screenFns = { menu: ScreenMenu, creation: ScreenCreation, town: ScreenTown, exploring: ScreenExploring, combat: ScreenCombat, character: ScreenCharacter, shop: ScreenShop, levelup: ScreenLevelUp, quests: ScreenQuests, forge: ScreenForge, tree: ScreenTree, altar: ScreenAltar, ossuary: ScreenOssuary };
+  const screenFns = { menu: ScreenMenu, creation: ScreenCreation, town: ScreenTown, exploring: ScreenExploring, combat: ScreenCombat, character: ScreenCharacter, shop: ScreenShop, levelup: ScreenLevelUp, quests: ScreenQuests, forge: ScreenForge, tree: ScreenTree, altar: ScreenAltar, ossuary: ScreenOssuary, abyssportal: ScreenAbyssPortal };
   let body;
   if (g.screen === 'victory') body = ScreenEnd({ win: true });
   else if (g.screen === 'gameover') body = ScreenEnd({ win: false });
