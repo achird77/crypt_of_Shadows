@@ -863,9 +863,164 @@ const CSS = `
 .cos-scroll::-webkit-scrollbar{width:9px}.cos-scroll::-webkit-scrollbar-thumb{background:#5d4a2c;border-radius:5px}
 `;
 
-const SAVE = {}; // in-session save store (no localStorage in this sandbox)
+const SAVE = {}; // in-memory fallback
 const clone = (o) => JSON.parse(JSON.stringify(o));
 const RC = { Normal: '#cbd5e1', Rare: '#6f9dff', Epic: '#c061ff' };
+
+/* ───────────────────── PERSISTENT SAVE LAYER ─────────────────────
+   Tries the artifact persistent-storage API, then localStorage, then an
+   in-memory object — so "Continue" survives reloads wherever possible. */
+const store = {
+  async get(k) {
+    try { if (typeof window !== 'undefined' && window.storage) { const r = await window.storage.get(k); return r && r.value ? JSON.parse(r.value) : null; } } catch (e) {}
+    try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) {}
+    return SAVE[k] || null;
+  },
+  async set(k, v) {
+    const s = JSON.stringify(v); SAVE[k] = v;
+    try { if (typeof window !== 'undefined' && window.storage) { await window.storage.set(k, s); return; } } catch (e) {}
+    try { localStorage.setItem(k, s); } catch (e) {}
+  },
+  async del(k) {
+    delete SAVE[k];
+    try { if (typeof window !== 'undefined' && window.storage) { await window.storage.delete(k); return; } } catch (e) {}
+    try { localStorage.removeItem(k); } catch (e) {}
+  },
+};
+const SAVE_AUTO = 'cos:auto', SAVE_SLOT = 'cos:slot1', SAVE_META = 'cos:meta';
+
+/* ─────────────── META PROGRESSION (survives death) ───────────────
+   Echoes are soul-residue you carry out of the crypt even when your hero
+   doesn't. They are spent at the Altar on account-wide perks and to rebuild
+   Gallows Rest. Stored separately from the run save so they persist forever. */
+const defaultMeta = () => ({ echoes: 0, lifetime: 0, perks: { affluence: 0, insight: 0, hardy: 0, affinity: 0, stash: 0 }, ossuary: false, sanctuary: false, stash: [], deepestEver: 0, bossesEver: 0, runs: 0 });
+const mergeMeta = (m) => { const d = defaultMeta(); if (!m) return d; d.perks = Object.assign(d.perks, m.perks || {}); return Object.assign(d, m, { perks: d.perks }); };
+const PERKS = [
+  { id: 'affluence', name: 'Affluence', emoji: '🪙', max: 5, desc: '+25 starting gold per rank.' },
+  { id: 'insight',   name: 'Insight',   emoji: '✦', max: 3, desc: '+1 starting skill point per rank.' },
+  { id: 'hardy',     name: 'Hardy',     emoji: '💪', max: 5, desc: '+1 to every starting attribute per rank.' },
+  { id: 'affinity',  name: 'Echo Affinity', emoji: '💠', max: 5, desc: '+10% Echoes earned per rank.' },
+  { id: 'stash',     name: 'Stash Expansion', emoji: '🦴', max: 4, desc: '+3 Ossuary stash slots per rank. (Requires the Ossuary.)' },
+];
+const perkCost = (rank) => Math.floor(15 * Math.pow(1.85, rank));
+const OSSUARY_COST = 90, SANCTUARY_COST = 160, STASH_BASE = 8;
+const stashSlots = (meta) => STASH_BASE + 3 * (meta.perks.stash || 0);
+const salvageValue = (it) => Math.max(1, Math.ceil((it.value || 10) / 38)) + (rarityName(it) === 'Epic' ? 6 : rarityName(it) === 'Rare' ? 2 : 0) + (it.upgrade || 0);
+
+
+/* ───────────────────────────── QUESTS ───────────────────────────── */
+const QUESTS = [
+  { id: 'q_cull',     name: 'Cull the Dark',   emoji: '⚔️', type: 'kill',  target: 8,   minLevel: 1, reward: { xp: 90,  gold: 70 },             desc: 'Slay 8 foes in the depths.' },
+  { id: 'q_delve',    name: 'Deep Delve',      emoji: '🔻', type: 'depth', target: 4,   minLevel: 1, reward: { xp: 120, gold: 50 },             desc: 'Reach depth IV in any world.' },
+  { id: 'q_prize',    name: 'Glittering Prize',emoji: '✨', type: 'rare',  target: 1,   minLevel: 1, reward: { xp: 110, gold: 90 },             desc: 'Find a Rare or Epic item.' },
+  { id: 'q_boss',     name: 'Bane of Bosses',  emoji: '👑', type: 'boss',  target: 1,   minLevel: 2, reward: { xp: 200, gold: 140 },            desc: 'Fell a world boss.' },
+  { id: 'q_riches',   name: 'Grave Riches',    emoji: '🪙', type: 'gold',  target: 250, minLevel: 2, reward: { xp: 80,  gold: 0, tome: true },   desc: 'Earn 250 gold from the crypts.' },
+  { id: 'q_slaughter',name: 'Reaper of Souls', emoji: '💀', type: 'kill',  target: 20,  minLevel: 4, reward: { xp: 240, gold: 160 },            desc: 'Slay 20 foes.' },
+  { id: 'q_abyss',    name: 'Into the Abyss',  emoji: '🕳️', type: 'depth', target: 7,   minLevel: 5, reward: { xp: 300, gold: 120 },            desc: 'Reach depth VII.' },
+  { id: 'q_hoard',    name: "Dragon's Hoard",  emoji: '💰', type: 'gold',  target: 800, minLevel: 6, reward: { xp: 260, gold: 0, tome: true },   desc: 'Earn 800 gold total.' },
+];
+const questById = (id) => QUESTS.find((q) => q.id === id);
+
+/* ───────────────────────── ITEM UPGRADES ────────────────────────── */
+const MAX_UPGRADE = 6;
+const upgradeCost = (it) => Math.floor(18 * (it.lvl || 1) * Math.pow(1.55, it.upgrade || 0));
+function applyUpgrade(it) {
+  it.upgrade = (it.upgrade || 0) + 1;
+  if (it.dmg) it.dmg += 1 + Math.floor((it.lvl || 1) / 6);
+  if (it.def) it.def += 1 + Math.floor((it.lvl || 1) / 8);
+  if (it.bonus) for (const k in it.bonus) if (it.bonus[k]) it.bonus[k] += 1;
+  if (!it.dmg && !it.def && !it.bonus) { it.bonus = { str: it.upgrade }; } // safety for odd gear
+  it.value = Math.floor((it.value || 10) * 1.3);
+  return it;
+}
+const upName = (it) => (it && it.upgrade ? ' +' + it.upgrade : '');
+
+/* ─────────────────────── ABILITY / MAGIC TREES ───────────────────
+   Each class has two development paths. Passives bank into stats on
+   purchase; empowers/unlocks are layered onto the live skill list. */
+const SKILL_TREES = {
+  warrior: [
+    { branch: 'Juggernaut', color: '#c9742e', nodes: [
+      { id: 'w_j1', name: 'Iron Hide', emoji: '🪨', kind: 'passive', max: 3, cost: 1, stat: 'con', per: 2, desc: '+2 CON per rank.' },
+      { id: 'w_j2', name: 'Brutal Force', emoji: '💢', kind: 'empower', target: 'power_strike', max: 3, cost: 1, dmgPer: 0.35, desc: 'Power Strike +0.35× damage per rank.' },
+      { id: 'w_j3', name: 'Earthshaker', emoji: '🌋', kind: 'unlock', max: 1, cost: 2, req: ['w_j2', 2], skill: { id: 'earthshaker', name: 'Earthshaker', emoji: '🌋', mp: 20, dmg: 3.3, status: { type: 'stun', turns: 1, chance: 0.55 }, desc: '3.3× damage, may stun.' }, desc: 'Unlock Earthshaker. Requires Brutal Force 2.' },
+    ] },
+    { branch: 'Warlord', color: '#b33', nodes: [
+      { id: 'w_w1', name: 'Battle Fury', emoji: '🔥', kind: 'passive', max: 3, cost: 1, stat: 'str', per: 2, desc: '+2 STR per rank.' },
+      { id: 'w_w2', name: 'Rallying Roar', emoji: '📯', kind: 'empower', target: 'war_cry', max: 3, cost: 1, healPer: 0.08, desc: 'War Cry heals +8% per rank.' },
+      { id: 'w_w3', name: 'Bloodthirst', emoji: '🩸', kind: 'unlock', max: 1, cost: 2, req: ['w_w1', 2], skill: { id: 'bloodthirst', name: 'Bloodthirst', emoji: '🩸', mp: 16, dmg: 2.8, heal: 0.2, desc: '2.8× damage, heal 20% HP.' }, desc: 'Unlock Bloodthirst. Requires Battle Fury 2.' },
+    ] },
+  ],
+  mage: [
+    { branch: 'Pyromancer', color: '#e8632e', nodes: [
+      { id: 'm_p1', name: 'Inner Fire', emoji: '🔥', kind: 'passive', max: 3, cost: 1, stat: 'int', per: 2, desc: '+2 INT per rank.' },
+      { id: 'm_p2', name: 'Conflagration', emoji: '🌶️', kind: 'empower', target: 'fireball', max: 3, cost: 1, dmgPer: 0.3, desc: 'Fireball +0.3× per rank.' },
+      { id: 'm_p3', name: 'Immolate', emoji: '☄️', kind: 'unlock', max: 1, cost: 2, req: ['m_p2', 2], skill: { id: 'immolate', name: 'Immolate', emoji: '☄️', mp: 18, dmg: 3.2, status: { type: 'burn', turns: 3, value: 0.12, chance: 0.9 }, desc: '3.2× damage and searing burn.' }, desc: 'Unlock Immolate. Requires Conflagration 2.' },
+    ] },
+    { branch: 'Cryomancer', color: '#4ea1ff', nodes: [
+      { id: 'm_c1', name: 'Frozen Mind', emoji: '❄️', kind: 'passive', max: 3, cost: 1, stat: 'wis', per: 2, desc: '+2 WIS per rank.' },
+      { id: 'm_c2', name: 'Deep Freeze', emoji: '🧊', kind: 'empower', target: 'ice_shard', max: 3, cost: 1, dmgPer: 0.28, desc: 'Ice Shard +0.28× per rank.' },
+      { id: 'm_c3', name: 'Blizzard', emoji: '🌨️', kind: 'unlock', max: 1, cost: 2, req: ['m_c2', 2], skill: { id: 'blizzard', name: 'Blizzard', emoji: '🌨️', mp: 20, dmg: 3.0, status: { type: 'freeze', turns: 1, chance: 0.7 }, desc: '3.0× damage, likely freeze.' }, desc: 'Unlock Blizzard. Requires Deep Freeze 2.' },
+    ] },
+  ],
+  rogue: [
+    { branch: 'Assassin', color: '#9b59b6', nodes: [
+      { id: 'r_a1', name: 'Lethality', emoji: '🗡️', kind: 'passive', max: 3, cost: 1, stat: 'dex', per: 2, desc: '+2 DEX per rank.' },
+      { id: 'r_a2', name: 'Deep Cuts', emoji: '🔪', kind: 'empower', target: 'backstab', max: 3, cost: 1, dmgPer: 0.35, desc: 'Backstab +0.35× per rank.' },
+      { id: 'r_a3', name: 'Eviscerate', emoji: '💀', kind: 'unlock', max: 1, cost: 2, req: ['r_a2', 2], skill: { id: 'eviscerate', name: 'Eviscerate', emoji: '💀', mp: 18, dmg: 3.6, desc: 'A killing flurry. 3.6× damage.' }, desc: 'Unlock Eviscerate. Requires Deep Cuts 2.' },
+    ] },
+    { branch: 'Venomancer', color: '#5a9e54', nodes: [
+      { id: 'r_v1', name: 'Toxicology', emoji: '🧪', kind: 'passive', max: 3, cost: 1, stat: 'con', per: 2, desc: '+2 CON per rank.' },
+      { id: 'r_v2', name: 'Virulence', emoji: '☠️', kind: 'empower', target: 'poison_strike', max: 3, cost: 1, dmgPer: 0.25, desc: 'Poison Strike +0.25× per rank.' },
+      { id: 'r_v3', name: 'Plague Bomb', emoji: '🟢', kind: 'unlock', max: 1, cost: 2, req: ['r_v2', 2], skill: { id: 'plague_bomb', name: 'Plague Bomb', emoji: '🟢', mp: 16, dmg: 2.6, status: { type: 'poison', turns: 5, value: 0.1, chance: 1 }, desc: '2.6× damage and a lethal plague.' }, desc: 'Unlock Plague Bomb. Requires Virulence 2.' },
+    ] },
+  ],
+  paladin: [
+    { branch: 'Crusader', color: '#e3b85c', nodes: [
+      { id: 'p_c1', name: 'Zeal', emoji: '⚔️', kind: 'passive', max: 3, cost: 1, stat: 'str', per: 2, desc: '+2 STR per rank.' },
+      { id: 'p_c2', name: 'Righteous Fury', emoji: '☀️', kind: 'empower', target: 'holy_smite', max: 3, cost: 1, dmgPer: 0.3, desc: 'Holy Smite +0.3× per rank.' },
+      { id: 'p_c3', name: 'Divine Storm', emoji: '🌟', kind: 'unlock', max: 1, cost: 2, req: ['p_c2', 2], skill: { id: 'divine_storm', name: 'Divine Storm', emoji: '🌟', mp: 18, dmg: 3.2, desc: 'Holy tempest. 3.2× damage.' }, desc: 'Unlock Divine Storm. Requires Righteous Fury 2.' },
+    ] },
+    { branch: 'Templar', color: '#7ad0e8', nodes: [
+      { id: 'p_t1', name: 'Devotion', emoji: '🙏', kind: 'passive', max: 3, cost: 1, stat: 'wis', per: 2, desc: '+2 WIS per rank.' },
+      { id: 'p_t2', name: 'Greater Mending', emoji: '💚', kind: 'empower', target: 'lay_hands', max: 3, cost: 1, healPer: 0.1, desc: 'Lay on Hands heals +10% per rank.' },
+      { id: 'p_t3', name: 'Guardian Angel', emoji: '👼', kind: 'unlock', max: 1, cost: 2, req: ['p_t1', 2], skill: { id: 'guardian_angel', name: 'Guardian Angel', emoji: '👼', mp: 14, dmg: 0, heal: 0.45, selfStatus: { type: 'ward', turns: 3, value: 0.4 }, desc: 'Heal 45% HP and ward 40% damage.' }, desc: 'Unlock Guardian Angel. Requires Devotion 2.' },
+    ] },
+  ],
+  necromancer: [
+    { branch: 'Deathlord', color: '#7d5fb2', nodes: [
+      { id: 'n_d1', name: 'Dark Power', emoji: '💜', kind: 'passive', max: 3, cost: 1, stat: 'int', per: 2, desc: '+2 INT per rank.' },
+      { id: 'n_d2', name: 'Soul Rot', emoji: '🦴', kind: 'empower', target: SKILLS.necromancer ? SKILLS.necromancer[0].id : 'x', max: 3, cost: 1, dmgPer: 0.3, desc: 'Empowers your first spell +0.3× per rank.' },
+      { id: 'n_d3', name: 'Apocalypse', emoji: '🌑', kind: 'unlock', max: 1, cost: 2, req: ['n_d2', 2], skill: { id: 'apocalypse', name: 'Apocalypse', emoji: '🌑', mp: 22, dmg: 3.6, status: { type: 'poison', turns: 4, value: 0.1, chance: 0.9 }, desc: '3.6× damage and creeping death.' }, desc: 'Unlock Apocalypse. Requires Soul Rot 2.' },
+    ] },
+    { branch: 'Bonecaller', color: '#9aa0a6', nodes: [
+      { id: 'n_b1', name: 'Grave Will', emoji: '🪦', kind: 'passive', max: 3, cost: 1, stat: 'con', per: 2, desc: '+2 CON per rank.' },
+      { id: 'n_b2', name: 'Bone Ward', emoji: '🛡️', kind: 'passive', max: 3, cost: 1, stat: 'wis', per: 2, desc: '+2 WIS per rank.' },
+      { id: 'n_b3', name: 'Bone Storm', emoji: '🦴', kind: 'unlock', max: 1, cost: 2, req: ['n_b1', 2], skill: { id: 'bone_storm', name: 'Bone Storm', emoji: '🦴', mp: 18, dmg: 3.0, desc: 'A whirl of shattered bone. 3.0× damage.' }, desc: 'Unlock Bone Storm. Requires Grave Will 2.' },
+    ] },
+  ],
+};
+// Combat skill list with tree empowers/unlocks layered onto base class skills.
+function effectiveSkills(hero) {
+  const base = SKILLS[hero.heroClass].filter((s) => s.lvl <= hero.level).map((s) => Object.assign({}, s));
+  const byId = {}; base.forEach((s) => { byId[s.id] = s; });
+  const tree = hero.tree || {};
+  for (const br of (SKILL_TREES[hero.heroClass] || [])) for (const n of br.nodes) {
+    const rank = tree[n.id] || 0; if (!rank) continue;
+    if (n.kind === 'empower' && byId[n.target]) {
+      const s = byId[n.target];
+      if (n.dmgPer) s.dmg = +(s.dmg + n.dmgPer * rank).toFixed(2);
+      if (n.mpPer) s.mp = Math.max(1, s.mp - n.mpPer * rank);
+      if (n.healPer) s.heal = +((s.heal || 0) + n.healPer * rank).toFixed(2);
+      s.empowered = true;
+    } else if (n.kind === 'unlock' && rank > 0 && !byId[n.skill.id]) {
+      const sk = Object.assign({ lvl: 1 }, n.skill); base.push(sk); byId[sk.id] = sk;
+    }
+  }
+  return base;
+}
+function treeNode(cls, id) { for (const br of (SKILL_TREES[cls] || [])) { const n = br.nodes.find((x) => x.id === id); if (n) return n; } return null; }
+
 
 function Bar({ cur, max, kind }) {
   const colors = { hp: ['#e0584f', '#b23b34'], mp: ['#5f93d6', '#3f6fae'], xp: ['#e3b85c', '#b58b3e'] };
@@ -895,7 +1050,7 @@ function itemTipNode(it) {
   const bits = strengthBits(it);
   return (
     <>
-      <div className="nm" style={{ color: col }}>{it.emoji} {it.name}</div>
+      <div className="nm" style={{ color: col }}>{it.emoji} {it.name}{it.upgrade ? <span style={{ color: '#e3b85c' }}> +{it.upgrade}</span> : ''}</div>
       <div className="sub"><span style={{ color: col }}>{rar}{it.magic ? ' ✦ Magic' : ''}</span> · {type} · Lv.{it.lvl || 1}</div>
       {bits.length > 0 && <div className="st">{bits.join('   ')}</div>}
       {it.affixes && it.affixes.length > 0 && <div className="af">✦ {it.affixes.join('  ·  ')}</div>}
@@ -923,6 +1078,9 @@ export default function App() {
   const posRef = useRef({ x: 0, y: 0 });
   const pinnedRef = useRef(false);
   const swipeRef = useRef(null);
+  const [hasSave, setHasSave] = useState(false);
+  const savedRef = useRef(null);
+  const metaRef = useRef(defaultMeta());
   const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || (navigator.maxTouchPoints || 0) > 0);
   const [narrow, setNarrow] = useState(typeof window !== 'undefined' ? window.innerWidth < 760 : false);
 
@@ -969,28 +1127,97 @@ export default function App() {
   }, []);
 
   const log = (...lines) => { for (const l of lines) g.log.push(l); if (g.log.length > 60) g.log = g.log.slice(-60); };
-  const autosave = () => { if (g.hero && !g.dead) SAVE.auto = makePayload(); };
-  const makePayload = () => ({ v: 1, ts: Date.now(), hero: clone(g.hero), difficulty: g.difficulty, world: g.world, floorNum: g.floorNum, floors: clone(g.floors), playerPos: { ...g.playerPos }, completed: [...g.completed], kills: g.kills, deepest: g.deepest, bosses: g.bosses, goldEarned: g.goldEarned });
-  const loadPayload = (p) => { Object.assign(g, { hero: clone(p.hero), difficulty: p.difficulty || 'normal', world: p.world, floorNum: p.floorNum || 0, floors: clone(p.floors || {}), playerPos: p.playerPos || { x: 0, y: 0 }, completed: p.completed || [], kills: p.kills || 0, deepest: p.deepest || 0, bosses: p.bosses || 0, goldEarned: p.goldEarned || 0, dead: false, combat: null }); if (g.hero) { g.hero.statuses = g.hero.statuses || []; recalc(g.hero); } };
+  // load any persisted save once, so Continue works across reloads/sessions
+  useEffect(() => { let on = true; store.get(SAVE_AUTO).then((p) => { if (on && p && p.hero) { savedRef.current = p; setHasSave(true); } }); return () => { on = false; }; }, []);
+  // load persistent meta-progression (Echoes, perks, stash) — survives death/reload
+  useEffect(() => { let on = true; store.get(SAVE_META).then((m) => { if (on) { metaRef.current = mergeMeta(m); rr(); } }); return () => { on = false; }; }, []);
+  const saveMeta = () => { store.set(SAVE_META, metaRef.current); };
+  const ensureHeroFields = (h) => { if (!h) return; h.statuses = h.statuses || []; h.quests = h.quests || []; h.questsDone = h.questsDone || []; h.tree = h.tree || {}; if (h.skillPoints == null) h.skillPoints = 0; };
+  const autosave = () => { if (g.hero && !g.dead) { const p = makePayload(); savedRef.current = p; setHasSave(true); store.set(SAVE_AUTO, p); } };
+  const makePayload = () => ({ v: 2, ts: Date.now(), hero: clone(g.hero), difficulty: g.difficulty, world: g.world, floorNum: g.floorNum, floors: clone(g.floors), playerPos: { ...g.playerPos }, completed: [...g.completed], kills: g.kills, deepest: g.deepest, bosses: g.bosses, goldEarned: g.goldEarned, banked: g._bankedSoFar || 0, revived: !!g._revived });
+  const loadPayload = (p) => { Object.assign(g, { hero: clone(p.hero), difficulty: p.difficulty || 'normal', world: p.world, floorNum: p.floorNum || 0, floors: clone(p.floors || {}), playerPos: p.playerPos || { x: 0, y: 0 }, completed: p.completed || [], kills: p.kills || 0, deepest: p.deepest || 0, bosses: p.bosses || 0, goldEarned: p.goldEarned || 0, dead: false, combat: null, _bankedSoFar: p.banked || 0, _revived: !!p.revived }); ensureHeroFields(g.hero); if (g.hero) recalc(g.hero); };
+
+  // ---- Echoes: marginal banking so deeper progress on one run pays once ----
+  const computeRunEchoes = () => Math.floor((g.deepest || 0) * 3 + (g.bosses || 0) * 12 + (g.kills || 0) * 0.5 + (g.goldEarned || 0) / 120);
+  const bankEchoes = () => {
+    const total = computeRunEchoes(); const already = g._bankedSoFar || 0; let gain = total - already;
+    if (gain <= 0) { g._lastEchoGain = 0; return 0; }
+    g._bankedSoFar = total; const mult = 1 + 0.1 * (metaRef.current.perks.affinity || 0); gain = Math.floor(gain * mult);
+    const m = metaRef.current; m.echoes += gain; m.lifetime += gain; m.deepestEver = Math.max(m.deepestEver, g.deepest || 0); m.bossesEver = Math.max(m.bossesEver, g.bosses || 0);
+    g._lastEchoGain = gain; saveMeta(); return gain;
+  };
+  // ---- Altar & town-restoration actions ----
+  const buyPerk = (perk) => { const m = metaRef.current; const rank = m.perks[perk.id] || 0; if (rank >= perk.max) return; const cost = perkCost(rank); if (m.echoes < cost) return; m.echoes -= cost; m.perks[perk.id] = rank + 1; saveMeta(); rr(); };
+  const restoreBuilding = (key, cost) => { const m = metaRef.current; if (m[key] || m.echoes < cost) return; m.echoes -= cost; m[key] = true; saveMeta(); rr(); };
+  const salvageItem = (it) => { const h = g.hero; if (!h) return; const v = salvageValue(it); h.inventory = h.inventory.filter((x) => x.id !== it.id); metaRef.current.echoes += v; metaRef.current.lifetime += v; log(`💠 Salvaged ${it.name}${upName(it)} into ${v} Echoes.`); saveMeta(); autosave(); rr(); };
+  const stashDeposit = (it) => { const h = g.hero, m = metaRef.current; if (m.stash.length >= stashSlots(m)) { log('The Ossuary is full.'); rr(); return; } h.inventory = h.inventory.filter((x) => x.id !== it.id); m.stash.push(clone(it)); saveMeta(); autosave(); rr(); };
+  const stashWithdraw = (it) => { const h = g.hero, m = metaRef.current; m.stash = m.stash.filter((x) => x.id !== it.id); h.inventory.push(clone(it)); saveMeta(); autosave(); rr(); };
+
 
   const doShake = () => { g.shake = true; rr(); setTimeout(() => { g.shake = false; rr(); }, 280); };
+
+  // ---- quests / upgrades / talents ----
+  const grantQuestReward = (q) => {
+    const h = g.hero, r = q.reward || {};
+    if (r.gold) h.gold += r.gold;
+    if (r.xp) h.xp += r.xp;
+    if (r.tome) { const tomes = CONSUMABLES.filter((c) => c.perm); if (tomes.length) h.inventory.push(cloneItem(pick(tomes))); }
+    log(`📜 Quest complete — ${q.name}! +${r.xp || 0} XP${r.gold ? `, +${r.gold} 🪙` : ''}${r.tome ? ', and a tome of power' : ''}.`);
+  };
+  const questEvent = (type, val) => {
+    const h = g.hero; if (!h || !h.quests || !h.quests.length) return;
+    for (const aq of h.quests) { const q = questById(aq.id); if (!q || q.type !== type) continue; if (type === 'depth') aq.progress = Math.max(aq.progress || 0, val); else aq.progress = (aq.progress || 0) + val; if ((aq.progress || 0) >= q.target) aq._done = true; }
+    const done = h.quests.filter((aq) => aq._done);
+    if (done.length) { for (const aq of done) { grantQuestReward(questById(aq.id)); h.questsDone.push(aq.id); } h.quests = h.quests.filter((aq) => !aq._done); }
+  };
+  const acceptQuest = (id) => { const h = g.hero; if (h.quests.length >= 3) { log('You can pursue at most 3 quests at once.'); rr(); return; } if (h.quests.find((a) => a.id === id) || h.questsDone.includes(id)) return; h.quests.push({ id, progress: 0 }); log(`📜 Quest accepted — ${questById(id).name}.`); autosave(); rr(); };
+  const learnNode = (node) => {
+    const h = g.hero, rank = h.tree[node.id] || 0;
+    if (rank >= node.max || (h.skillPoints || 0) < node.cost) return;
+    if (node.req) { const [rid, need] = node.req; if ((h.tree[rid] || 0) < need) { log('Requires more investment in the prior talent.'); rr(); return; } }
+    h.skillPoints -= node.cost; h.tree[node.id] = rank + 1;
+    if (node.kind === 'passive') { h.stats[node.stat] = (h.stats[node.stat] || 0) + node.per; recalc(h); }
+    else if (node.kind === 'unlock') log(`🌟 Learned ${node.skill.name}!`);
+    autosave(); rr();
+  };
+  const upgradeItem = (it) => {
+    const h = g.hero; if ((it.upgrade || 0) >= MAX_UPGRADE) return;
+    const cost = upgradeCost(it); if (h.gold < cost) { log('Not enough gold to temper that.'); rr(); return; }
+    h.gold -= cost; applyUpgrade(it);
+    if (Object.values(h.equipment).some((e) => e && e.id === it.id)) recalc(h);
+    log(`🔨 Tempered ${it.name} to +${it.upgrade}.`); autosave(); rr();
+  };
+  const grantLevelPoints = (afterScreen) => {
+    const h = g.hero, prev = h.level; g._levelMsgs = performLevelUp(h); const gained = h.level - prev;
+    h.skillPoints = (h.skillPoints || 0) + gained; if (gained > 0) g._levelMsgs.push(`✦ +${gained} skill point${gained > 1 ? 's' : ''} for the Sanctum of Paths.`);
+    g._afterLevel = afterScreen; g.screen = 'levelup'; autosave(); rr();
+  };
+
   const addFloat = (side, text, crit) => { const id = 'f' + Math.random().toString(36).slice(2); g.fx.push({ id, side, text, crit }); rr(); setTimeout(() => { g.fx = g.fx.filter((f) => f.id !== id); rr(); }, 900); };
 
   const curFloor = () => g.floors[g.floorNum];
   const diffObj = () => DIFFICULTIES[g.difficulty];
 
   // ---- run lifecycle ----
-  const resetRun = () => Object.assign(g, { world: null, floorNum: 0, floors: {}, combat: null, completed: [], kills: 0, deepest: 0, bosses: 0, goldEarned: 0, log: [], dead: false, shop: [], fx: [] });
+  const resetRun = () => Object.assign(g, { world: null, floorNum: 0, floors: {}, combat: null, completed: [], kills: 0, deepest: 0, bosses: 0, goldEarned: 0, log: [], dead: false, shop: [], fx: [], _bankedSoFar: 0, _revived: false });
   const create = () => {
+    if (g.hero && !g.dead) bankEchoes(); // bank any progress from an abandoned run
     const name = (g.creation.name || '').trim() || 'Nameless one';
     resetRun();
-    g.hero = createHero(name, g.creation.cls); g.hero.statuses = [];
+    g.hero = createHero(name, g.creation.cls); ensureHeroFields(g.hero);
+    const pk = metaRef.current.perks; // apply account-wide Altar perks
+    if (pk.hardy) for (const k in g.hero.stats) g.hero.stats[k] += pk.hardy;
+    g.hero.gold += 25 * (pk.affluence || 0);
+    g.hero.skillPoints += (pk.insight || 0);
+    recalc(g.hero); g.hero.hp = g.hero.maxHp; g.hero.mp = g.hero.maxMp;
+    metaRef.current.runs = (metaRef.current.runs || 0) + 1; saveMeta();
     g.difficulty = g.creation.diff; g.screen = 'town';
     log(`${name} the ${CLASSES[g.creation.cls].name} arrives at Gallows Rest.`);
+    if (pk.affluence || pk.insight || pk.hardy) log('✦ The Altar\'s blessings strengthen your arrival.');
     autosave(); rr();
   };
   const enterWorld = (w) => {
-    g.world = w; g.floorNum = 1; g.floors = {};
+    g.world = w; g.floorNum = 1; g.floors = {}; g._revived = false; // a fresh delve restores the Sanctuary's grace
     const f = generateFloor(1, w, diffObj());
     g.floors[1] = f; g.playerPos = { ...f.start }; g.deepest = Math.max(g.deepest, 1);
     reveal(f, f.start.x, f.start.y);
@@ -1006,13 +1233,26 @@ export default function App() {
     if (!g.floors[next]) g.floors[next] = generateFloor(next, g.world, diffObj());
     const nf = g.floors[next]; g.floorNum = next; g.playerPos = { ...nf.start };
     g.deepest = Math.max(g.deepest, next); reveal(nf, nf.start.x, nf.start.y);
-    log(`🔻 You descend to depth ${roman(next)}.`); autosave(); rr();
+    log(`🔻 You descend to depth ${roman(next)}.`);
+    questEvent('depth', next);
+    if (checkLevelUp(g.hero)) return grantLevelPoints('exploring');
+    autosave(); rr();
   };
   const ascend = () => {
     const prev = g.floorNum - 1;
     if (prev >= 1 && g.floors[prev]) { g.floorNum = prev; const pf = g.floors[prev]; g.playerPos = { ...(pf.stairsDown || pf.start) }; log(`🔼 You climb to depth ${roman(prev)}.`); rr(); }
   };
-  const death = () => { g.dead = true; if (diffObj().perma && SAVE.auto) delete SAVE.auto; g.screen = 'gameover'; rr(); };
+  const death = () => {
+    // The Sanctuary's grace pulls you back once per delve, if restored.
+    if (metaRef.current.sanctuary && !g._revived && g.hero) {
+      g._revived = true; g.combat = null; g.hero.statuses = []; g.hero.hp = Math.ceil(g.hero.maxHp * 0.5); g.hero.mp = Math.max(g.hero.mp, Math.ceil(g.hero.maxMp * 0.25));
+      log('✨ The Sanctuary\'s grace wrenches you back from death — but it will not save you twice this delve.');
+      g.screen = g.world ? 'exploring' : 'town'; autosave(); rr(); return;
+    }
+    g.dead = true; const gain = bankEchoes();
+    if (diffObj().perma) { savedRef.current = null; setHasSave(false); store.del(SAVE_AUTO); }
+    g.screen = 'gameover'; rr();
+  };
   const move = (dx, dy) => {
     if (g.screen !== 'exploring') return;
     const f = curFloor(), p = g.playerPos; const nx = p.x + dx, ny = p.y + dy;
@@ -1026,9 +1266,9 @@ export default function App() {
       g.hero.hp -= dmg; f.tiles[ny][nx] = 'floor'; log(`⚠️ A blade-trap! You take ${dmg} damage.`);
       if (g.hero.hp <= 0) return death();
     } else if (t === 'chest') {
-      const loot = f.items[ek]; if (loot) { loot.forEach((i) => g.hero.inventory.push(i)); log(`🎁 A chest! You take ${loot.map((i) => i.name).join(', ')}.`); delete f.items[ek]; } f.tiles[ny][nx] = 'floor';
+      const loot = f.items[ek]; if (loot) { loot.forEach((i) => { g.hero.inventory.push(i); if (i.slot && (rarityName(i) === 'Rare' || rarityName(i) === 'Epic')) questEvent('rare', 1); }); log(`🎁 A chest! You take ${loot.map((i) => i.name).join(', ')}.`); delete f.items[ek]; } f.tiles[ny][nx] = 'floor';
     } else if (f.items[ek]) {
-      const loot = f.items[ek]; loot.forEach((i) => g.hero.inventory.push(i)); log(`✨ Found ${loot.map((i) => i.name).join(', ')}.`); delete f.items[ek];
+      const loot = f.items[ek]; loot.forEach((i) => { g.hero.inventory.push(i); if (i.slot && (rarityName(i) === 'Rare' || rarityName(i) === 'Epic')) questEvent('rare', 1); }); log(`✨ Found ${loot.map((i) => i.name).join(', ')}.`); delete f.items[ek];
     } else if (t === 'stairs_down') { return descend(); }
     else if (t === 'stairs_up') { return ascend(); }
     else if (t === 'shop_tile') { g.shop = generateShopItems(g.hero.level); g.screen = 'shop'; rr(); return; }
@@ -1081,9 +1321,13 @@ export default function App() {
     const c = g.combat, h = g.hero, e = c.enemy;
     if (c.rewards) { h.xp += c.rewards.xp; h.gold += c.rewards.gold; g.goldEarned += c.rewards.gold; c.rewards.items.forEach((i) => h.inventory.push(i)); g.kills++; log(`Victory! +${c.rewards.xp} XP, +${c.rewards.gold} 🪙.`); }
     const wasBoss = e.boss;
-    if (wasBoss) { g.bosses++; if (!g.completed.includes(g.world.id)) g.completed.push(g.world.id); }
+    if (wasBoss) { g.bosses++; if (!g.completed.includes(g.world.id)) g.completed.push(g.world.id); bankEchoes(); }
     h.statuses = [];
-    if (checkLevelUp(h)) { g._levelMsgs = performLevelUp(h); g._afterLevel = wasBoss ? 'victory' : 'exploring'; g.combat = null; g.screen = 'levelup'; autosave(); rr(); return; }
+    // quest progress from this kill
+    questEvent('kill', 1);
+    if (wasBoss) questEvent('boss', 1);
+    if (c.rewards) { questEvent('gold', c.rewards.gold); for (const it of c.rewards.items) if (it.slot && (rarityName(it) === 'Rare' || rarityName(it) === 'Epic')) questEvent('rare', 1); }
+    if (checkLevelUp(h)) { g.combat = null; return grantLevelPoints(wasBoss ? 'victory' : 'exploring'); }
     g.combat = null; g.screen = wasBoss ? 'victory' : 'exploring'; autosave(); rr();
   };
   const fledOut = () => { g.combat = null; g.screen = 'exploring'; rr(); };
@@ -1133,7 +1377,7 @@ export default function App() {
   const Pill = (it, extra) => <span key={it.id} className="cos-pill" style={{ '--rc': rarityColor(it) }} {...tipH(it)}>{it.emoji} {it.name}{extra}</span>;
 
   function ScreenMenu() {
-    const canContinue = !!SAVE.auto;
+    const canContinue = hasSave && !!savedRef.current;
     return (
       <div className="cos-scroll" style={{ justifyContent: 'center' }}>
         <div className="cos-flicker" style={{ fontSize: '3.4rem' }}>☠</div>
@@ -1141,9 +1385,11 @@ export default function App() {
         <p style={{ fontStyle: 'italic', color: '#6f6657', marginTop: '.8rem', maxWidth: '34ch', textAlign: 'center' }}>A gothic descent. Five heroes, nine worlds, and a dark that learns your name.</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '.7rem', marginTop: '2rem', width: 'min(92vw,360px)' }}>
           <button className="cos-btn pri" onClick={() => { g.creation = { name: '', cls: 'warrior', diff: 'normal' }; g.screen = 'creation'; rr(); }}>⚔️ New Descent</button>
-          <button className="cos-btn" disabled={!canContinue} onClick={() => { if (SAVE.auto) { loadPayload(SAVE.auto); g.screen = g.world ? 'exploring' : 'town'; rr(); } }}>↺ Continue</button>
+          <button className="cos-btn" disabled={!canContinue} onClick={() => { const p = savedRef.current; if (p) { loadPayload(p); g.screen = g.world ? 'exploring' : 'town'; rr(); } }}>↺ Continue</button>
+          <button className="cos-btn" onClick={() => { g._return = 'menu'; g.screen = 'altar'; rr(); }}>💠 Altar of Echoes{metaRef.current.echoes ? ` (${metaRef.current.echoes})` : ''}</button>
         </div>
-        <p style={{ marginTop: '1.6rem', color: '#6f6657', fontSize: '.8rem', fontStyle: 'italic' }}>WASD / arrows move · I inventory · R rest</p>
+        {metaRef.current.lifetime > 0 && <p style={{ marginTop: '1rem', color: '#7d6bb0', fontSize: '.82rem', fontFamily: 'ui-monospace,monospace' }}>💠 {metaRef.current.echoes} Echoes · deepest reached {roman(metaRef.current.deepestEver) || '—'}</p>}
+        <p style={{ marginTop: '1.2rem', color: '#6f6657', fontSize: '.8rem', fontStyle: 'italic' }}>WASD / arrows move · I inventory · R rest</p>
       </div>
     );
   }
@@ -1233,11 +1479,26 @@ export default function App() {
               <Bar cur={h.hp} max={h.maxHp} kind="hp" /><Bar cur={h.mp} max={h.maxMp} kind="mp" /><Bar cur={h.xp} max={h.xpToNext} kind="xp" />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '.45rem', marginTop: '.9rem' }}>
                 <button className="cos-btn pri" onClick={restTown}>🏕️ Rest (full heal)</button>
+                <button className="cos-btn" onClick={() => { g.screen = 'quests'; rr(); }}>📜 Quest Board{h.quests.length ? ` (${h.quests.length})` : ''}</button>
+                <button className="cos-btn" onClick={() => { g.screen = 'forge'; rr(); }}>🔨 Blacksmith</button>
+                <button className="cos-btn" onClick={() => { g._return = 'town'; g.screen = 'tree'; rr(); }}>✦ Sanctum of Paths{h.skillPoints ? ` (${h.skillPoints})` : ''}</button>
+                <button className="cos-btn" onClick={() => { g._return = 'town'; g.screen = 'altar'; rr(); }}>💠 Altar of Echoes{metaRef.current.echoes ? ` (${metaRef.current.echoes})` : ''}</button>
+                {metaRef.current.ossuary && <button className="cos-btn" onClick={() => { g.screen = 'ossuary'; rr(); }}>🦴 Ossuary ({metaRef.current.stash.length}/{stashSlots(metaRef.current)})</button>}
                 <button className="cos-btn" onClick={openChar}>🎒 Character & Inventory</button>
-                <button className="cos-btn" onClick={() => { autosave(); SAVE['1'] = makePayload(); log('💾 Saved.'); rr(); }}>💾 Save game</button>
-                <button className="cos-btn dng" onClick={() => { g.screen = 'menu'; rr(); }}>↩ Main menu</button>
+                <button className="cos-btn" onClick={() => { autosave(); store.set(SAVE_SLOT, makePayload()); log('💾 Game saved.'); rr(); }}>💾 Save game</button>
+                <button className="cos-btn dng" onClick={() => { autosave(); g.screen = 'menu'; rr(); }}>↩ Main menu</button>
               </div>
             </div>
+            {h.quests.length > 0 && (
+              <div className="cos-card" style={{ padding: '.8rem 1rem', marginTop: '.7rem' }}>
+                <div style={{ fontFamily: "'Cinzel',serif", fontSize: '.8rem', color: '#e9dcc0', marginBottom: '.4rem' }}>📜 Active Quests</div>
+                {h.quests.map((aq) => { const q = questById(aq.id); return (
+                  <div key={aq.id} style={{ marginBottom: '.4rem' }}>
+                    <div style={{ fontSize: '.82rem', color: '#e9dcc0' }}>{q.emoji} {q.name} <span style={{ float: 'right', fontFamily: 'ui-monospace,monospace', fontSize: '.74rem', color: '#e3b85c' }}>{Math.min(aq.progress || 0, q.target)}/{q.target}</span></div>
+                    <div className="cos-bar" style={{ height: 6 }}><i style={{ width: pct(Math.min(aq.progress || 0, q.target), q.target) + '%', background: 'linear-gradient(#e3b85c,#b58b3e)' }} /></div>
+                  </div>); })}
+              </div>
+            )}
             <div className="cos-card" style={{ padding: '1rem', marginTop: '.7rem', fontFamily: 'ui-monospace,monospace', fontSize: '.78rem', color: '#b6ab98' }}>
               <div>Kills: <b style={{ color: '#e3b85c' }}>{g.kills}</b></div><div>Bosses felled: <b style={{ color: '#e3b85c' }}>{g.bosses}</b></div><div>Deepest depth: <b style={{ color: '#e3b85c' }}>{roman(g.deepest) || 0}</b></div><div>Gold earned: <b style={{ color: '#e3b85c' }}>{g.goldEarned}</b></div>
             </div>
@@ -1324,7 +1585,7 @@ export default function App() {
 
   function ScreenCombat() {
     const h = g.hero, c = g.combat, e = c.enemy;
-    const skills = SKILLS[h.heroClass].filter((s) => s.lvl <= h.level);
+    const skills = effectiveSkills(h);
     const items = h.inventory.filter((i) => i.consumable);
     return (
       <div className="cos-scroll" style={{ justifyContent: 'center', gap: '1rem', padding: '1rem' }}>
@@ -1389,7 +1650,10 @@ export default function App() {
         <div className="cos-parch" style={{ width: 'min(96vw,940px)', padding: narrow ? '1rem' : '1.4rem', maxHeight: '92vh', overflowY: 'auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem' }}><span style={{ fontSize: '2.4rem' }}>{CLASSES[h.heroClass].emoji}</span><div><h2 style={{ fontFamily: "'Cinzel Decorative',serif", color: '#33260f', fontSize: '1.4rem' }}>{h.name}</h2><div style={{ fontStyle: 'italic', color: '#6a5b41', fontSize: '.86rem' }}>{CLASSES[h.heroClass].name} · Level {h.level} · 🪙 {h.gold}</div></div></div>
-            <button className="cos-btn" onClick={closeChar}>Close ✕</button>
+            <div style={{ display: 'flex', gap: '.4rem' }}>
+              <button className="cos-btn sm" onClick={() => { g._return = 'character'; g.screen = 'tree'; rr(); }}>✦ Sanctum{h.skillPoints ? ` (${h.skillPoints})` : ''}</button>
+              <button className="cos-btn" onClick={closeChar}>Close ✕</button>
+            </div>
           </div>
           <div style={{ margin: '.6rem 0' }}><Bar cur={h.hp} max={h.maxHp} kind="hp" /><Bar cur={h.mp} max={h.maxMp} kind="mp" /><Bar cur={h.xp} max={h.xpToNext} kind="xp" /></div>
           <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : '1fr 1fr', gap: narrow ? '.4rem' : '1.2rem' }}>
@@ -1398,7 +1662,7 @@ export default function App() {
               {slots.map((s) => { const it = h.equipment[s]; return (
                 <div key={s} style={{ display: 'flex', alignItems: 'center', gap: '.5rem', marginBottom: '.35rem', fontSize: '.86rem' }}>
                   <span style={{ fontFamily: "'Cinzel',serif", fontSize: '.7rem', textTransform: 'uppercase', color: '#6a5b41', width: 60 }}>{s}</span>
-                  {it ? <div className="cos-row" {...tipH(it)} style={{ '--rc': rarityColor(it), flex: 1, justifyContent: 'space-between' }}><span>{it.emoji} {it.name} <em style={{ fontStyle: 'normal', color: RC[rarityName(it)] }}>· {rarityName(it)} Lv.{it.lvl || 1}</em></span><button className="cos-btn xs" onClick={() => unequipSlot(s)}>remove</button></div> : <span style={{ flex: 1, color: '#6a5b41', fontStyle: 'italic' }}>— empty —</span>}
+                  {it ? <div className="cos-row" {...tipH(it)} style={{ '--rc': rarityColor(it), flex: 1, justifyContent: 'space-between' }}><span>{it.emoji} {it.name}{upName(it)} <em style={{ fontStyle: 'normal', color: RC[rarityName(it)] }}>· {rarityName(it)} Lv.{it.lvl || 1}</em></span><button className="cos-btn xs" onClick={() => unequipSlot(s)}>remove</button></div> : <span style={{ flex: 1, color: '#6a5b41', fontStyle: 'italic' }}>— empty —</span>}
                 </div>); })}
               <ColH>Attributes {h.statPoints > 0 && <span style={{ color: '#a3322b', fontStyle: 'italic', fontSize: '.74rem' }}>✦ {h.statPoints} to spend</span>}</ColH>
               {Object.entries(h.stats).map(([k, v]) => (
@@ -1413,7 +1677,7 @@ export default function App() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '.35rem', maxHeight: narrow ? 'none' : 320, overflowY: narrow ? 'visible' : 'auto' }}>
                 {h.inventory.length ? h.inventory.map((it) => { const canEquip = it.slot && it.lvl <= h.level; const canUse = it.consumable && !(it.damage && !it.heal && !it.mp); return (
                   <div key={it.id} className="cos-row" style={{ '--rc': rarityColor(it) }}>
-                    <span {...tipH(it)} style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{it.emoji} {it.name} {it.slot ? <em style={{ fontStyle: 'normal', color: RC[rarityName(it)] }}>· {rarityName(it)} Lv.{it.lvl || 1}</em> : ''}</span>
+                    <span {...tipH(it)} style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{it.emoji} {it.name}{upName(it)} {it.slot ? <em style={{ fontStyle: 'normal', color: RC[rarityName(it)] }}>· {rarityName(it)} Lv.{it.lvl || 1}</em> : ''}</span>
                     <span style={{ fontFamily: 'ui-monospace,monospace', fontSize: '.72rem', color: '#6a5b41', flexShrink: 0 }}>{strengthBits(it).join(' · ')}</span>
                     <span style={{ display: 'flex', gap: '.3rem', flexShrink: 0 }}>
                       {canEquip && <button className="cos-btn xs" onClick={() => equip(it.id)}>equip</button>}
@@ -1477,7 +1741,11 @@ export default function App() {
           <div style={{ maxWidth: 320, margin: '0 auto', textAlign: 'left' }}>
             {Object.entries(h.stats).map(([k, v]) => <div key={k} style={{ display: 'flex', alignItems: 'center', gap: '.6rem', fontFamily: 'ui-monospace,monospace', fontSize: '.9rem', color: '#3a2c14', padding: '.1rem 0' }}><span style={{ width: 46, color: '#6a5b41' }}>{k.toUpperCase()}</span><span style={{ flex: 1, fontWeight: 600 }}>{v}</span>{h.statPoints > 0 && <button className="cos-btn xs" onClick={() => allocate(k)}>+</button>}</div>)}
           </div>
-          <button className="cos-btn pri" style={{ marginTop: '1rem' }} onClick={() => { g.screen = g._afterLevel === 'victory' ? 'victory' : 'exploring'; rr(); }}>Continue</button>
+          {h.skillPoints > 0 && <div style={{ fontFamily: "'Cinzel',serif", color: '#7d5fb2', margin: '.2rem 0 .4rem' }}>✦ <b>{h.skillPoints}</b> skill point{h.skillPoints > 1 ? 's' : ''} await in the Sanctum of Paths.</div>}
+          <div style={{ display: 'flex', gap: '.6rem', justifyContent: 'center', marginTop: '1rem' }}>
+            {h.skillPoints > 0 && <button className="cos-btn" onClick={() => { g._afterLevelReturn = g._afterLevel; g._return = 'levelup'; g.screen = 'tree'; rr(); }}>✦ Open Sanctum</button>}
+            <button className="cos-btn pri" onClick={() => { g.screen = g._afterLevel === 'victory' ? 'victory' : 'exploring'; rr(); }}>Continue</button>
+          </div>
         </div>
       </div>
     );
@@ -1493,10 +1761,177 @@ export default function App() {
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center', margin: '1rem 0', fontFamily: 'ui-monospace,monospace', fontSize: '.9rem', color: '#b6ab98' }}>
           <span className="cos-card" style={{ padding: '.35rem .7rem' }}>Level {h.level}</span><span className="cos-card" style={{ padding: '.35rem .7rem' }}>Kills {g.kills}</span><span className="cos-card" style={{ padding: '.35rem .7rem' }}>Bosses {g.bosses}</span>
         </div>
-        <div style={{ display: 'flex', gap: '.7rem' }}>
+        {g._lastEchoGain > 0 && <p style={{ color: '#9a7fd0', fontFamily: 'ui-monospace,monospace', fontSize: '.92rem', marginBottom: '.4rem' }}>💠 You carried <b>{g._lastEchoGain}</b> Echoes out of the dark. ({metaRef.current.echoes} held)</p>}
+        <div style={{ display: 'flex', gap: '.7rem', flexWrap: 'wrap', justifyContent: 'center' }}>
           {win ? <button className="cos-btn pri" onClick={() => returnTown(false)}>Return to Gallows Rest</button> : <>
-            <button className="cos-btn pri" onClick={() => { if (SAVE.auto && !diffObj().perma) { loadPayload(SAVE.auto); g.screen = g.world ? 'exploring' : 'town'; } else { g.creation = { name: '', cls: 'warrior', diff: 'normal' }; resetRun(); g.screen = 'creation'; } rr(); }}>{SAVE.auto && !diffObj().perma ? 'Reload last camp' : 'New hero'}</button>
+            <button className="cos-btn pri" onClick={() => { const p = savedRef.current; if (p && !diffObj().perma) { loadPayload(p); g.screen = g.world ? 'exploring' : 'town'; } else { g.creation = { name: '', cls: 'warrior', diff: 'normal' }; resetRun(); g.screen = 'creation'; } rr(); }}>{savedRef.current && !diffObj().perma ? 'Reload last camp' : 'New hero'}</button>
+            <button className="cos-btn" onClick={() => { g._return = 'menu'; g.screen = 'altar'; rr(); }}>💠 Altar</button>
             <button className="cos-btn" onClick={() => { g.screen = 'menu'; rr(); }}>Main menu</button></>}
+        </div>
+      </div>
+    );
+  }
+
+  function ScreenQuests() {
+    const h = g.hero;
+    const available = QUESTS.filter((q) => h.level >= q.minLevel && !h.questsDone.includes(q.id) && !h.quests.find((a) => a.id === q.id));
+    return (
+      <div className="cos-scroll" style={{ paddingTop: '3vh' }}>
+        <div className="cos-parch" style={{ width: 'min(96vw,820px)', padding: narrow ? '1rem' : '1.4rem', maxHeight: '92vh', overflowY: 'auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem' }}><span style={{ fontSize: '2.4rem' }}>📜</span><div><h2 style={{ fontFamily: "'Cinzel Decorative',serif", color: '#33260f', fontSize: '1.4rem' }}>Quest Board</h2><div style={{ fontStyle: 'italic', color: '#6a5b41', fontSize: '.86rem' }}>Pursue up to three contracts. Rewards are paid the moment they're met.</div></div></div>
+            <button className="cos-btn" onClick={() => { g.screen = 'town'; rr(); }}>Close ✕</button>
+          </div>
+          <ColH>Active ({h.quests.length}/3)</ColH>
+          {h.quests.length ? h.quests.map((aq) => { const q = questById(aq.id); return (
+            <div key={aq.id} className="cos-row" style={{ '--rc': '#e3b85c', flexDirection: 'column', alignItems: 'stretch', gap: '.25rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>{q.emoji} <b>{q.name}</b></span><span style={{ fontFamily: 'ui-monospace,monospace', fontSize: '.74rem', color: '#7a5e2c' }}>{Math.min(aq.progress || 0, q.target)}/{q.target}</span></div>
+              <div style={{ fontSize: '.8rem', color: '#5a4a2c', fontStyle: 'italic' }}>{q.desc} — reward {q.reward.xp} XP{q.reward.gold ? `, ${q.reward.gold} 🪙` : ''}{q.reward.tome ? ', a tome' : ''}</div>
+              <div className="cos-bar" style={{ height: 7 }}><i style={{ width: pct(Math.min(aq.progress || 0, q.target), q.target) + '%', background: 'linear-gradient(#e3b85c,#b58b3e)' }} /></div>
+            </div>); }) : <div style={{ fontStyle: 'italic', color: '#6a5b41' }}>No active quests.</div>}
+          <ColH>Available</ColH>
+          {available.length ? available.map((q) => (
+            <div key={q.id} className="cos-row" style={{ '--rc': '#7a5e2c', justifyContent: 'space-between' }}>
+              <span style={{ flex: 1 }}>{q.emoji} <b>{q.name}</b> — <span style={{ fontStyle: 'italic' }}>{q.desc}</span> <span style={{ fontFamily: 'ui-monospace,monospace', fontSize: '.72rem', color: '#7a5e2c' }}>({q.reward.xp} XP{q.reward.gold ? `, ${q.reward.gold}\u{1FA99}` : ''})</span></span>
+              <button className="cos-btn xs" disabled={h.quests.length >= 3} onClick={() => acceptQuest(q.id)}>accept</button>
+            </div>)) : <div style={{ fontStyle: 'italic', color: '#6a5b41' }}>Nothing new for now — level up or finish active quests.</div>}
+        </div>
+      </div>
+    );
+  }
+
+  function ScreenForge() {
+    const h = g.hero;
+    const gear = [...Object.values(h.equipment).filter(Boolean), ...h.inventory.filter((i) => i.slot)];
+    return (
+      <div className="cos-scroll" style={{ paddingTop: '3vh' }}>
+        <div className="cos-parch" style={{ width: 'min(96vw,820px)', padding: narrow ? '1rem' : '1.4rem', maxHeight: '92vh', overflowY: 'auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem' }}><span style={{ fontSize: '2.4rem' }}>🔨</span><div><h2 style={{ fontFamily: "'Cinzel Decorative',serif", color: '#33260f', fontSize: '1.4rem' }}>The Blacksmith</h2><div style={{ fontStyle: 'italic', color: '#6a5b41', fontSize: '.86rem' }}>"Bring me steel and gold; I'll bring you ruin for your foes." · 🪙 {h.gold}</div></div></div>
+            <button className="cos-btn" onClick={() => { g.screen = 'town'; rr(); }}>Close ✕</button>
+          </div>
+          <ColH>Temper your gear (max +{MAX_UPGRADE})</ColH>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '.4rem' }}>
+            {gear.length ? gear.map((it) => { const maxed = (it.upgrade || 0) >= MAX_UPGRADE; const cost = upgradeCost(it); const equipped = Object.values(h.equipment).some((e) => e && e.id === it.id); return (
+              <div key={it.id} className="cos-row" style={{ '--rc': rarityColor(it), justifyContent: 'space-between' }}>
+                <span {...tipH(it)} style={{ flex: 1, minWidth: 0 }}>{it.emoji} {it.name}{upName(it)} {equipped && <em style={{ fontStyle: 'normal', color: '#5a9e54', fontSize: '.72rem' }}>(worn)</em>}</span>
+                <span style={{ fontFamily: 'ui-monospace,monospace', fontSize: '.72rem', color: '#6a5b41' }}>{strengthBits(it).join(' · ')}</span>
+                <button className="cos-btn xs" disabled={maxed || h.gold < cost} onClick={() => upgradeItem(it)}>{maxed ? 'MAX' : `+1 \u00b7 ${cost}\u{1FA99}`}</button>
+              </div>); }) : <div style={{ fontStyle: 'italic', color: '#6a5b41' }}>You carry nothing worth tempering.</div>}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  function ScreenTree() {
+    const h = g.hero; const tree = SKILL_TREES[h.heroClass] || [];
+    return (
+      <div className="cos-scroll" style={{ paddingTop: '3vh' }}>
+        <div className="cos-parch" style={{ width: 'min(96vw,900px)', padding: narrow ? '1rem' : '1.4rem', maxHeight: '92vh', overflowY: 'auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem' }}><span style={{ fontSize: '2.4rem' }}>✦</span><div><h2 style={{ fontFamily: "'Cinzel Decorative',serif", color: '#33260f', fontSize: '1.4rem' }}>Sanctum of Paths</h2><div style={{ fontStyle: 'italic', color: '#6a5b41', fontSize: '.86rem' }}>Skill points: <b style={{ color: '#a3322b' }}>{h.skillPoints || 0}</b> · {CLASSES[h.heroClass].name} paths</div></div></div>
+            <button className="cos-btn" onClick={() => { g.screen = g._return || 'town'; rr(); }}>Close ✕</button>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : '1fr 1fr', gap: narrow ? '.6rem' : '1.2rem', marginTop: '.4rem' }}>
+            {tree.map((br) => (
+              <div key={br.branch}>
+                <ColH><span style={{ color: br.color }}>{br.branch}</span></ColH>
+                {br.nodes.map((n) => { const rank = h.tree[n.id] || 0; const maxed = rank >= n.max; const reqOk = !n.req || (h.tree[n.req[0]] || 0) >= n.req[1]; const afford = (h.skillPoints || 0) >= n.cost; return (
+                  <div key={n.id} className="cos-row" style={{ '--rc': br.color, flexDirection: 'column', alignItems: 'stretch', gap: '.2rem', opacity: reqOk ? 1 : 0.55 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontWeight: 600 }}>{n.emoji} {n.name} <span style={{ fontFamily: 'ui-monospace,monospace', fontSize: '.72rem', color: '#7a5e2c' }}>{rank}/{n.max}</span></span>
+                      <button className="cos-btn xs" disabled={maxed || !reqOk || !afford} onClick={() => learnNode(n)}>{maxed ? 'MAX' : `learn \u00b7 ${n.cost}\u2726`}</button>
+                    </div>
+                    <div style={{ fontSize: '.78rem', color: '#5a4a2c', fontStyle: 'italic' }}>{n.desc}{!reqOk && <span style={{ color: '#a3322b' }}> (locked)</span>}</div>
+                  </div>); })}
+              </div>))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  function ScreenAltar() {
+    const m = metaRef.current; const h = g.hero;
+    return (
+      <div className="cos-scroll" style={{ paddingTop: '3vh' }}>
+        <div className="cos-parch" style={{ width: 'min(96vw,880px)', padding: narrow ? '1rem' : '1.4rem', maxHeight: '92vh', overflowY: 'auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem' }}><span style={{ fontSize: '2.4rem' }}>💠</span><div><h2 style={{ fontFamily: "'Cinzel Decorative',serif", color: '#33260f', fontSize: '1.4rem' }}>Altar of Echoes</h2><div style={{ fontStyle: 'italic', color: '#6a5b41', fontSize: '.86rem' }}>Soul-residue endures where heroes do not. <b style={{ color: '#6f4bb0' }}>💠 {m.echoes}</b> Echoes · {m.lifetime} gathered in all.</div></div></div>
+            <button className="cos-btn" onClick={() => { g.screen = g._return === 'menu' ? 'menu' : 'town'; rr(); }}>Close ✕</button>
+          </div>
+
+          <ColH>Eternal Blessings <span style={{ fontStyle: 'italic', color: '#6a5b41', fontSize: '.74rem' }}>— apply to every hero you'll ever raise</span></ColH>
+          <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : '1fr 1fr', gap: '.5rem' }}>
+            {PERKS.map((p) => { const rank = m.perks[p.id] || 0; const maxed = rank >= p.max; const cost = perkCost(rank); const locked = p.id === 'stash' && !m.ossuary; return (
+              <div key={p.id} className="cos-row" style={{ '--rc': '#6f4bb0', flexDirection: 'column', alignItems: 'stretch', gap: '.2rem', opacity: locked ? 0.5 : 1 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontWeight: 600 }}>{p.emoji} {p.name} <span style={{ fontFamily: 'ui-monospace,monospace', fontSize: '.72rem', color: '#6f4bb0' }}>{rank}/{p.max}</span></span>
+                  <button className="cos-btn xs" disabled={maxed || locked || m.echoes < cost} onClick={() => buyPerk(p)}>{maxed ? 'MAX' : `${cost} 💠`}</button>
+                </div>
+                <div style={{ fontSize: '.78rem', color: '#5a4a2c', fontStyle: 'italic' }}>{p.desc}{locked && <span style={{ color: '#a3322b' }}> — restore the Ossuary first</span>}</div>
+              </div>); })}
+          </div>
+
+          <ColH>Restore Gallows Rest</ColH>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '.45rem' }}>
+            <div className="cos-row" style={{ '--rc': '#8a6f3a', justifyContent: 'space-between' }}>
+              <span style={{ flex: 1 }}>🦴 <b>The Ossuary</b> — a bone-vault that <span style={{ fontStyle: 'italic' }}>stores gear between heroes</span> ({STASH_BASE} slots).</span>
+              {m.ossuary ? <em style={{ color: '#5a9e54', fontStyle: 'normal' }}>restored ✓</em> : <button className="cos-btn xs" disabled={m.echoes < OSSUARY_COST} onClick={() => restoreBuilding('ossuary', OSSUARY_COST)}>{OSSUARY_COST} 💠</button>}
+            </div>
+            <div className="cos-row" style={{ '--rc': '#c9a567', justifyContent: 'space-between' }}>
+              <span style={{ flex: 1 }}>✨ <b>The Sanctuary</b> — hallowed ground that <span style={{ fontStyle: 'italic' }}>pulls you back from death once per delve</span> (revive at 50% HP).</span>
+              {m.sanctuary ? <em style={{ color: '#5a9e54', fontStyle: 'normal' }}>restored ✓</em> : <button className="cos-btn xs" disabled={m.echoes < SANCTUARY_COST} onClick={() => restoreBuilding('sanctuary', SANCTUARY_COST)}>{SANCTUARY_COST} 💠</button>}
+            </div>
+          </div>
+
+          {h && h.inventory.some((i) => i.slot) && (<>
+            <ColH>Salvage gear → Echoes</ColH>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '.35rem' }}>
+              {h.inventory.filter((i) => i.slot).map((it) => (
+                <div key={it.id} className="cos-row" style={{ '--rc': rarityColor(it), justifyContent: 'space-between' }}>
+                  <span {...tipH(it)} style={{ flex: 1, minWidth: 0 }}>{it.emoji} {it.name}{upName(it)} <em style={{ fontStyle: 'normal', color: RC[rarityName(it)], fontSize: '.72rem' }}>· {rarityName(it)} Lv.{it.lvl || 1}</em></span>
+                  <button className="cos-btn xs" onClick={() => salvageItem(it)}>+{salvageValue(it)} 💠</button>
+                </div>))}
+            </div>
+          </>)}
+        </div>
+      </div>
+    );
+  }
+
+  function ScreenOssuary() {
+    const m = metaRef.current; const h = g.hero; const slots = stashSlots(m);
+    return (
+      <div className="cos-scroll" style={{ paddingTop: '3vh' }}>
+        <div className="cos-parch" style={{ width: 'min(96vw,900px)', padding: narrow ? '1rem' : '1.4rem', maxHeight: '92vh', overflowY: 'auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '.8rem' }}><span style={{ fontSize: '2.4rem' }}>🦴</span><div><h2 style={{ fontFamily: "'Cinzel Decorative',serif", color: '#33260f', fontSize: '1.4rem' }}>The Ossuary</h2><div style={{ fontStyle: 'italic', color: '#6a5b41', fontSize: '.86rem' }}>What you leave here, your next hero may claim. {m.stash.length}/{slots} slots.</div></div></div>
+            <button className="cos-btn" onClick={() => { g.screen = 'town'; rr(); }}>Close ✕</button>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : '1fr 1fr', gap: narrow ? '.6rem' : '1.2rem', marginTop: '.4rem' }}>
+            <div>
+              <ColH>Stash ({m.stash.length}/{slots})</ColH>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '.3rem' }}>
+                {m.stash.length ? m.stash.map((it) => (
+                  <div key={it.id} className="cos-row" style={{ '--rc': rarityColor(it), justifyContent: 'space-between' }}>
+                    <span {...tipH(it)} style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{it.emoji} {it.name}{upName(it)}</span>
+                    <button className="cos-btn xs" onClick={() => stashWithdraw(it)}>take</button>
+                  </div>)) : <div style={{ fontStyle: 'italic', color: '#6a5b41' }}>Empty. Deposit gear from your pack.</div>}
+              </div>
+            </div>
+            <div>
+              <ColH>Your Pack ({h.inventory.filter((i) => i.slot).length})</ColH>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '.3rem' }}>
+                {h.inventory.filter((i) => i.slot).length ? h.inventory.filter((i) => i.slot).map((it) => { const full = m.stash.length >= slots; return (
+                  <div key={it.id} className="cos-row" style={{ '--rc': rarityColor(it), justifyContent: 'space-between' }}>
+                    <span {...tipH(it)} style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{it.emoji} {it.name}{upName(it)}</span>
+                    <button className="cos-btn xs" disabled={full} onClick={() => stashDeposit(it)}>{full ? 'full' : 'store'}</button>
+                  </div>); }) : <div style={{ fontStyle: 'italic', color: '#6a5b41' }}>No equipment in your pack.</div>}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -1505,7 +1940,7 @@ export default function App() {
   // Render the active screen by CALLING it (not as <Active/>), so it stays part
   // of App's tree and is reconciled in place — preserving scroll position and
   // hover state across re-renders instead of remounting every time.
-  const screenFns = { menu: ScreenMenu, creation: ScreenCreation, town: ScreenTown, exploring: ScreenExploring, combat: ScreenCombat, character: ScreenCharacter, shop: ScreenShop, levelup: ScreenLevelUp };
+  const screenFns = { menu: ScreenMenu, creation: ScreenCreation, town: ScreenTown, exploring: ScreenExploring, combat: ScreenCombat, character: ScreenCharacter, shop: ScreenShop, levelup: ScreenLevelUp, quests: ScreenQuests, forge: ScreenForge, tree: ScreenTree, altar: ScreenAltar, ossuary: ScreenOssuary };
   let body;
   if (g.screen === 'victory') body = ScreenEnd({ win: true });
   else if (g.screen === 'gameover') body = ScreenEnd({ win: false });
